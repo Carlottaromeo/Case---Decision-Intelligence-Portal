@@ -1,5 +1,4 @@
 import { useSession } from "../../context/SessionContext"
-import { DEFAULT_SESSION_USER } from "../../data/sessionUser"
 
 export default function LoginGate() {
   const { login } = useSession()
@@ -17,9 +16,8 @@ export default function LoginGate() {
           className="login-gate__btn"
           onClick={login}
         >
-          Continua come {DEFAULT_SESSION_USER.name}
-        </button>
-      </div>
+          Accedi
+        </button>      </div>
     </div>
   )
 }

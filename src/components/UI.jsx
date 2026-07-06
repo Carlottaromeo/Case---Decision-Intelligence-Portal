@@ -1,5 +1,7 @@
 import { C, glass, LOCALE } from '../theme'
 import { DATA_TIERS, AI_SUMMARY } from '../data/dashboardCopy'
+import AiSummarySection from './AiSummarySection'
+import { AiSummaryGrid } from './AiSummaryBlocks'
 
 const glassBase = {
   ...glass,
@@ -67,38 +69,22 @@ export function AiSummaryBadge({ title }) {
       label={AI_SUMMARY.label}
       color={AI_SUMMARY.color}
       title={title ?? AI_SUMMARY.description}
+      icon="star"
     />
   )
 }
 
-export function ExecutiveInsight({ see, matter, action, badge, badgeColor }) {
+export function ExecutiveInsight({ see, matter, action, badge, badgeColor, defaultOpen = false }) {
   return (
-    <div className="glass-panel" style={{
-      borderRadius: 12,
-      padding: "16px 20px",
-      borderLeft: `3px solid ${C.accent}`,
-      display: "grid",
-      gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-      gap: 16,
-      background: C.surface,
-    }}>
-      <div style={{ gridColumn: "1 / -1", marginBottom: -4, display: "flex", flexWrap: "wrap", gap: 8, alignItems: "center" }}>
-        <AiSummaryBadge />
-        {badge && <Badge label={badge} color={badgeColor || DATA_TIERS.simulated.color} />}
-      </div>
-      {[
-        { label: "What we see", text: see },
-        { label: "Why it matters", text: matter },
-        { label: "Recommended action", text: action },
-      ].map((block) => (
-        <div key={block.label}>
-          <div style={{ fontSize: 10, fontWeight: 700, color: C.accent, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 6 }}>
-            {block.label}
-          </div>
-          <p style={{ margin: 0, fontSize: 13, color: C.textSub, lineHeight: 1.6 }}>{block.text}</p>
-        </div>
-      ))}
-    </div>
+    <AiSummarySection defaultOpen={defaultOpen} badge={badge} badgeColor={badgeColor}>
+      <AiSummaryGrid
+        blocks={[
+          { label: "What we see", text: see },
+          { label: "Why it matters", text: matter },
+          { label: "Recommended action", text: action },
+        ]}
+      />
+    </AiSummarySection>
   )
 }
 
@@ -124,7 +110,7 @@ export function Callout({ color, children, variant = "default" }) {
 }
 
 // ─── BADGE ───────────────────────────────────────────────────────────────────
-export function Badge({ label, color, title }) {
+export function Badge({ label, color, title, icon }) {
   return (
     <span
       title={title}
@@ -137,7 +123,20 @@ export function Badge({ label, color, title }) {
       color,
       border: `1px solid ${color}35`,
       whiteSpace: "nowrap",
+      display: "inline-flex",
+      alignItems: "center",
+      gap: 5,
     }}>
+      {icon === "star" && (
+        <svg width={11} height={11} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M12 3l1.8 5.5H19l-4.6 3.3 1.8 5.5L12 14l-4.2 3.3 1.8-5.5L5 8.5h5.2L12 3z"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinejoin="round"
+          />
+        </svg>
+      )}
       {label}
     </span>
   )

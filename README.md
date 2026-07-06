@@ -16,9 +16,11 @@ npm run dev
 
 Apri l'URL indicato nel terminale (di solito `http://localhost:5173`).
 
-## Login demo
+## Accesso
 
-In schermata di accesso clicca **Continua come Carlotta Romeo** — non serve password.
+**Requisito:** il tool si apre sempre dalla pagina di login. Non c'è accesso automatico né sessione salvata tra una visita e l'altra: a ogni apertura (o refresh) l'utente deve cliccare **Login**.
+
+In schermata di accesso clicca **Login** — non serve password in questo prototipo.
 
 ## Dati sorgente
 

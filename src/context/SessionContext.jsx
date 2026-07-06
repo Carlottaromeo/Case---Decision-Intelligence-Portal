@@ -1,30 +1,25 @@
-import { createContext, useContext, useState, useEffect, useCallback, useMemo } from "react"
+import { createContext, useContext, useState, useCallback, useMemo, useEffect } from "react"
 import { DEFAULT_SESSION_USER } from "../data/sessionUser"
 
 const SessionContext = createContext(null)
-const STORAGE_KEY = "northstar-session"
 
-function readStoredUser() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (raw === "null") return null
-    if (raw) return JSON.parse(raw)
-  } catch {
-    /* ignore */
-  }
-  return DEFAULT_SESSION_USER
-}
+/** Legacy key — removed so every app open starts at login. */
+const LEGACY_STORAGE_KEY = "northstar-session"
 
+/**
+ * Product requirement: the tool always opens on the login screen.
+ * No auto-login and no persisted session across visits or refreshes.
+ */
 export function SessionProvider({ children }) {
-  const [user, setUser] = useState(readStoredUser)
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, user ? JSON.stringify(user) : "null")
+      localStorage.removeItem(LEGACY_STORAGE_KEY)
     } catch {
       /* ignore */
     }
-  }, [user])
+  }, [])
 
   const login = useCallback(() => setUser(DEFAULT_SESSION_USER), [])
   const logout = useCallback(() => setUser(null), [])

@@ -1,4 +1,5 @@
-import { AiSummaryBadge } from "./UI"
+import AiSummarySection from "./AiSummarySection"
+import { EmphasizedText } from "../utils/emphasizeAiText"
 
 const SOURCE_LABEL = {
   tool: "Derived from data",
@@ -65,30 +66,29 @@ export default function InsightFlowCard({
       </FlowStep>
 
       <FlowStep step={3} label="AI recommendation" accent>
-        <div style={{ marginBottom: 10 }}>
-          <AiSummaryBadge />
-        </div>
-        {recTitle && <p className="insight-flow__rec-title">{recTitle}</p>}
-        {recDetail && <p className="insight-flow__text">{recDetail}</p>}
-        {!recDetail && typeof recommendation === "string" && (
-          <p className="insight-flow__text">{recommendation}</p>
-        )}
-        {insight?.advice?.length > 1 && (
-          <ul className="insight-flow__more">
-            {insight.advice.slice(1, 3).map((item, i) => (
-              <li key={i}>
-                <strong>{item.step}</strong>
-                {" — "}
-                {item.detail}
-              </li>
-            ))}
-          </ul>
-        )}
-        {aiRec && (
-          <p className="insight-flow__ai-note">
-            Proposed from historical interventions and measured usage patterns.
-          </p>
-        )}
+        <AiSummarySection className="insight-flow__ai-summary">
+          {recTitle && <p className="insight-flow__rec-title"><strong>{recTitle}</strong></p>}
+          {recDetail && <EmphasizedText text={recDetail} className="insight-flow__text" />}
+          {!recDetail && typeof recommendation === "string" && (
+            <EmphasizedText text={recommendation} className="insight-flow__text" />
+          )}
+          {insight?.advice?.length > 1 && (
+            <ul className="insight-flow__more">
+              {insight.advice.slice(1, 3).map((item, i) => (
+                <li key={i}>
+                  <strong>{item.step}</strong>
+                  {" — "}
+                  {item.detail}
+                </li>
+              ))}
+            </ul>
+          )}
+          {aiRec && (
+            <p className="insight-flow__ai-note">
+              Proposed from historical interventions and measured usage patterns.
+            </p>
+          )}
+        </AiSummarySection>
       </FlowStep>
     </article>
   )

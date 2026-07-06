@@ -1,5 +1,7 @@
 import { C } from "../../theme"
-import { Badge, AiSummaryBadge } from "../UI"
+import { Badge } from "../UI"
+import AiSummarySection from "../AiSummarySection"
+import { AiSummaryGrid } from "../AiSummaryBlocks"
 import { DATA_TIERS, WORKFLOW_DATA_TIERS } from "../../data/dashboardCopy"
 import { LIVE_WORKFLOW_ID } from "../../data/investmentWorkflowSignals"
 
@@ -10,36 +12,27 @@ const TIER_COLORS = {
   workflow_illustrative: WORKFLOW_DATA_TIERS.workflow_illustrative.color,
 }
 
-function CoachSummaryBlock({ label, text }) {
-  return (
-    <div className="investment-coach__block">
-      <div className="investment-coach__label-row">
-        <div className="investment-coach__label">{label}</div>
-        <AiSummaryBadge />
-      </div>
-      <p className="investment-coach__text investment-coach__text--ai">{text}</p>
-    </div>
-  )
-}
-
 export default function InvestmentCoachPanel({ coach, title }) {
   if (!coach) return null
 
   return (
     <aside className="investment-coach">
       {title !== null && (
-        <div className="investment-coach__title-row">
-          <h3 className="investment-coach__title">{title ?? "Coach investimenti"}</h3>
-          <AiSummaryBadge />
-        </div>
+        <h3 className="investment-coach__title">{title ?? "Coach investimenti"}</h3>
       )}
       <div className="investment-coach__badges">
         {(coach.dati ?? []).map((d) => (
           <Badge key={d.tier} label={d.label} color={TIER_COLORS[d.tier] ?? C.muted} />
         ))}
       </div>
-      <CoachSummaryBlock label="Perché" text={coach.perche} />
-      <CoachSummaryBlock label="Cosa fare" text={coach.cosa_fare} />
+      <AiSummarySection className="investment-coach__ai-summary">
+        <AiSummaryGrid
+          blocks={[
+            { label: "Perché", text: coach.perche },
+            { label: "Cosa fare", text: coach.cosa_fare },
+          ]}
+        />
+      </AiSummarySection>
     </aside>
   )
 }
@@ -56,10 +49,7 @@ export function WorkflowCoachPanel({ workflow, deptItem, coach }) {
 
   return (
     <aside className="investment-coach investment-coach--workflow">
-      <div className="investment-coach__title-row">
-        <h3 className="investment-coach__title">{workflow.title}</h3>
-        <AiSummaryBadge />
-      </div>
+      <h3 className="investment-coach__title">{workflow.title}</h3>
       <div className="investment-coach__badges">
         <Badge label={tierLabel} color={tierColor} />
         <Badge label={`Readiness ${workflow.readiness_score}%`} color={C.indigoDk} />

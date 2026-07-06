@@ -12,6 +12,9 @@ export const LOGIN_BUTTON = "Login"
 export const LOGIN_SIGNUP_BUTTON = "Sign Up"
 export const LOGIN_BRAND_NAME = "Northstar Financial"
 
+/** Product requirement: every visit starts on the login screen — no auto-login or persisted session. */
+export const LOGIN_ALWAYS_REQUIRED = true
+
 export const MVP_GLOBAL_NOTE =
   "This MVP combines measured AI usage data with simulated process and investment logic to show how management could monitor adoption, identify opportunities and prioritize actions."
 

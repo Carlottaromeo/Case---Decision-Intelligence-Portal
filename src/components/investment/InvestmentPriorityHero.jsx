@@ -1,5 +1,7 @@
 import { C, LOCALE } from "../../theme"
-import { Badge, AiSummaryBadge } from "../UI"
+import { Badge } from "../UI"
+import AiSummarySection from "../AiSummarySection"
+import { EmphasizedText } from "../../utils/emphasizeAiText"
 import { ACTION_COLORS } from "../../data/processMapsMeta"
 import { DATA_TIERS } from "../../data/dashboardCopy"
 
@@ -31,10 +33,12 @@ export default function InvestmentPriorityHero({ topItems, onSelect, onNavigate 
                 <Badge label="Workflow live" color="#6229FF" />
               )}
             </div>
-            <div className="investment-hero__snippet-wrap">
-              <AiSummaryBadge />
-              <p className="investment-hero__snippet">{item.heroSnippet ?? item.coach?.perche?.split(". ")[0]}</p>
-            </div>
+            <AiSummarySection className="investment-hero__ai-summary" title="AI summary">
+              <EmphasizedText
+                text={item.heroSnippet ?? item.coach?.perche?.split(". ")[0]}
+                className="investment-hero__snippet"
+              />
+            </AiSummarySection>
             <div className="investment-hero__actions">
               <button
                 type="button"

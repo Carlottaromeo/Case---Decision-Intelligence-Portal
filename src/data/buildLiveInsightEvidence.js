@@ -88,6 +88,39 @@ export function enrichInsightsWithMeasured(insights, measured) {
           ],
         }
       }
+      case "seniority-intensity-gradient": {
+        const levels = measured.SENIORITY ?? []
+        if (!levels.length) return insight
+        const top = [...levels].sort((a, b) => b.cr_user - a.cr_user)[0]
+        const bottom = [...levels].sort((a, b) => a.cr_user - b.cr_user)[0]
+        return {
+          ...insight,
+          evidence: levels.map(
+            (l) =>
+              `${l.level}: ${l.cr_user.toLocaleString(LOCALE)} cr/user · ${l.active_users}/${l.total_in_company} active (${l.ai_adoption_pct}% of level)`
+          ),
+          observation: `${top.level} shows the highest intensity (${top.cr_user.toLocaleString(LOCALE)} credits/user) while ${bottom.level} is lowest (${bottom.cr_user.toLocaleString(LOCALE)}). Only ${levels.reduce((s, l) => s + l.active_users, 0)} of ${levels.reduce((s, l) => s + l.total_in_company, 0)} L1–L6 employees in directory are active in the period.`,
+        }
+      }
+      case "gemini-cost-credit-gap": {
+        const tools = measured.TOOL_DATA ?? []
+        if (!tools.length) return insight
+        const lines = tools.map((t) => `${t.tool}: ${((t.credits / KPIs.total_credits) * 100).toFixed(1)}% of credits`)
+        return { ...insight, evidence: [...lines, `Total credits: ${KPIs.total_credits?.toLocaleString(LOCALE)} over ${KPIs.weeks ?? 13} weeks`] }
+      }
+      case "adoption-intensity-prioritization": {
+        const bu = [...DEPT].filter((d) => d.d !== "Unknown").sort((a, b) => b.cr_week - a.cr_week)
+        const scaleCandidates = bu.filter((d) => d.prov_rate < 38 && d.cr_week >= 65)
+        const investigate = bu.filter((d) => d.prov_rate >= 38 && d.cr_week < 65)
+        return {
+          ...insight,
+          evidence: [
+            ...scaleCandidates.slice(0, 3).map((d) => `Scale candidate: ${d.d} — ${d.prov_rate}% adoption, ${d.cr_week} cr/week, ${d.gap} non-adopters`),
+            ...investigate.slice(0, 2).map((d) => `Investigate: ${d.d} — ${d.prov_rate}% adoption, ${d.cr_week} cr/week, ${d.gap} non-adopters`),
+            `${KPIs.outside_rollout?.toLocaleString(LOCALE)} employees company-wide outside rollout`,
+          ],
+        }
+      }
       default:
         return insight
     }

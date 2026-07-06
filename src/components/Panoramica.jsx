@@ -4,15 +4,15 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip,
 } from "recharts"
 import { useMeasuredData } from "../context/DashboardDataContext"
-import { C, CHART, LOCALE, accentFill } from "../theme"
+import { C, CHART, LOCALE } from "../theme"
 import { Card, SH, ChartTooltip, PillToggle, ExecutiveInsight } from "./UI"
 import CardActionBar from "./CardActionBar"
 import { ACTION_BAR_OFFSET } from "./cardActions"
-import { deptColor } from "../data/processMapsMeta"
 import { UnmappedProvisionedHint } from "./AttentionPoint"
+import GeminiEstimatedCosts from "./GeminiEstimatedCosts"
 
 export default function Panoramica({ onOpenInsights, onNavigate }) {
-  const { WEEKLY, DEPT, KPIs, TOOL_DATA } = useMeasuredData()
+  const { WEEKLY, DEPT, KPIs, TOOL_DATA, TOOL_TIER_CREDITS, DEPT_TOOL_TIER_CREDITS } = useMeasuredData()
   const [metric, setMetric] = useState("credits")
 
   const metricCfg = {
@@ -116,7 +116,24 @@ export default function Panoramica({ onOpenInsights, onNavigate }) {
       </Card>
 
       <Card>
-        <SH title="Credits by tool" />
+        <CardActionBar
+          info={{
+            title: "How to read this chart",
+            items: [
+              "Horizontal bars show total credits consumed per tool over the period.",
+              "Compare share of Chat vs Excel vs Coding IDE at company level.",
+              "Department-level tool mix may differ — see Adoption Analytics.",
+            ],
+          }}
+          insights={onOpenInsights ? () => onOpenInsights({
+            insightIds: ["tool-mix-coherence"],
+            title: "Credits by tool",
+            subtitle: "Company-wide tool distribution",
+          }) : null}
+        />
+        <div style={{ paddingRight: ACTION_BAR_OFFSET }}>
+          <SH title="Credits by tool" />
+        </div>
         <ResponsiveContainer width="100%" height={240}>
           <BarChart data={toolChartData} layout="vertical" margin={{ left: 10, right: 20 }}>
             <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} horizontal={false} />
@@ -133,24 +150,12 @@ export default function Panoramica({ onOpenInsights, onNavigate }) {
         </ResponsiveContainer>
       </Card>
 
-      <Card>
-        <SH title="Access gap by department" sub="Lowest provisioning rates first" />
-        {sortedDept.map(d => {
-          const col = deptColor(d.color)
-          const fill = accentFill(d.color)
-          return (
-            <div key={d.d} style={{ marginBottom: 14 }}>
-              <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
-                <span style={{ fontSize: 14, color: C.text, fontWeight: 600 }}>{d.d}</span>
-                <span style={{ fontSize: 13, color: col, fontWeight: 700 }}>{d.prov_rate}%</span>
-              </div>
-              <div style={{ height: 8, borderRadius: 999, background: C.track, overflow: "hidden" }}>
-                <div style={{ width: `${d.prov_rate}%`, height: "100%", background: fill, borderRadius: 999 }} />
-              </div>
-            </div>
-          )
-        })}
-      </Card>
+      <GeminiEstimatedCosts
+        toolTierCredits={TOOL_TIER_CREDITS}
+        deptToolTierCredits={DEPT_TOOL_TIER_CREDITS}
+        deptRows={DEPT}
+        onOpenInsights={onOpenInsights}
+      />
     </div>
   )
 }

@@ -19,12 +19,12 @@ export const MVP_GLOBAL_NOTE =
   "This MVP combines measured AI usage data with simulated process and investment logic to show how management could monitor adoption, identify opportunities and prioritize actions."
 
 export const NAV_ITEMS = [
-  { id: "panoramica", label: "Executive Cockpit" },
+  { id: "panoramica", label: "Executive View" },
   { id: "dipartimenti", label: "Adoption Analytics" },
-  { id: "processmaps", label: "Process Opportunities" },
+  { id: "processmaps", label: "Process mapping" },
   { id: "investment", label: "Investment Planner" },
   { id: "forecasting", label: "Forecasting" },
-  { id: "tooltier", label: "Data Quality" },
+  { id: "tooltier", label: "Data repository" },
 ]
 
 export const PAGE_TITLES = Object.fromEntries(
@@ -108,6 +108,7 @@ export const DEPT_SOURCE_FILES = {
 /** Department name fixes applied when reading the employee directory. */
 export const DEPT_ALIASES_DOC = [
   { from: "Customer Suport", to: "Customer Support" },
+  { from: "customer suprt / customer-support", to: "Customer Support" },
   { from: "Technlogy", to: "Technology" },
   { from: "Risk and Compliance", to: "Risk & Compliance" },
   { from: "Sales & Partnerships", to: "Sales & Part." },

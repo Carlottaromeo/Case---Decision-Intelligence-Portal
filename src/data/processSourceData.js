@@ -108,6 +108,14 @@ export function processSourceData({ directoryRows, csvText }) {
     empByDept[dept].add(id)
   }
 
+  const SENIORITY_LEVELS = ["L1", "L2", "L3", "L4", "L5", "L6"]
+  const seniorityRosterTotal = Object.fromEntries(SENIORITY_LEVELS.map((l) => [l, 0]))
+  for (const e of EMPLOYEE_ROSTER) {
+    if (SENIORITY_LEVELS.includes(e.seniority)) {
+      seniorityRosterTotal[e.seniority]++
+    }
+  }
+
   const lines = csvText.trim().split(/\r?\n/)
   const weeklyMap = new Map()
   const userWeeks = new Map()
@@ -118,6 +126,17 @@ export function processSourceData({ directoryRows, csvText }) {
   let totalSessions = 0
   const toolTotals = { Chat: 0, Excel: 0, "Coding IDE": 0 }
   const tierTotals = { "LLM-instant": 0, "LLM-thinking": 0, "LLM-pro": 0 }
+  const toolTierTotals = {
+    Chat: { instant: 0, thinking: 0, pro: 0 },
+    Excel: { instant: 0, thinking: 0, pro: 0 },
+    "Coding IDE": { instant: 0, thinking: 0, pro: 0 },
+  }
+  const TIER_ALIAS = { "LLM-instant": "instant", "LLM-thinking": "thinking", "LLM-pro": "pro" }
+  const emptyDeptToolTier = () => ({
+    Chat: { instant: 0, thinking: 0, pro: 0 },
+    Excel: { instant: 0, thinking: 0, pro: 0 },
+    "Coding IDE": { instant: 0, thinking: 0, pro: 0 },
+  })
   const deptAgg = {}
   const seniorityAgg = {}
   const unmappedCreditsByUser = new Map()
@@ -175,7 +194,9 @@ export function processSourceData({ directoryRows, csvText }) {
     for (const tool of ["Chat", "Excel", "Coding IDE"]) {
       toolTotals[tool] += credits[tool]?.total_credits || 0
       for (const tier of ["LLM-instant", "LLM-thinking", "LLM-pro"]) {
-        tierTotals[tier] += credits[tool]?.[tier] || 0
+        const tierCredits = credits[tool]?.[tier] || 0
+        tierTotals[tier] += tierCredits
+        toolTierTotals[tool][TIER_ALIAS[tier]] += tierCredits
       }
     }
 
@@ -190,6 +211,7 @@ export function processSourceData({ directoryRows, csvText }) {
         sessions: 0,
         tools: { Chat: 0, Excel: 0, "Coding IDE": 0 },
         tiers: { "LLM-instant": 0, "LLM-thinking": 0, "LLM-pro": 0 },
+        toolTier: emptyDeptToolTier(),
       }
     }
     const da = deptAgg[dept]
@@ -200,13 +222,15 @@ export function processSourceData({ directoryRows, csvText }) {
     for (const tool of ["Chat", "Excel", "Coding IDE"]) {
       da.tools[tool] += credits[tool]?.total_credits || 0
       for (const tier of ["LLM-instant", "LLM-thinking", "LLM-pro"]) {
-        da.tiers[tier] += credits[tool]?.[tier] || 0
+        const tierCredits = credits[tool]?.[tier] || 0
+        da.tiers[tier] += tierCredits
+        da.toolTier[tool][TIER_ALIAS[tier]] += tierCredits
       }
     }
 
     const sen = seniorityMap[empId] || "Unknown"
-    if (!seniorityAgg[sen]) seniorityAgg[sen] = { users: new Set(), credits: 0 }
-    seniorityAgg[sen].users.add(empId)
+    if (!seniorityAgg[sen]) seniorityAgg[sen] = { activeUsers: new Set(), credits: 0 }
+    if (credits.total_credits > 0 || sessions > 0) seniorityAgg[sen].activeUsers.add(empId)
     seniorityAgg[sen].credits += credits.total_credits
   }
 
@@ -319,18 +343,21 @@ export function processSourceData({ directoryRows, csvText }) {
     { segment: "Inactive", count: segments.inactive, desc: "Never used in period", color: "#5A5A6A" },
   ]
 
-  const SENIORITY = ["L1", "L2", "L3", "L4", "L5", "L6"]
-    .filter((l) => seniorityAgg[l])
-    .map((level) => {
-      const s = seniorityAgg[level]
-      const count = s.users.size
-      return {
-        level,
-        users: count,
-        credits: s.credits,
-        cr_user: count > 0 ? Math.round(s.credits / count) : 0,
-      }
-    })
+  const SENIORITY = SENIORITY_LEVELS.map((level) => {
+    const s = seniorityAgg[level] || { activeUsers: new Set(), credits: 0 }
+    const totalInCompany = seniorityRosterTotal[level] || 0
+    const activeUsers = s.activeUsers.size
+    return {
+      level,
+      total_in_company: totalInCompany,
+      pct_of_company: pct(totalInCompany, totalEmployees),
+      active_users: activeUsers,
+      ai_adoption_pct: pct(activeUsers, totalInCompany),
+      credits: s.credits,
+      cr_user: activeUsers > 0 ? Math.round(s.credits / activeUsers) : 0,
+      users: activeUsers,
+    }
+  })
 
   const growthPct = WEEKLY.length >= 2
     ? Math.round(((WEEKLY[WEEKLY.length - 1].credits - WEEKLY[0].credits) / WEEKLY[0].credits) * 1000) / 10
@@ -424,10 +451,16 @@ export function processSourceData({ directoryRows, csvText }) {
     thinking_pro_pct: thinkingProPct,
   }
 
+  const DEPT_TOOL_TIER_CREDITS = Object.fromEntries(
+    Object.entries(deptAgg).map(([dept, da]) => [dept, da.toolTier])
+  )
+
   return {
     WEEKLY,
     DEPT,
     TOOL_DATA,
+    TOOL_TIER_CREDITS: toolTierTotals,
+    DEPT_TOOL_TIER_CREDITS,
     LLM_DATA,
     USER_SEGMENTS,
     SENIORITY,

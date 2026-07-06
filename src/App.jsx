@@ -3,6 +3,7 @@ import { LOCALE } from "./theme"
 import { DATA_TIERS, PRODUCT_PERIOD } from "./data/dashboardCopy"
 import { useMeasuredData } from "./context/DashboardDataContext"
 import AttentionNotifications from "./components/AttentionPoint"
+import NotificationBanner from "./components/NotificationBanner"
 import {
   DEFAULT_SECTION,
   DEFAULT_PAGES,
@@ -37,7 +38,7 @@ function PageContent({ sectionId, pageId, processNav, onProcessNavChange, onOpen
         return <AdoptionAnalytics onOpenInsights={onOpenInsights} />
       }
       if (pageId === "investment-planner") {
-        return <InvestmentPlanner />
+        return <InvestmentPlanner onOpenInsights={onOpenInsights} />
       }
       return <Panoramica onOpenInsights={onOpenInsights} onNavigate={onNavigate} />
     case "process":
@@ -48,7 +49,7 @@ function PageContent({ sectionId, pageId, processNav, onProcessNavChange, onOpen
         />
       )
     case "forecasting":
-      return <Forecasting view={pageId} />
+      return <Forecasting onOpenInsights={onOpenInsights} />
     case "data-quality":
       return <DataQuality />
     default:
@@ -76,7 +77,13 @@ function getProcessHeader(processNav) {
 }
 
 export default function App() {
-  const { KPIs, loading: dataLoading } = useMeasuredData()
+  const {
+    KPIs,
+    loading: dataLoading,
+    dataRevision,
+    dataRefreshMessage,
+    clearDataRefreshMessage,
+  } = useMeasuredData()
   const { isAuthenticated, logout } = useSession()
   const [sectionId, setSectionId] = useState(DEFAULT_SECTION)
   const [pages, setPages] = useState({ ...DEFAULT_PAGES })
@@ -106,7 +113,9 @@ export default function App() {
 
   const headerTitle = activeSectionId === "process"
     ? getProcessHeader(processNav).title
-    : (singlePageSection ? section?.label : (page?.label ?? section?.label))
+    : activeSectionId === "forecasting" || singlePageSection
+      ? section?.label
+      : (page?.label ?? section?.label)
 
   const headerSubtitle = activeSectionId === "process"
     ? getProcessHeader(processNav).subtitle
@@ -197,11 +206,20 @@ export default function App() {
         />
 
         <div className="app-content-scroll">
+          {dataRefreshMessage && (
+            <NotificationBanner
+              type="success"
+              message={dataRefreshMessage}
+              onDismiss={clearDataRefreshMessage}
+              className="app-data-refresh-banner"
+            />
+          )}
           <main className="app-main">
             {dataLoading ? (
               <div className="dq-loading">Loading source files…</div>
             ) : (
               <PageContent
+                key={dataRevision}
                 sectionId={activeSectionId}
                 pageId={pageId}
                 processNav={processNav}

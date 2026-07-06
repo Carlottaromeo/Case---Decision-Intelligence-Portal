@@ -1,10 +1,4 @@
 import { useMemo } from "react"
-import {
-  EMPLOYEE_ROSTER,
-  USAGE_RECORDS,
-  PROCESS_WEEKS,
-  DEPT_COLORS,
-} from "../data/data"
 import { useMeasuredData } from "../context/DashboardDataContext"
 import { computeProcessMetrics, listDepartmentOptions, listSeniorityOptions } from "../data/computeProcessMetrics"
 import { useProcessFilters } from "../data/processFilters"
@@ -20,10 +14,10 @@ import ProcessAiRecommendations from "./process/ProcessAiRecommendations"
 
 export default function AiRecommendations() {
   const measured = useMeasuredData()
-  const roster = measured.EMPLOYEE_ROSTER ?? EMPLOYEE_ROSTER
-  const usage = measured.USAGE_RECORDS ?? USAGE_RECORDS
-  const weeks = measured.PROCESS_WEEKS ?? PROCESS_WEEKS
-  const colors = measured.DEPT_COLORS ?? DEPT_COLORS
+  const roster = measured.EMPLOYEE_ROSTER ?? []
+  const usage = measured.USAGE_RECORDS ?? []
+  const weeks = measured.PROCESS_WEEKS ?? []
+  const colors = measured.DEPT_COLORS ?? {}
 
   const [filters, setFilters] = useProcessFilters(weeks)
 

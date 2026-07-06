@@ -183,6 +183,122 @@ export const INSIGHTS = [
       },
     ],
   },
+  {
+    id: "seniority-intensity-gradient",
+    priority: "medium",
+    detection_type: "tool",
+    detection_note:
+      "Compared average credits per active user across seniority levels L1–L6 in the employee directory",
+    title: "Senior levels show higher per-user intensity — but L1–L6 coverage is still partial",
+    observation:
+      "L5 and L6 active users consume more credits per person than L1–L3, consistent with greater autonomy and complex work. Yet only a fraction of each level is provisioned — intensity among active users can mask how many colleagues at the same level never received access.",
+    how_identified:
+      "Aggregated credits and active users by seniority from the usage export cross-referenced with employee directory headcount per level.",
+    evidence: [
+      "L6: highest credits/user among levels with meaningful sample size",
+      "L1: lowest intensity but also smallest active cohort",
+      "Directory headcount per level vs active users shows adoption gap within each band",
+    ],
+    advice: [
+      {
+        step: "Do not over-index on senior intensity alone",
+        detail:
+          "High averages at L5–L6 reflect depth among those already inside the rollout, not organisation-wide senior adoption.",
+      },
+      {
+        step: "Expand by level band",
+        detail:
+          "When provisioning, compare active vs in-company counts per level — prioritise levels with large untapped headcount and coherent tool usage among actives.",
+      },
+    ],
+  },
+  {
+    id: "gemini-cost-credit-gap",
+    priority: "high",
+    detection_type: "tool",
+    detection_note:
+      "Compared share of credits vs share of estimated Gemini cost by tool using tier mix and model pricing",
+    title: "Credit share understates cost share for Coding IDE",
+    observation:
+      "Coding IDE consumes a smaller slice of total credits than Chat, but drives a disproportionate share of estimated Gemini spend because thinking/pro tiers and the 3.5 Flash price list convert each credit into more tokens and higher $/credit.",
+    how_identified:
+      "Converted measured tool × tier credits to tokens per scenario, applied pay-as-you-go Gemini prices per tool, and compared % credits vs % cost.",
+    evidence: [
+      "Chat & Excel priced on 2.5 Flash-Lite; Coding IDE on 3.5 Flash",
+      "Derived $/credit is highest for Coding IDE given tier mix",
+      "Department rows inherit the same model — Technology skews cost via IDE usage",
+    ],
+    advice: [
+      {
+        step: "Budget on cost, not credits alone",
+        detail:
+          "Executive forecasts should use the cost model — credit totals alone will understate spend where IDE share is high.",
+      },
+      {
+        step: "Scenario-plan intensity",
+        detail:
+          "Use Light / Expected / Intensive scenarios to bracket token-per-interaction uncertainty while holding list prices fixed.",
+      },
+    ],
+  },
+  {
+    id: "adoption-intensity-prioritization",
+    priority: "high",
+    detection_type: "ai",
+    detection_note:
+      "Plotted BU adoption rate vs credits per active user per week; classified quadrants at 38% adoption and 65 cr/week",
+    title: "Adoption breadth and usage depth tell different stories — prioritise Scale before Investigate",
+    observation:
+      "Some BUs combine high intensity with low penetration (Scale quadrant) — proven value with untapped breadth. Others show wide access but shallow per-user usage (Investigate) — a diagnostic flag, not a quick win. Bubble size shows absolute non-adopter headcount.",
+    how_identified:
+      "Computed adoption = active users ÷ BU headcount and intensity = total credits ÷ active users ÷ weeks. Sized bubbles by non-adopters (total − active).",
+    evidence: [
+      "Scale: high intensity, adoption below threshold — highest-ROI expansion candidates",
+      "Investigate: high adoption rate but low cr/week — volume without depth",
+      "Champions: sustain and harvest; Low fit: assess relevance before investing",
+    ],
+    advice: [
+      {
+        step: "Sequence investment",
+        detail:
+          "Evangelise Scale quadrant BUs first — intensity proves fit; the gap is breadth. Investigate requires workflow diagnosis before spend.",
+      },
+      {
+        step: "Read rate vs absolute gap",
+        detail:
+          "A BU can look 'high adoption' on rate while still holding the largest non-adopter bubble — always check both axes and bubble size.",
+      },
+    ],
+  },
+  {
+    id: "cost-simulator-adoption",
+    priority: "high",
+    detection_type: "ai",
+    detection_note:
+      "Linear adoption-to-cost model: per-BU fixed $/active user from Gemini tier mix; pool of 30 no-dept employees at company-average rate",
+    title: "Monthly spend roughly doubles to ~$9.5k as adoption reaches 100%",
+    observation:
+      "At today's 37% company adoption, estimated monthly Gemini spend is ~$4.7k. Scaling linearly to full headcount reaches ~$9.5k/mo — users grow 2.7× but cost only doubles because new adopters cluster in lower-cost BUs. Technology drives ~71% of the increase via coding-model intensity.",
+    how_identified:
+      "Derived fixed avg weekly cost per active user per BU from measured tool × tier credits and Gemini list prices. Interpolated active users from current to full headcount; added 30 no-department employees at company-average rate scaled by global progress.",
+    evidence: [
+      "Reference curve: $4,724/mo (37%) → $9,493/mo (100%) with 461 → 1,233 active users",
+      "Technology: $3,866 → $7,267/mo — highest absolute lift",
+      "Customer Support & People add users cheaply (low cr/week and IDE share)",
+    ],
+    advice: [
+      {
+        step: "Use the simulator for board-level forecasts",
+        detail:
+          "Adjust global adoption progress for company-wide scenarios; isolate BUs to model targeted rollouts without moving the rest of the organisation.",
+      },
+      {
+        step: "Watch Technology concentration",
+        detail:
+          "Most incremental spend sits in engineering — any change to IDE tier mix or token intensity shifts the whole curve, not just Technology.",
+      },
+    ],
+  },
 ];
 
 /** @deprecated legacy ids — resolved by getInsightById */

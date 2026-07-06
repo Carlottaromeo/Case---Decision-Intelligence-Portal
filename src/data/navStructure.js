@@ -3,7 +3,7 @@ import { PRODUCT_NAME } from "./dashboardCopy"
 export const APP_SECTIONS = [
   {
     id: "cockpit",
-    label: "Executive Cockpit",
+    label: "Executive View",
     iconKey: "panoramica",
     question: "How is AI adoption progressing overall?",
     pages: [
@@ -26,7 +26,7 @@ export const APP_SECTIONS = [
   },
   {
     id: "process",
-    label: "Process Opportunities",
+    label: "Process mapping",
     iconKey: "processmaps",
     question: "Where could AI create value in representative business processes?",
     pages: [
@@ -39,13 +39,12 @@ export const APP_SECTIONS = [
     iconKey: "forecasting",
     question: "How could future AI usage evolve?",
     pages: [
-      { id: "outlook", label: "8-week outlook" },
-      { id: "scenarios", label: "Scenario comparison" },
+      { id: "outlook", label: "Cost simulator" },
     ],
   },
   {
     id: "data-quality",
-    label: "Data Quality",
+    label: "Data repository",
     iconKey: "tooltier",
     question: "How reliable is the data — and can I keep source files under control?",
     pages: [
@@ -93,7 +92,7 @@ export function getProcessBreadcrumbs(processNav, workflowTitle) {
   const items = [
     { label: PRODUCT_NAME, id: "root", onClick: "home" },
     {
-      label: "Process Opportunities",
+      label: "Process mapping",
       id: "process-section",
       onClick: "process-reset",
     },

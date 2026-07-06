@@ -10,6 +10,7 @@ import {
   saveStoredFile,
 } from "../utils/sourceDataStorage"
 import * as staticData from "../data/data"
+import { FALLBACK_TOOL_TIER_CREDITS } from "../data/geminiCostModel"
 
 const DashboardDataContext = createContext(null)
 
@@ -30,6 +31,7 @@ export function DashboardDataProvider({ children }) {
   const [updateLog, setUpdateLog] = useState([])
   const [aiMessage, setAiMessage] = useState("")
   const [aiLoading, setAiLoading] = useState(false)
+  const [dataRefreshMessage, setDataRefreshMessage] = useState(null)
 
   const refreshLog = useCallback(async () => {
     setUpdateLog(await loadUpdateLog())
@@ -44,6 +46,19 @@ export function DashboardDataProvider({ children }) {
     setDirectoryMeta(dirMeta)
     setUsageMeta(useMeta)
   }, [])
+
+  const notifyChartsUpdated = useCallback((summary) => {
+    setDataRefreshMessage(summary ?? "Dashboard data updated — charts recalculated.")
+  }, [])
+
+  const clearDataRefreshMessage = useCallback(() => {
+    setDataRefreshMessage(null)
+  }, [])
+
+  const dataRevision = useMemo(
+    () => `${directoryMeta.updatedAt ?? "init"}|${usageMeta.updatedAt ?? "init"}`,
+    [directoryMeta.updatedAt, usageMeta.updatedAt]
+  )
 
   const loadInitial = useCallback(async () => {
     setLoading(true)
@@ -98,7 +113,8 @@ export function DashboardDataProvider({ children }) {
     applyProcessed(processed, rows, headers, csv, { updatedAt, source }, usageMeta)
     await appendUpdateLog({ fileId: SOURCE_FILE_IDS.directory, action, summary, timestamp: updatedAt })
     await refreshLog()
-  }, [usageCsvText, usageMeta, applyProcessed, refreshLog])
+    notifyChartsUpdated("Department mapping updated — all charts recalculated.")
+  }, [usageCsvText, usageMeta, applyProcessed, refreshLog, notifyChartsUpdated])
 
   const persistUsage = useCallback(async (content, source, action, summary) => {
     const updatedAt = nowIso()
@@ -108,7 +124,8 @@ export function DashboardDataProvider({ children }) {
     applyProcessed(processed, directoryRows, headers, content, directoryMeta, { updatedAt, source })
     await appendUpdateLog({ fileId: SOURCE_FILE_IDS.usage, action, summary, timestamp: updatedAt })
     await refreshLog()
-  }, [directoryRows, directoryHeaders, directoryMeta, applyProcessed, refreshLog])
+    notifyChartsUpdated("Usage data updated — all charts recalculated.")
+  }, [directoryRows, directoryHeaders, directoryMeta, applyProcessed, refreshLog, notifyChartsUpdated])
 
   const updateDirectoryCell = useCallback(async (rowIndex, column, value) => {
     const next = directoryRows.map((row, i) =>
@@ -191,6 +208,9 @@ export function DashboardDataProvider({ children }) {
     usageRows,
     directoryMeta,
     usageMeta,
+    dataRevision,
+    dataRefreshMessage,
+    clearDataRefreshMessage,
     updateLog,
     aiMessage,
     aiLoading,
@@ -202,7 +222,8 @@ export function DashboardDataProvider({ children }) {
     reload: loadInitial,
   }), [
     loading, error, measured, directoryRows, directoryHeaders, usageCsvText,
-    usageHeaders, usageRows, directoryMeta, usageMeta, updateLog,
+    usageHeaders, usageRows, directoryMeta, usageMeta, dataRevision, dataRefreshMessage,
+    clearDataRefreshMessage, updateLog,
     aiMessage, aiLoading, updateDirectoryCell, updateUsageCell,
     importFile, runAiEdit, formatLogTime, loadInitial,
   ])
@@ -234,6 +255,8 @@ export function useMeasuredData() {
     DEPT: staticData.DEPT,
     WEEKLY: staticData.WEEKLY,
     TOOL_DATA: staticData.TOOL_DATA,
+    TOOL_TIER_CREDITS: staticData.TOOL_TIER_CREDITS ?? FALLBACK_TOOL_TIER_CREDITS,
+    DEPT_TOOL_TIER_CREDITS: staticData.DEPT_TOOL_TIER_CREDITS ?? {},
     LLM_DATA: staticData.LLM_DATA,
     USER_SEGMENTS: staticData.USER_SEGMENTS,
     SENIORITY: staticData.SENIORITY,
@@ -245,6 +268,9 @@ export function useMeasuredData() {
     DEPT_COLORS: staticData.DEPT_COLORS,
     directoryMeta: null,
     usageMeta: null,
+    dataRevision: "static",
+    dataRefreshMessage: null,
+    clearDataRefreshMessage: () => {},
     usageRows: [],
   }
 }

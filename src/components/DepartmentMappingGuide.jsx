@@ -1,12 +1,12 @@
-import { DEPT, DATA_QUALITY } from "../data/data"
-import { deptColor, accentFill } from "../../data/processMapsMeta"
+import { C, LOCALE } from "../theme"
+import { useMeasuredData } from "../context/DashboardDataContext"
+import { deptColor, accentFill } from "../data/processMapsMeta"
 import {
   DEPT_ALIASES_DOC,
   DEPT_SOURCE_FILES,
   departmentMappingNotes,
 } from "../data/dashboardCopy"
 import { Card, SH } from "./UI"
-import { deptColor, accentFill } from "../data/processMapsMeta"
 
 const TH = {
   padding: "10px 12px",
@@ -29,7 +29,8 @@ const TD = {
 }
 
 export default function DepartmentMappingGuide() {
-  const sorted = [...DEPT].sort((a, b) => b.total - a.total)
+  const { DEPT, DATA_QUALITY } = useMeasuredData()
+  const sorted = [...(DEPT ?? [])].sort((a, b) => b.total - a.total)
   const businessDepts = sorted.filter((d) => d.d !== "Unknown")
   const unknownRow = sorted.find((d) => d.d === "Unknown")
 

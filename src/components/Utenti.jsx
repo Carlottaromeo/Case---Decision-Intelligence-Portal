@@ -7,9 +7,18 @@ import { C, CHART, LOCALE, readableAccent } from "../theme"
 import { Card, SH, ChartTooltip, MiniBar } from "./UI"
 import CardActionBar from "./CardActionBar"
 import { ACTION_BAR_OFFSET } from "./cardActions"
+
+function pctLabel(part, total) {
+  if (!total) return "0%"
+  return `${Math.round((part / total) * 1000) / 10}%`
+}
+
 export default function Utenti({ onOpenInsights }) {
   const { USER_SEGMENTS, SENIORITY, KPIs } = useMeasuredData()
   const segmentTotal = USER_SEGMENTS.reduce((s, x) => s + x.count, 0)
+  const seniorityHeadcount = SENIORITY.reduce((s, x) => s + x.total_in_company, 0)
+  const seniorityActive = SENIORITY.reduce((s, x) => s + x.active_users, 0)
+  const companyTotal = KPIs.total_employees
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
@@ -84,10 +93,9 @@ export default function Utenti({ onOpenInsights }) {
               ],
             }}
             insights={onOpenInsights ? () => onOpenInsights({
-              insightIds: [],
+              insightIds: ["seniority-intensity-gradient"],
               title: "Credits used by seniority level",
               subtitle: "Usage intensity across job levels",
-              context: "L5–L6 levels show higher intensity, consistent with senior roles and greater autonomy in tool usage.",
             }) : null}
           />
           <div style={{ marginBottom: 18, paddingRight: ACTION_BAR_OFFSET }}>
@@ -115,20 +123,28 @@ export default function Utenti({ onOpenInsights }) {
           info={{
             title: "How to read this table",
             items: [
-              "Active users: provisioned employees with usage in the period.",
+              "In company: employees at each level in the directory (L1–L6 vs total headcount).",
+              "AI active: provisioned users with recorded usage in the period.",
               "Intensity bar compares credits/user relative to the highest level.",
-              "Use alongside segmentation to see depth vs. breadth of adoption.",
             ],
           }}
+          insights={onOpenInsights ? () => onOpenInsights({
+            insightIds: ["seniority-intensity-gradient", "gap-is-access-not-motivation"],
+            title: "Seniority detail",
+            subtitle: "Headcount vs AI-active users by level",
+          }) : null}
         />
         <div style={{ paddingRight: ACTION_BAR_OFFSET }}>
-          <SH title="Seniority detail" sub="Active users and credits consumed in period" />
+          <SH
+            title="Seniority detail"
+            sub={`${seniorityHeadcount.toLocaleString(LOCALE)} L1–L6 in company (${pctLabel(seniorityHeadcount, companyTotal)} of ${companyTotal.toLocaleString(LOCALE)}) · ${seniorityActive.toLocaleString(LOCALE)} AI-active in period`}
+          />
         </div>
         <div style={{ overflowX: "auto" }}>
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
               <tr style={{ borderBottom: `2px solid ${C.glassBorder}` }}>
-                {["Level", "Active users", "Credits used", "Credits used/user", "Intensity"].map(h => (
+                {["Level", "In company", "AI active", "Credits used", "Credits used/user", "Intensity"].map(h => (
                   <th key={h} style={{ padding: "10px 14px", textAlign: "left", color: C.muted, fontWeight: 600, fontSize: 11, textTransform: "uppercase" }}>{h}</th>
                 ))}
               </tr>
@@ -141,7 +157,16 @@ export default function Utenti({ onOpenInsights }) {
                 return (
                   <tr key={s.level} style={{ borderBottom: `1px solid ${C.glassBorder}`, background: i % 2 === 0 ? C.rowAlt : "transparent" }}>
                     <td style={{ padding: "12px 14px", fontWeight: 700, color: col }}>{s.level}</td>
-                    <td style={{ padding: "12px 14px", color: C.text }}>{s.users}</td>
+                    <td style={{ padding: "12px 14px" }}>
+                      <div style={{ fontWeight: 600, color: C.text }}>{s.total_in_company.toLocaleString(LOCALE)}</div>
+                      <div style={{ fontSize: 11, color: C.subtle }}>{pctLabel(s.total_in_company, companyTotal)} of company</div>
+                    </td>
+                    <td style={{ padding: "12px 14px" }}>
+                      <div style={{ fontWeight: 600, color: C.text }}>{s.active_users.toLocaleString(LOCALE)}</div>
+                      <div style={{ fontSize: 11, color: C.subtle }}>
+                        {s.total_in_company > 0 ? `${s.ai_adoption_pct}% of level` : "—"}
+                      </div>
+                    </td>
                     <td style={{ padding: "12px 14px", color: C.muted }}>{s.credits.toLocaleString(LOCALE)}</td>
                     <td style={{ padding: "12px 14px", fontWeight: 700, color: C.text }}>{s.cr_user.toLocaleString(LOCALE)}</td>
                     <td style={{ padding: "12px 14px", width: 120 }}>
@@ -150,6 +175,22 @@ export default function Utenti({ onOpenInsights }) {
                   </tr>
                 )
               })}
+              <tr style={{ borderTop: `2px solid ${C.glassBorder}`, background: C.rowAlt, fontWeight: 700 }}>
+                <td style={{ padding: "12px 14px", color: C.text }}>Total L1–L6</td>
+                <td style={{ padding: "12px 14px", color: C.text }}>
+                  {seniorityHeadcount.toLocaleString(LOCALE)}
+                  <div style={{ fontSize: 11, fontWeight: 500, color: C.subtle }}>{pctLabel(seniorityHeadcount, companyTotal)} of company</div>
+                </td>
+                <td style={{ padding: "12px 14px", color: C.text }}>
+                  {seniorityActive.toLocaleString(LOCALE)}
+                  <div style={{ fontSize: 11, fontWeight: 500, color: C.subtle }}>
+                    {seniorityHeadcount > 0 ? `${Math.round((seniorityActive / seniorityHeadcount) * 1000) / 10}% of level` : "—"}
+                  </div>
+                </td>
+                <td style={{ padding: "12px 14px", color: C.muted }}>{SENIORITY.reduce((s, x) => s + x.credits, 0).toLocaleString(LOCALE)}</td>
+                <td style={{ padding: "12px 14px", color: C.text }}>—</td>
+                <td style={{ padding: "12px 14px" }} />
+              </tr>
             </tbody>
           </table>
         </div>

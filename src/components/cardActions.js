@@ -1,5 +1,13 @@
 import { C, ACID } from "../theme"
 
+/**
+ * Chart requirement (Executive Cockpit and all dashboard visualizations):
+ * Every chart, matrix, or data table rendered in a Card MUST include CardActionBar
+ * with BOTH:
+ *  - info: how to read the visualization (CardInfoButton)
+ *  - insights: onOpenInsights callback opening InsightDrawer (AIPenButton)
+ * Use ACTION_BAR_OFFSET on titles/content so icons do not overlap.
+ */
 export const ACTION_BTN_SIZE = 22
 export const ACTION_ICON_SIZE = 11
 export const ACTION_BAR_OFFSET = 64

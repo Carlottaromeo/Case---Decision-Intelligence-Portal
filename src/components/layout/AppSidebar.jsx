@@ -118,9 +118,6 @@ export default function AppSidebar({
         >
           <CollapseIcon collapsed={!expanded} />
         </button>
-        <div className="app-sidebar__logo" title={PRODUCT_NAME}>
-          <span>NS</span>
-        </div>
         {expanded && (
           <div className="app-sidebar__brand">
             <span className="app-sidebar__brand-name">{PRODUCT_NAME}</span>

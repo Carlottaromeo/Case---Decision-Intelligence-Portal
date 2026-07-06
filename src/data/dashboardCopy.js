@@ -5,6 +5,13 @@ export const PRODUCT_SUBTITLE =
   "Monitor AI adoption, identify opportunity gaps, prioritize investments and forecast future AI demand."
 export const PRODUCT_PERIOD = "Dec 2025 – Mar 2026"
 
+export const LOGIN_WELCOME = "Welcome back to the AI Adoption & Investment Hub"
+export const LOGIN_HEADLINE = "Drive AI outcomes that truly matter"
+export const LOGIN_HINT = "Please login to your account."
+export const LOGIN_BUTTON = "Login"
+export const LOGIN_SIGNUP_BUTTON = "Sign Up"
+export const LOGIN_BRAND_NAME = "Northstar Financial"
+
 export const MVP_GLOBAL_NOTE =
   "This MVP combines measured AI usage data with simulated process and investment logic to show how management could monitor adoption, identify opportunities and prioritize actions."
 

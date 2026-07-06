@@ -179,7 +179,7 @@ export function exportWorkflowPptx({ workflow, params, department }) {
 
     const bullets = phase.cards.map((card) => {
       const commentText = formatCommentsForExport(card.commentThread)
-      const comment = commentText ? ` · Commenti: ${commentText.replace(/\n/g, " | ")}` : ""
+      const comment = commentText ? ` · Comments: ${commentText.replace(/\n/g, " | ")}` : ""
       return `${card.title} — ${resolveOwnerDisplay(card)} (${STATUS_LABEL[card.aiStatus]})${comment}`
     })
 

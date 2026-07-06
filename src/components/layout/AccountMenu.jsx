@@ -58,7 +58,7 @@ export default function AccountMenu({ placement = "header", expanded = true }) {
               logout()
             }}
           >
-            Esci
+            Log out
           </button>
         </div>
       )}

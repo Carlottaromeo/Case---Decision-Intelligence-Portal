@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react"
-import { C } from "../theme"
-import { SH, Callout } from "./UI"
+import { SH } from "./UI"
+import NotificationBanner from "./NotificationBanner"
 import {
   MANAGEMENT_QUESTIONS,
   loadManagementContext,
@@ -20,12 +20,10 @@ export default function ManagementQuestions() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-      <Callout color={C.cyan}>
-        <p style={{ margin: 0, fontSize: 13, lineHeight: 1.65 }}>
-          Strategic questions this MVP can help answer. Each response separates Measured evidence, Simulated interpretation, and Future-ready context.
-          Answers respect filters shared with AI Opportunity Process Maps, Investment Planner, and Action Plan Tracker.
-        </p>
-      </Callout>
+      <NotificationBanner
+        type="info"
+        message="Strategic questions this MVP can help answer. Each response separates Measured evidence, Simulated interpretation, and Future-ready context. Answers respect filters shared with AI Opportunity Process Maps, Investment Planner, and Action Plan Tracker."
+      />
 
       <div className="glass-panel" style={{ borderRadius: 20, padding: "20px 24px" }}>
         <SH

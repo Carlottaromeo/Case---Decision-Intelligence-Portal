@@ -18,7 +18,7 @@ export default function InvestmentWorkflowDetail({
         Workflow in {item.department}
       </h3>
       <p className="investment-workflows__sub">
-        Un workflow live (Contract Risk Assessment) · altri con mappatura illustrativa
+        One live workflow (Contract Risk Assessment) · others use illustrative mapping
       </p>
       <div className="investment-workflows__list">
         {item.workflows.map((wf) => {
@@ -45,7 +45,7 @@ export default function InvestmentWorkflowDetail({
                 <div className="investment-workflow-row__meta">
                   <span>Readiness {wf.readiness_score}%</span>
                   <span>·</span>
-                  <span>{wf.opportunityCount} opportunità</span>
+                  <span>{wf.opportunityCount} opportunities</span>
                   <span>·</span>
                   <span>{wf.investment_hint}</span>
                 </div>
@@ -67,7 +67,7 @@ export default function InvestmentWorkflowDetail({
                     })
                   }
                 >
-                  Apri workflow
+                  Open workflow
                 </button>
               )}
             </div>

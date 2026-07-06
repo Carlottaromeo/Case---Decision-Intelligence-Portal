@@ -3,7 +3,7 @@ import {
   CartesianGrid, Tooltip, PieChart, Pie, Cell,
 } from "recharts"
 import { useMeasuredData } from "../context/DashboardDataContext"
-import { C, CHART, LOCALE } from "../theme"
+import { C, CHART, LOCALE, readableAccent } from "../theme"
 import { Card, SH, ChartTooltip, MiniBar } from "./UI"
 import CardActionBar from "./CardActionBar"
 import { ACTION_BAR_OFFSET } from "./cardActions"
@@ -45,28 +45,31 @@ export default function Utenti({ onOpenInsights }) {
                 paddingAngle={3}
               >
                 {USER_SEGMENTS.map((s, i) => (
-                  <Cell key={i} fill={CHART.segments[i] || s.color} stroke={C.surface} strokeWidth={2} />
+                  <Cell key={i} fill={CHART.fills[i] || readableAccent(s.color)} stroke={C.surface} strokeWidth={2} />
                 ))}
               </Pie>
               <Tooltip content={<ChartTooltip />} />
             </PieChart>
           </ResponsiveContainer>
           <div style={{ display: "flex", flexDirection: "column", gap: 10, marginTop: 8 }}>
-            {USER_SEGMENTS.map((s, i) => (
+            {USER_SEGMENTS.map((s, i) => {
+              const col = CHART.segments[i] || readableAccent(s.color)
+              const fill = CHART.fills[i] || col
+              return (
               <div key={s.segment} style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                  <div style={{ width: 10, height: 10, borderRadius: 2, background: CHART.segments[i], boxShadow: `0 0 6px ${CHART.segments[i]}88` }} />
+                  <div style={{ width: 10, height: 10, borderRadius: 2, background: fill, boxShadow: `0 0 6px ${fill}88` }} />
                   <div>
                     <div style={{ fontSize: 13, fontWeight: 600, color: C.text }}>{s.segment}</div>
                     <div style={{ fontSize: 11, color: C.subtle }}>{s.desc}</div>
                   </div>
                 </div>
                 <div style={{ textAlign: "right" }}>
-                  <div style={{ fontSize: 16, fontWeight: 800, color: CHART.segments[i] }}>{s.count}</div>
+                  <div style={{ fontSize: 16, fontWeight: 800, color: col }}>{s.count}</div>
                   <div style={{ fontSize: 11, color: C.muted }}>{segmentTotal > 0 ? ((s.count / segmentTotal) * 100).toFixed(0) : 0}%</div>
                 </div>
               </div>
-            ))}
+            )})}
           </div>
         </Card>
 
@@ -99,7 +102,7 @@ export default function Utenti({ onOpenInsights }) {
               <Tooltip content={<ChartTooltip />} />
               <Bar dataKey="cr_user" name="Credits used/user" radius={[6, 6, 0, 0]}>
                 {SENIORITY.map((_, i) => (
-                  <Cell key={i} fill={CHART.series[i % CHART.series.length]} />
+                  <Cell key={i} fill={CHART.fills[i % CHART.fills.length]} />
                 ))}
               </Bar>
             </BarChart>
@@ -134,6 +137,7 @@ export default function Utenti({ onOpenInsights }) {
               {SENIORITY.map((s, i) => {
                 const maxCr = Math.max(...SENIORITY.map(x => x.cr_user))
                 const col = CHART.series[i % CHART.series.length]
+                const fill = CHART.fills[i % CHART.fills.length]
                 return (
                   <tr key={s.level} style={{ borderBottom: `1px solid ${C.glassBorder}`, background: i % 2 === 0 ? C.rowAlt : "transparent" }}>
                     <td style={{ padding: "12px 14px", fontWeight: 700, color: col }}>{s.level}</td>
@@ -141,7 +145,7 @@ export default function Utenti({ onOpenInsights }) {
                     <td style={{ padding: "12px 14px", color: C.muted }}>{s.credits.toLocaleString(LOCALE)}</td>
                     <td style={{ padding: "12px 14px", fontWeight: 700, color: C.text }}>{s.cr_user.toLocaleString(LOCALE)}</td>
                     <td style={{ padding: "12px 14px", width: 120 }}>
-                      <MiniBar value={s.cr_user} max={maxCr} color={col} height={8} />
+                      <MiniBar value={s.cr_user} max={maxCr} color={fill} height={8} />
                     </td>
                   </tr>
                 )

@@ -2,6 +2,7 @@ import { useCallback, useState } from "react"
 import { SOURCE_FILE_LIST, SOURCE_FILE_IDS } from "../../data/sourceFilesMeta"
 import { rowsToCsv, rowsToXlsxBlob } from "../../utils/parseSourceFiles"
 import { Card, SH } from "../UI"
+import NotificationBanner from "../NotificationBanner"
 import SourceFileTable from "./SourceFileTable"
 import SourceDataAiPanel from "./SourceDataAiPanel"
 import UpdateLogPanel from "./UpdateLogPanel"
@@ -121,7 +122,13 @@ export default function SourceDataWorkspace({ sourceData }) {
   return (
     <div className="dq-workspace">
       <FileDropZone onFile={handleImport} />
-      {importError && <div className="dq-error">{importError}</div>}
+      {importError && (
+        <NotificationBanner
+          type="error"
+          message={importError}
+          className="dq-error dq-error-banner"
+        />
+      )}
 
       <div className="dq-workspace__files">
         {SOURCE_FILE_LIST.map((file) => (

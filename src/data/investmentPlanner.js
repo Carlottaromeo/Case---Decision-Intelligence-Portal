@@ -11,7 +11,7 @@ import { filterInvestmentPortfolio, INVESTMENT_PRIORITIES } from "./processFilte
 export { filterInvestmentPortfolio, INVESTMENT_PRIORITIES }
 
 export const INVESTMENT_MATRIX_NOTE =
-  "Adozione misurata da usage export · priorità processo simulate · un solo workflow live (Contract Risk Assessment) · altri workflow con mappatura illustrativa."
+  "Measured adoption from usage export · simulated process priority · one live workflow (Contract Risk Assessment) · other workflows use illustrative mapping."
 
 export const PRIMARY_INVESTMENT = {
   Scale: "Advanced licenses",
@@ -30,11 +30,11 @@ export const INVESTMENTS_BY_ACTION = {
 }
 
 export const QUADRANTS = [
-  { id: "scale", label: "Scale", action: "Scale", x1: 50, x2: 100, y1: 66, y2: 100, color: "CCFF00" },
-  { id: "industrialize-h", label: "Industrialize", action: "Industrialize", x1: 25, x2: 50, y1: 66, y2: 100, color: "00F0FF" },
-  { id: "activate", label: "Activate", action: "Activate", x1: 0, x2: 25, y1: 66, y2: 100, color: "FF6600" },
-  { id: "quickwin", label: "Quick win", action: "Quick win", x1: 0, x2: 25, y1: 33, y2: 66, color: "B400FF" },
-  { id: "industrialize-m", label: "Industrialize", action: "Industrialize", x1: 25, x2: 100, y1: 33, y2: 66, color: "00F0FF" },
+  { id: "scale", label: "Scale", action: "Scale", x1: 50, x2: 100, y1: 66, y2: 100, color: "6B9A00" },
+  { id: "industrialize-h", label: "Industrialize", action: "Industrialize", x1: 25, x2: 50, y1: 66, y2: 100, color: "007FA3" },
+  { id: "activate", label: "Activate", action: "Activate", x1: 0, x2: 25, y1: 66, y2: 100, color: "D95600" },
+  { id: "quickwin", label: "Quick win", action: "Quick win", x1: 0, x2: 25, y1: 33, y2: 66, color: "6229FF" },
+  { id: "industrialize-m", label: "Industrialize", action: "Industrialize", x1: 25, x2: 100, y1: 33, y2: 66, color: "007FA3" },
   { id: "monitor", label: "Monitor", action: "Monitor", x1: 0, x2: 100, y1: 0, y2: 33, color: "64748B" },
 ]
 

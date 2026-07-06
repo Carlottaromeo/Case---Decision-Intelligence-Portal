@@ -1,19 +1,17 @@
 import { useState } from "react"
 import { useMeasuredData } from "../context/DashboardDataContext"
-import { C, CHART, LOCALE } from "../theme"
+import { C, CHART, LOCALE, accentFill } from "../theme"
 import { departmentUnknownNote } from "../data/dashboardCopy"
 import { Card, SH, MiniBar, ExecutiveInsight } from "./UI"
 import CardActionBar from "./CardActionBar"
 import { ACTION_BAR_OFFSET } from "./cardActions"
+import { deptColor } from "../data/processMapsMeta"
+
 const SORT_OPTIONS = [
   { key: "prov_rate",     label: "Access rate" },
   { key: "cr_week",       label: "Cr/week" },
   { key: "total_credits", label: "Credits used" },
 ]
-
-function deptColor(d) {
-  return d.color.startsWith("#") ? d.color : `#${d.color}`
-}
 
 export default function Dipartimenti({ onOpenInsights }) {
   const { DEPT, KPIs, DATA_QUALITY } = useMeasuredData()
@@ -82,7 +80,8 @@ export default function Dipartimenti({ onOpenInsights }) {
             </thead>
             <tbody>
               {sorted.map(d => {
-                const col = deptColor(d)
+                const col = deptColor(d.color)
+                const fill = accentFill(d.color)
                 const isSelected = selected === d.d
                 return (
                   <tr key={d.d}
@@ -94,7 +93,7 @@ export default function Dipartimenti({ onOpenInsights }) {
                     }}>
                     <td style={{ padding: "12px 14px" }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                        <div style={{ width: 10, height: 10, borderRadius: 2, background: col, boxShadow: `0 0 6px ${col}88` }} />
+                        <div style={{ width: 10, height: 10, borderRadius: 2, background: fill, boxShadow: `0 0 6px ${fill}88` }} />
                         <span style={{ fontWeight: 600, color: C.text }}>{d.d}</span>
                       </div>
                     </td>
@@ -102,7 +101,7 @@ export default function Dipartimenti({ onOpenInsights }) {
                     <td style={{ padding: "12px 14px", color: d.gap > 100 ? C.red : C.muted, fontWeight: d.gap > 100 ? 700 : 400 }}>{d.gap}</td>
                     <td style={{ padding: "12px 14px" }}>
                       <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                        <div style={{ width: 60 }}><MiniBar value={d.prov_rate} color={col} /></div>
+                        <div style={{ width: 60 }}><MiniBar value={d.prov_rate} color={fill} /></div>
                         <span style={{ color: col, fontWeight: 700 }}>{d.prov_rate}%</span>
                       </div>
                     </td>
@@ -122,7 +121,7 @@ export default function Dipartimenti({ onOpenInsights }) {
       </Card>
 
       {dept && (
-        <Card accent={deptColor(dept)}>
+        <Card accent={deptColor(dept.color)}>
           <CardActionBar
             info={{
               title: "How to read this breakdown",
@@ -143,25 +142,25 @@ export default function Dipartimenti({ onOpenInsights }) {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 32 }}>
             <div>
               <div style={{ fontSize: 11, fontWeight: 700, color: C.muted, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 14 }}>Tool mix</div>
-              {[["Chat", dept.chat, CHART.tools.Chat], ["Excel", dept.excel, CHART.tools.Excel], ["Coding IDE", dept.coding, CHART.tools["Coding IDE"]]].map(([t, v, col]) => (
+              {[["Chat", dept.chat, CHART.tools.Chat, CHART.toolFills.Chat], ["Excel", dept.excel, CHART.tools.Excel, CHART.toolFills.Excel], ["Coding IDE", dept.coding, CHART.tools["Coding IDE"], CHART.toolFills["Coding IDE"]]].map(([t, v, col, fill]) => (
                 <div key={t} style={{ marginBottom: 12 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 5, fontSize: 13 }}>
                     <span style={{ color: C.textSub }}>{t}</span>
                     <span style={{ fontWeight: 700, color: col }}>{v}%</span>
                   </div>
-                  <MiniBar value={v} color={col} height={8} />
+                  <MiniBar value={v} color={fill} height={8} />
                 </div>
               ))}
             </div>
             <div>
               <div style={{ fontSize: 11, fontWeight: 700, color: C.muted, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 14 }}>LLM tier mix</div>
-              {[["Instant", dept.instant, CHART.tiers.Instant], ["Thinking", dept.thinking, CHART.tiers.Thinking], ["Pro", dept.pro, CHART.tiers.Pro]].map(([t, v, col]) => (
+              {[["Instant", dept.instant, CHART.tiers.Instant, CHART.tierFills.Instant], ["Thinking", dept.thinking, CHART.tiers.Thinking, CHART.tierFills.Thinking], ["Pro", dept.pro, CHART.tiers.Pro, CHART.tierFills.Pro]].map(([t, v, col, fill]) => (
                 <div key={t} style={{ marginBottom: 12 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 5, fontSize: 13 }}>
                     <span style={{ color: C.textSub }}>{t}</span>
                     <span style={{ fontWeight: 700, color: col }}>{v}%</span>
                   </div>
-                  <MiniBar value={v} color={col} height={8} />
+                  <MiniBar value={v} color={fill} height={8} />
                 </div>
               ))}
             </div>

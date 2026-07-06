@@ -45,11 +45,11 @@ export default function WorkflowActivityCard({
             <h4 className="wf-node__title">{card.title}</h4>
             <div className="wf-node__indicators">
               {hasUseCases && (
-                <span className="wf-node__uc-dot" title="Ha opportunità use case">
+                <span className="wf-node__uc-dot" title="Has use case opportunities">
                   {card.useCaseOpportunities.length}
                 </span>
               )}
-              {hasCommentThread && <span className="wf-node__comment-dot" title="Ha commenti" />}
+              {hasCommentThread && <span className="wf-node__comment-dot" title="Has comments" />}
             </div>
           </div>
           <div className="wf-node__menu-wrap" ref={menuRef}>

@@ -28,7 +28,7 @@ export default function ExportShareBar({
     const result = await sharePage(share ?? {})
     if (!result.ok) return
     if (result.method === "clipboard") {
-      onNotify?.("Link copiato negli appunti")
+      onNotify?.("Link copied to clipboard")
     }
   }
 
@@ -38,15 +38,15 @@ export default function ExportShareBar({
     <div className={classes.bar}>
       {share && (
         <button type="button" className={classes.btn} onClick={handleShare}>
-          Condividi
+          Share
         </button>
       )}
       {formats.length > 0 && (
         <div className="export-share-bar__export-wrap">
           <button type="button" className={classes.exportBtn}>
-            Esporta
+            Export
           </button>
-          <div className="export-share-bar__menu" role="menu" aria-label="Formati di esportazione">
+          <div className="export-share-bar__menu" role="menu" aria-label="Export formats">
             {formats.map((format) => (
               <button
                 key={format.key}

@@ -101,7 +101,7 @@ export const DEPT = [
     "instant": 70.2,
     "thinking": 22.5,
     "pro": 7.3,
-    "color": "39FF14"
+    "color": "0A8F3E"
   },
   {
     "d": "Technology",
@@ -120,7 +120,7 @@ export const DEPT = [
     "instant": 41.2,
     "thinking": 32.3,
     "pro": 26.5,
-    "color": "CCFF00"
+    "color": "6B9A00"
   },
   {
     "d": "Underwriting",
@@ -139,7 +139,7 @@ export const DEPT = [
     "instant": 64.3,
     "thinking": 25.6,
     "pro": 10.1,
-    "color": "0066FF"
+    "color": "1A56C4"
   },
   {
     "d": "Sales & Part.",
@@ -158,7 +158,7 @@ export const DEPT = [
     "instant": 66.9,
     "thinking": 24.4,
     "pro": 8.7,
-    "color": "FF00AA"
+    "color": "B8009E"
   },
   {
     "d": "Pricing",
@@ -177,7 +177,7 @@ export const DEPT = [
     "instant": 48.8,
     "thinking": 33.4,
     "pro": 17.8,
-    "color": "FFE600"
+    "color": "9A7200"
   },
   {
     "d": "Data & Analytics",
@@ -196,7 +196,7 @@ export const DEPT = [
     "instant": 48.3,
     "thinking": 32.2,
     "pro": 19.5,
-    "color": "00F0FF"
+    "color": "007FA3"
   },
   {
     "d": "Finance",
@@ -215,7 +215,7 @@ export const DEPT = [
     "instant": 39,
     "thinking": 39.3,
     "pro": 21.7,
-    "color": "FF6600"
+    "color": "D95600"
   },
   {
     "d": "Risk & Compliance",
@@ -234,7 +234,7 @@ export const DEPT = [
     "instant": 44.9,
     "thinking": 36.9,
     "pro": 18.2,
-    "color": "FF2244"
+    "color": "C41E3A"
   },
   {
     "d": "People",
@@ -253,7 +253,7 @@ export const DEPT = [
     "instant": 73.6,
     "thinking": 21.5,
     "pro": 4.9,
-    "color": "FF1493"
+    "color": "C4006E"
   },
   {
     "d": "Unknown",
@@ -280,17 +280,17 @@ export const TOOL_DATA = [
   {
     "tool": "Chat",
     "credits": 312721,
-    "color": "#CCFF00"
+    "color": "#6B9A00"
   },
   {
     "tool": "Coding IDE",
     "credits": 143511,
-    "color": "#00F0FF"
+    "color": "#007FA3"
   },
   {
     "tool": "Excel",
     "credits": 122377,
-    "color": "#FF00AA"
+    "color": "#B8009E"
   }
 ];
 
@@ -298,17 +298,17 @@ export const LLM_DATA = [
   {
     "tier": "Instant",
     "credits": 285215,
-    "color": "#CCFF00"
+    "color": "#6B9A00"
   },
   {
     "tier": "Thinking",
     "credits": 177859,
-    "color": "#B400FF"
+    "color": "#6229FF"
   },
   {
     "tier": "Pro",
     "credits": 115535,
-    "color": "#00F0FF"
+    "color": "#007FA3"
   }
 ];
 
@@ -317,19 +317,19 @@ export const USER_SEGMENTS = [
     "segment": "Power User",
     "count": 362,
     "desc": "Active ≥70% of weeks",
-    "color": "#CCFF00"
+    "color": "#6B9A00"
   },
   {
     "segment": "Regular",
     "count": 88,
     "desc": "Active 30–70% of weeks",
-    "color": "#00F0FF"
+    "color": "#007FA3"
   },
   {
     "segment": "Occasional",
     "count": 11,
     "desc": "Active <30% of weeks",
-    "color": "#FF6600"
+    "color": "#D95600"
   },
   {
     "segment": "Inactive",
@@ -568,7 +568,7 @@ export const PROCESS_MAPS = [
     "ai_potential": "High",
     "adoption_gap": "Low",
     "management_action": "Scale",
-    "color": "CCFF00"
+    "color": "6B9A00"
   },
   {
     "process_name": "Data Analysis & Insight Generation",
@@ -732,7 +732,7 @@ export const PROCESS_MAPS = [
     "ai_potential": "High",
     "adoption_gap": "Low",
     "management_action": "Scale",
-    "color": "00F0FF"
+    "color": "007FA3"
   },
   {
     "process_name": "Customer Request Handling",
@@ -896,7 +896,7 @@ export const PROCESS_MAPS = [
     "ai_potential": "High",
     "adoption_gap": "Medium",
     "management_action": "Industrialize",
-    "color": "39FF14"
+    "color": "0A8F3E"
   },
   {
     "process_name": "Monthly Reporting & Variance Analysis",
@@ -1060,7 +1060,7 @@ export const PROCESS_MAPS = [
     "ai_potential": "High",
     "adoption_gap": "Medium",
     "management_action": "Industrialize",
-    "color": "FF6600"
+    "color": "D95600"
   },
   {
     "process_name": "Pricing Analysis & Scenario Simulation",
@@ -1224,7 +1224,7 @@ export const PROCESS_MAPS = [
     "ai_potential": "High",
     "adoption_gap": "Medium",
     "management_action": "Industrialize",
-    "color": "FFE600"
+    "color": "9A7200"
   },
   {
     "process_name": "Underwriting Risk Assessment",
@@ -1388,7 +1388,7 @@ export const PROCESS_MAPS = [
     "ai_potential": "Medium",
     "adoption_gap": "Low",
     "management_action": "Monitor",
-    "color": "0066FF"
+    "color": "1A56C4"
   },
   {
     "process_name": "Compliance Review & Policy Control",
@@ -1552,7 +1552,7 @@ export const PROCESS_MAPS = [
     "ai_potential": "Medium",
     "adoption_gap": "Medium",
     "management_action": "Quick win",
-    "color": "FF2244"
+    "color": "C41E3A"
   },
   {
     "process_name": "Sales Proposal & Client Follow-up",
@@ -1716,7 +1716,7 @@ export const PROCESS_MAPS = [
     "ai_potential": "Medium",
     "adoption_gap": "Low",
     "management_action": "Monitor",
-    "color": "FF00AA"
+    "color": "B8009E"
   },
   {
     "process_name": "Employee Support & Onboarding",
@@ -1880,7 +1880,7 @@ export const PROCESS_MAPS = [
     "ai_potential": "Low",
     "adoption_gap": "Low",
     "management_action": "Monitor",
-    "color": "FF1493"
+    "color": "C4006E"
   }
 ];
 
@@ -66924,14 +66924,14 @@ export const PROCESS_WEEKS = [
 ];
 
 export const DEPT_COLORS = {
-  "Technology": "CCFF00",
-  "Data & Analytics": "00F0FF",
-  "Customer Support": "39FF14",
-  "Pricing": "FFE600",
-  "Finance": "FF6600",
-  "Sales & Part.": "FF00AA",
-  "Underwriting": "0066FF",
-  "Risk & Compliance": "FF2244",
-  "People": "FF1493",
+  "Technology": "6B9A00",
+  "Data & Analytics": "007FA3",
+  "Customer Support": "0A8F3E",
+  "Pricing": "9A7200",
+  "Finance": "D95600",
+  "Sales & Part.": "B8009E",
+  "Underwriting": "1A56C4",
+  "Risk & Compliance": "C41E3A",
+  "People": "C4006E",
   "Unknown": "64748B"
 };

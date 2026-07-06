@@ -7,8 +7,8 @@ import OwnerSearchField from "./OwnerSearchField"
 import WorkflowUseCaseTab from "./WorkflowUseCaseTab"
 
 const TABS = [
-  { id: "activity", label: "Modifica attività" },
-  { id: "opportunities", label: "Aggiungi opportunità" },
+  { id: "activity", label: "Edit activity" },
+  { id: "opportunities", label: "Add opportunities" },
 ]
 
 function NavArrow({ direction }) {
@@ -88,7 +88,7 @@ export default function WorkflowActivityPanel({
         type="button"
         className="wf-activity-modal__backdrop"
         onClick={onClose}
-        aria-label="Chiudi finestra"
+        aria-label="Close dialog"
       />
 
       <div className="wf-activity-modal__dialog" onClick={(e) => e.stopPropagation()}>
@@ -105,7 +105,7 @@ export default function WorkflowActivityPanel({
                 className="wf-activity-modal__nav-btn"
                 onClick={onPrevious}
                 disabled={!hasPrev}
-                aria-label="Attività precedente"
+                aria-label="Previous activity"
               >
                 <NavArrow direction="prev" />
               </button>
@@ -117,12 +117,12 @@ export default function WorkflowActivityPanel({
                 className="wf-activity-modal__nav-btn"
                 onClick={onNext}
                 disabled={!hasNext}
-                aria-label="Attività successiva"
+                aria-label="Next activity"
               >
                 <NavArrow direction="next" />
               </button>
             </div>
-            <button type="button" className="wf-activity-modal__close" onClick={onClose} aria-label="Chiudi">
+            <button type="button" className="wf-activity-modal__close" onClick={onClose} aria-label="Close">
               <IconClose size={16} />
             </button>
           </div>
@@ -150,30 +150,30 @@ export default function WorkflowActivityPanel({
           {activeTab === "activity" ? (
             <section className="wf-activity-edit">
               <label className="wf-field">
-                <span>Dettagli</span>
+                <span>Details</span>
                 <input
                   value={card.title}
                   onChange={(e) => onUpdate({ title: e.target.value })}
-                  placeholder="Titolo dell'attività"
+                  placeholder="Activity title"
                 />
               </label>
 
               <label className="wf-field">
-                <span>Descrizione</span>
+                <span>Description</span>
                 <textarea
                   value={card.summary}
                   rows={4}
                   onChange={(e) => onUpdate({ summary: e.target.value })}
-                  placeholder="Cosa succede in questo step del workflow"
+                  placeholder="What happens in this workflow step"
                 />
               </label>
 
               <label className="wf-field">
-                <span>Tempo AS-IS</span>
+                <span>AS-IS time</span>
                 <input
                   value={card.timeAsIs}
                   onChange={(e) => onUpdate({ timeAsIs: e.target.value })}
-                  placeholder="es. 4h, 1 giorno, 3 giorni"
+                  placeholder="e.g. 4h, 1 day, 3 days"
                 />
               </label>
 
@@ -194,13 +194,13 @@ export default function WorkflowActivityPanel({
 
         <footer className="wf-activity-modal__foot">
           <button type="button" className="wf-builder__btn wf-builder__btn--ghost" onClick={onDuplicate}>
-            Duplica
+            Duplicate
           </button>
           <button type="button" className="wf-builder__btn wf-builder__btn--danger" onClick={onDelete}>
-            Elimina
+            Delete
           </button>
           <button type="button" className="wf-builder__btn wf-builder__btn--primary wf-activity-modal__done" onClick={onClose}>
-            Fatto
+            Done
           </button>
         </footer>
       </div>

@@ -2,15 +2,15 @@ export const FORECAST_DISCLAIMER =
   "Forecasts are directional and based on historical MVP usage data."
 
 export const SCENARIOS = {
-  conservative: { id: "conservative", label: "Conservative", slopeFactor: 0.75, color: "FF6600" },
-  baseline: { id: "baseline", label: "Baseline", slopeFactor: 1, color: "CCFF00" },
-  accelerated: { id: "accelerated", label: "Accelerated adoption", slopeFactor: 1.25, color: "00F0FF" },
+  conservative: { id: "conservative", label: "Conservative", slopeFactor: 0.75, color: "D95600" },
+  baseline: { id: "baseline", label: "Baseline", slopeFactor: 1, color: "6B9A00" },
+  accelerated: { id: "accelerated", label: "Accelerated adoption", slopeFactor: 1.25, color: "007FA3" },
 }
 
 export const METRICS = [
-  { key: "active_users", label: "Weekly active users", color: "#CCFF00" },
-  { key: "sessions", label: "Weekly sessions", color: "#00F0FF" },
-  { key: "credits", label: "Weekly credits used", color: "#FF00AA" },
+  { key: "active_users", label: "Weekly active users", color: "#6B9A00" },
+  { key: "sessions", label: "Weekly sessions", color: "#007FA3" },
+  { key: "credits", label: "Weekly credits used", color: "#B8009E" },
 ]
 
 const IMPLICATIONS = {

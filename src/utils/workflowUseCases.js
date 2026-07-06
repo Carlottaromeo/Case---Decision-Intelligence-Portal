@@ -1,8 +1,10 @@
 /** Use case opportunity tracking for workflow activities. */
 
+import { LOCALE } from "../theme"
+
 export const USE_CASE_SOURCE_META = {
-  ai: { label: "Consigliata dal tool", shortLabel: "AI" },
-  manual: { label: "Scritta manualmente", shortLabel: "Manuale" },
+  ai: { label: "Tool-recommended", shortLabel: "AI" },
+  manual: { label: "Written manually", shortLabel: "Manual" },
 }
 
 function createUseCaseId() {
@@ -29,7 +31,7 @@ export function migrateCardUseCases(card) {
       createUseCaseOpportunity({
         text: card.useCase.trim(),
         source: "manual",
-        authorName: "Importato",
+        authorName: "Imported",
       })
     )
   }
@@ -41,7 +43,7 @@ export function migrateCardUseCases(card) {
 export function formatUseCaseDate(iso) {
   if (!iso) return ""
   try {
-    return new Intl.DateTimeFormat("it-IT", {
+    return new Intl.DateTimeFormat(LOCALE, {
       day: "numeric",
       month: "short",
       year: "numeric",
@@ -56,15 +58,15 @@ export function hasUseCaseOpportunities(card) {
 }
 
 export function generateAiUseCaseSuggestions(card) {
-  const title = (card.title ?? "questa attività").trim()
+  const title = (card.title ?? "this activity").trim()
   const summary = (card.summary ?? "").trim()
   const snippet = summary.length > 100 ? `${summary.slice(0, 100)}…` : summary
 
   const candidates = [
-    `Agente AI per "${title}": classifica input, propone azioni e genera bozze strutturate${snippet ? ` partendo da: ${snippet}` : ""}. Revisione umana obbligatoria.`,
-    `Copilot contestuale su "${title}": assiste l'analista con checklist dinamiche, estrazione campi e sintesi dei punti critici in tempo reale.`,
-    `Pipeline RAG su knowledge base interna per supportare ${title.toLowerCase()}: risposte con citazioni delle fonti, scoring di confidenza e log di audit.`,
-    `Automazione semi-guidata per ${title.toLowerCase()}: riduce il tempo AS-IS (${card.timeAsIs ?? "n/d"}) verso il target TO-BE con human-in-the-loop esplicito.`,
+    `AI agent for "${title}": classifies inputs, proposes actions, and generates structured drafts${snippet ? ` starting from: ${snippet}` : ""}. Mandatory human review.`,
+    `Contextual copilot for "${title}": assists the analyst with dynamic checklists, field extraction, and real-time synthesis of critical points.`,
+    `RAG pipeline on internal knowledge base to support ${title.toLowerCase()}: answers with source citations, confidence scoring, and audit logs.`,
+    `Semi-guided automation for ${title.toLowerCase()}: reduces AS-IS time (${card.timeAsIs ?? "n/a"}) toward the TO-BE target with explicit human-in-the-loop.`,
   ]
 
   const existing = new Set(

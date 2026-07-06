@@ -1,4 +1,4 @@
-/** Workflow comment thread helpers. */
+import { LOCALE } from "../theme"
 
 export function createCommentId() {
   return `comment-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`
@@ -24,7 +24,7 @@ export function daysAgoIso(days) {
 export function formatCommentDate(iso) {
   if (!iso) return ""
   try {
-    return new Intl.DateTimeFormat("it-IT", {
+    return new Intl.DateTimeFormat(LOCALE, {
       day: "numeric",
       month: "short",
       year: "numeric",
@@ -68,7 +68,7 @@ export const DEMO_COMMENT_SEEDS = {
     {
       employeeId: "NSF101102",
       fallbackName: "Hannah Davis",
-      text: "Prioritizziamo l'auto-triage prima del picco onboarding Q3.",
+      text: "We should prioritize auto-triage before the Q3 onboarding peak.",
       daysAgo: 6,
     },
   ],
@@ -76,7 +76,7 @@ export const DEMO_COMMENT_SEEDS = {
     {
       employeeId: "NSF101103",
       fallbackName: "Lucas Roberts",
-      text: "L'uso di Chat è ancora ad hoc — serve un template RAG standardizzato.",
+      text: "Chat usage is still ad hoc — we need a standardized RAG template.",
       daysAgo: 4,
     },
   ],
@@ -84,7 +84,7 @@ export const DEMO_COMMENT_SEEDS = {
     {
       employeeId: "NSF101104",
       fallbackName: "Charlotte Brown",
-      text: "La gap analysis deve citare articoli specifici; la bozza checklist LLM è promettente.",
+      text: "Gap analysis must cite specific articles; the LLM checklist draft looks promising.",
       daysAgo: 3,
     },
   ],
@@ -92,7 +92,7 @@ export const DEMO_COMMENT_SEEDS = {
     {
       employeeId: "NSF101105",
       fallbackName: "Mason Scott",
-      text: "Le macro Excel funzionano ma la motivazione del punteggio resta manuale.",
+      text: "Excel macros work but score rationale is still manual.",
       daysAgo: 2,
     },
   ],
@@ -100,7 +100,7 @@ export const DEMO_COMMENT_SEEDS = {
     {
       employeeId: "NSF101106",
       fallbackName: "Sophia Adams",
-      text: "Propongo un pilota con revisione umana obbligatoria su ogni paragrafo generato dall'AI.",
+      text: "I propose a pilot with mandatory human review on every AI-generated paragraph.",
       daysAgo: 1,
     },
   ],
@@ -108,7 +108,7 @@ export const DEMO_COMMENT_SEEDS = {
     {
       employeeId: "NSF101107",
       fallbackName: "James Hill",
-      text: "La firma finale resta umana — nessuna delega all'AI sulla responsabilità.",
+      text: "Final sign-off stays human — no delegating accountability to AI.",
       daysAgo: 0,
     },
   ],

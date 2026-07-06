@@ -1,18 +1,9 @@
 import { useState, useCallback } from "react"
-import { C } from "../theme"
 import { buildDataAnomalies, NAV_TARGETS } from "../data/dataAnomalies"
 import { useMeasuredData } from "../context/DashboardDataContext"
+import NotificationBanner from "./NotificationBanner"
 
 const DISMISSED_KEY = "northstar-dismissed-notifications"
-
-const SEVERITY_STYLE = {
-  warning: { color: C.amberDk, accent: C.amber, border: `${C.amber}55` },
-  attention: { color: C.cyanDk, accent: C.cyan, border: `${C.cyan}50` },
-}
-
-function severityStyle(severity) {
-  return SEVERITY_STYLE[severity] ?? SEVERITY_STYLE.attention
-}
 
 function loadDismissed() {
   try {
@@ -49,36 +40,24 @@ export function AttentionLink({ children, onNavigate, target, className }) {
 }
 
 function AttentionNotification({ anomaly, onNavigate, onDismiss }) {
-  const s = severityStyle(anomaly.severity)
+  const type = anomaly.severity === "warning" ? "warning" : "info"
 
   return (
-    <div
-      className={`attention-notification attention-notification--${anomaly.severity}`}
-      style={{ borderColor: s.border }}
-      role="status"
-    >
-      <div className="attention-notification__accent" style={{ background: s.accent }} aria-hidden="true" />
-      <button
-        type="button"
-        className="attention-notification__close"
-        onClick={() => onDismiss(anomaly.id)}
-        aria-label={`Dismiss: ${anomaly.title}`}
-      >
-        ×
-      </button>
-      <div className="attention-notification__title" style={{ color: s.color }}>
-        {anomaly.title}
-      </div>
-      <p className="attention-notification__message">{anomaly.message}</p>
-      {anomaly.detail && (
-        <p className="attention-notification__detail">{anomaly.detail}</p>
-      )}
-      {onNavigate && anomaly.target && (
-        <AttentionLink onNavigate={onNavigate} target={anomaly.target}>
-          {anomaly.targetLabel ?? "View detail →"}
-        </AttentionLink>
-      )}
-    </div>
+    <NotificationBanner
+      type={type}
+      title={anomaly.title}
+      message={anomaly.message}
+      detail={anomaly.detail}
+      onDismiss={() => onDismiss(anomaly.id)}
+      className="attention-notification"
+      action={
+        onNavigate && anomaly.target ? (
+          <AttentionLink onNavigate={onNavigate} target={anomaly.target}>
+            {anomaly.targetLabel ?? "View detail →"}
+          </AttentionLink>
+        ) : null
+      }
+    />
   )
 }
 

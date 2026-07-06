@@ -2,6 +2,7 @@ import { C, glass, LOCALE } from '../theme'
 import { DATA_TIERS, AI_SUMMARY } from '../data/dashboardCopy'
 import AiSummarySection from './AiSummarySection'
 import { AiSummaryGrid } from './AiSummaryBlocks'
+import NotificationBanner from './NotificationBanner'
 
 const glassBase = {
   ...glass,
@@ -89,23 +90,12 @@ export function ExecutiveInsight({ see, matter, action, badge, badgeColor, defau
 }
 
 // ─── CALLOUT ─────────────────────────────────────────────────────────────────
-export function Callout({ color, children, variant = "default" }) {
-  const isAlert = variant === "alert"
+export function Callout({ children, variant = "default", title }) {
+  const type = variant === "alert" ? "warning" : "info"
   return (
-    <div className="glass-panel" style={{
-      borderRadius: 16,
-      padding: "14px 18px",
-      fontSize: 13,
-      color: C.textSub,
-      lineHeight: 1.65,
-      borderLeft: `3px solid ${color}`,
-      background: isAlert ? `${color}10` : glass.background,
-      border: `1px solid ${color}30`,
-      borderLeftWidth: 3,
-      borderLeftColor: color,
-    }}>
+    <NotificationBanner type={type} title={title}>
       {children}
-    </div>
+    </NotificationBanner>
   )
 }
 

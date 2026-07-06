@@ -19,10 +19,10 @@ export default function InvestmentLanes({ items, selectedId, onSelect }) {
   return (
     <div className="investment-lanes">
       <div className="investment-lanes__legend">
-        <span className="investment-tier investment-tier--measured">Misurato</span>
-        <span className="investment-tier investment-tier--simulated">Simulato</span>
+        <span className="investment-tier investment-tier--measured">Measured</span>
+        <span className="investment-tier investment-tier--simulated">Simulated</span>
         <span className="investment-tier investment-tier--live">Workflow live</span>
-        <span className="investment-tier investment-tier--illustrative">Workflow illustrativo</span>
+        <span className="investment-tier investment-tier--illustrative">Illustrative workflow</span>
       </div>
       <div className="investment-lanes__grid">
         {LANES.map((lane) => (
@@ -53,7 +53,7 @@ export default function InvestmentLanes({ items, selectedId, onSelect }) {
                       <span className="investment-lane__label">{item.department}</span>
                       <span className="investment-lane__meta">{item.adoption_rate}%</span>
                       {item.live_workflow_boost > 0 && (
-                        <span className="investment-lane__live" title="Workflow live con opportunità">●</span>
+                        <span className="investment-lane__live" title="Live workflow with opportunities">●</span>
                       )}
                     </button>
                   )

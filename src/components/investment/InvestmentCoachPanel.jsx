@@ -18,7 +18,7 @@ export default function InvestmentCoachPanel({ coach, title }) {
   return (
     <aside className="investment-coach">
       {title !== null && (
-        <h3 className="investment-coach__title">{title ?? "Coach investimenti"}</h3>
+        <h3 className="investment-coach__title">{title ?? "Investment coach"}</h3>
       )}
       <div className="investment-coach__badges">
         {(coach.dati ?? []).map((d) => (
@@ -28,8 +28,8 @@ export default function InvestmentCoachPanel({ coach, title }) {
       <AiSummarySection className="investment-coach__ai-summary">
         <AiSummaryGrid
           blocks={[
-            { label: "Perché", text: coach.perche },
-            { label: "Cosa fare", text: coach.cosa_fare },
+            { label: "Why", text: coach.perche },
+            { label: "What to do", text: coach.cosa_fare },
           ]}
         />
       </AiSummarySection>
@@ -57,17 +57,17 @@ export function WorkflowCoachPanel({ workflow, deptItem, coach }) {
       <InvestmentCoachPanel coach={coach} title={null} />
       {!workflow.illustrative && workflow.id === LIVE_WORKFLOW_ID && workflow.opportunityCount > 0 && (
         <div className="investment-coach__block">
-          <div className="investment-coach__label">Opportunità use case (live)</div>
+          <div className="investment-coach__label">Use case opportunities (live)</div>
           <ul className="investment-coach__list">
-            <li>{workflow.aiOpportunities} consigliate dal tool</li>
-            <li>{workflow.manualOpportunities} scritte manualmente</li>
-            <li>{workflow.commentCount} commenti nel thread</li>
+            <li>{workflow.aiOpportunities} tool-recommended</li>
+            <li>{workflow.manualOpportunities} written manually</li>
+            <li>{workflow.commentCount} comments in thread</li>
           </ul>
         </div>
       )}
       {workflow.illustrative && (
         <p className="investment-coach__disclaimer">
-          Anteprima illustrativa per {deptItem?.department} — non collegata al builder.
+          Illustrative preview for {deptItem?.department} — not linked to the builder.
         </p>
       )}
     </aside>

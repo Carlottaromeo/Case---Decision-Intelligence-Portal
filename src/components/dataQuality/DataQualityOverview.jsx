@@ -2,10 +2,7 @@ import { C, CHART, LOCALE } from "../../theme"
 import { Card, SH, KpiCard, ExecutiveInsight } from "../UI"
 import { DATA_TIERS } from "../../data/dashboardCopy"
 import { useMeasuredData } from "../../context/DashboardDataContext"
-
-function deptColor(d) {
-  return d.color.startsWith("#") ? d.color : `#${d.color}`
-}
+import { deptColor, accentFill } from "../../data/processMapsMeta"
 
 export default function DataQualityOverview({ onGoToFiles }) {
   const { KPIs, DEPT, DATA_QUALITY, usageRows } = useMeasuredData()
@@ -50,11 +47,12 @@ export default function DataQualityOverview({ onGoToFiles }) {
             </thead>
             <tbody>
               {sortedDept.map((d) => {
-                const col = deptColor(d)
+                const col = deptColor(d.color)
+                const fill = accentFill(d.color)
                 return (
                   <tr key={d.d} style={{ borderBottom: `1px solid ${C.glassBorder}` }}>
                     <td style={{ padding: "11px 12px", fontWeight: 600, color: C.text }}>
-                      <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: 2, background: col, marginRight: 8 }} />
+                      <span style={{ display: "inline-block", width: 8, height: 8, borderRadius: 2, background: fill, marginRight: 8 }} />
                       {d.d}
                     </td>
                     <td style={{ padding: "11px 12px", color: C.textSub }}>{d.total.toLocaleString(LOCALE)}</td>

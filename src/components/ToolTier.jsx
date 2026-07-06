@@ -1,13 +1,10 @@
 import { useMeasuredData } from "../context/DashboardDataContext"
-import { C, CHART, LOCALE } from "../theme"
+import { C, CHART, LOCALE, accentFill } from "../theme"
 import { Card, SH, MiniBar, ExecutiveInsight, KpiCard } from "./UI"
 import CardActionBar from "./CardActionBar"
 import { ACTION_BAR_OFFSET } from "./cardActions"
 import { DATA_TIERS } from "../data/dashboardCopy"
-
-function deptColor(d) {
-  return d.color.startsWith("#") ? d.color : `#${d.color}`
-}
+import { deptColor } from "../data/processMapsMeta"
 
 function getProfile(d) {
   if (d.coding > 30) return { label: "Dev / Technical", color: CHART.tools["Coding IDE"] }
@@ -29,7 +26,8 @@ export default function ToolTier({ onOpenInsights, view = "reliability" }) {
           <Card>
             <SH title="Credits by tool" />
             {TOOL_DATA.map(d => {
-              const col = CHART.tools[d.tool] || d.color
+              const col = CHART.tools[d.tool] || deptColor(d.color)
+              const fill = CHART.toolFills[d.tool] || accentFill(d.color)
               return (
                 <div key={d.tool} style={{ marginBottom: 18 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
@@ -39,7 +37,7 @@ export default function ToolTier({ onOpenInsights, view = "reliability" }) {
                       <span style={{ fontSize: 12, color: C.subtle }}>{d.credits.toLocaleString(LOCALE)}</span>
                     </div>
                   </div>
-                  <MiniBar value={d.credits / toolTotal * 100} color={col} height={10} />
+                  <MiniBar value={d.credits / toolTotal * 100} color={fill} height={10} />
                 </div>
               )
             })}
@@ -48,7 +46,8 @@ export default function ToolTier({ onOpenInsights, view = "reliability" }) {
             <CardActionBar info={{ title: "Tier labels", items: ["Instant, Thinking, Pro — complexity tiers."] }} />
             <SH title="Credits by LLM tier" />
             {LLM_DATA.map(d => {
-              const col = CHART.tiers[d.tier] || d.color
+              const col = CHART.tiers[d.tier] || deptColor(d.color)
+              const fill = CHART.tierFills[d.tier] || accentFill(d.color)
               return (
                 <div key={d.tier} style={{ marginBottom: 18 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
@@ -58,7 +57,7 @@ export default function ToolTier({ onOpenInsights, view = "reliability" }) {
                       <span style={{ fontSize: 12, color: C.subtle }}>{d.credits.toLocaleString(LOCALE)}</span>
                     </div>
                   </div>
-                  <MiniBar value={d.credits / llmTotal * 100} color={col} height={10} />
+                  <MiniBar value={d.credits / llmTotal * 100} color={fill} height={10} />
                 </div>
               )
             })}
@@ -78,20 +77,21 @@ export default function ToolTier({ onOpenInsights, view = "reliability" }) {
               <tbody>
                 {DEPT.map((d, i) => {
                   const profile = getProfile(d)
-                  const col = deptColor(d)
+                  const col = deptColor(d.color)
+                  const fill = accentFill(d.color)
                   return (
                     <tr key={d.d} style={{ borderBottom: `1px solid ${C.glassBorder}`, background: i % 2 === 0 ? C.surface2 : "transparent" }}>
                       <td style={{ padding: "12px 14px" }}>
                         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                          <div style={{ width: 8, height: 8, borderRadius: 2, background: col }} />
+                          <div style={{ width: 8, height: 8, borderRadius: 2, background: fill }} />
                           <span style={{ fontWeight: 600, color: C.text }}>{d.d}</span>
                         </div>
                       </td>
-                      {[[d.chat, CHART.tools.Chat], [d.excel, CHART.tools.Excel], [d.coding, CHART.tools["Coding IDE"]]].map(([v, color], j) => (
+                      {[[d.chat, CHART.tools.Chat, CHART.toolFills.Chat], [d.excel, CHART.tools.Excel, CHART.toolFills.Excel], [d.coding, CHART.tools["Coding IDE"], CHART.toolFills["Coding IDE"]]].map(([v, textColor, barColor], j) => (
                         <td key={j} style={{ padding: "12px 14px" }}>
                           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                            <div style={{ width: 55 }}><MiniBar value={v} color={color} height={6} /></div>
-                            <span style={{ fontWeight: v > 50 ? 700 : 400, color: v > 50 ? C.text : C.subtle, fontSize: 12 }}>{v}%</span>
+                            <div style={{ width: 55 }}><MiniBar value={v} color={barColor} height={6} /></div>
+                            <span style={{ fontWeight: v > 50 ? 700 : 400, color: v > 50 ? textColor : C.subtle, fontSize: 12 }}>{v}%</span>
                           </div>
                         </td>
                       ))}

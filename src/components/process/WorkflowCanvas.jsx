@@ -12,6 +12,7 @@ import {
 import { getOwnersForDepartment } from "../../utils/workflowOwnerOptions"
 import { exportWorkflowPdf, exportWorkflowPptx } from "../../utils/workflowExport"
 import ExportShareBar from "../ExportShareBar"
+import NotificationBanner, { NotificationToastStack } from "../NotificationBanner"
 import {
   buildSeedCommentsForCard,
   migrateCardComments,
@@ -248,20 +249,20 @@ export default function WorkflowCanvas({
   const handleSave = () => {
     saveWorkflowDraft(workflow.id, { workflow: draft, params })
     setDirty(false)
-    flash("Bozza salvata")
+    flash("Draft saved")
   }
 
   const handlePublish = () => {
     saveWorkflowDraft(workflow.id, { workflow: draft, params })
     setDirty(false)
-    flash("Workflow pubblicato")
+    flash("Workflow published")
   }
 
   const runExport = (type) => {
     const payload = { workflow: draft, params, department }
     if (type === "pdf") exportWorkflowPdf(payload)
     else exportWorkflowPptx(payload)
-    flash(type === "pdf" ? "PDF scaricato" : "PowerPoint scaricato")
+    flash(type === "pdf" ? "PDF downloaded" : "PowerPoint downloaded")
   }
 
   const addParam = () => {
@@ -381,7 +382,7 @@ export default function WorkflowCanvas({
               <div><strong>{counts.opportunity}</strong> opportunities</div>
               <div><strong>{counts.human}</strong> human only</div>
             </div>
-            <p className="wf-builder__hint">Clicca un’attività per aprire l’editor. Usa le frecce nel popup per navigare.</p>
+            <p className="wf-builder__hint">Click an activity to open the editor. Use the arrows in the popup to navigate.</p>
           </div>
         </aside>
       </div>
@@ -403,7 +404,11 @@ export default function WorkflowCanvas({
         />
       )}
 
-      {saveMsg && <div className="wf-builder__toast">{saveMsg}</div>}
+      {saveMsg && (
+        <NotificationToastStack position="bottom">
+          <NotificationBanner type="success" message={saveMsg} />
+        </NotificationToastStack>
+      )}
     </div>
   )
 }

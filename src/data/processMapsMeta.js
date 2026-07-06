@@ -1,4 +1,4 @@
-import { C } from "../theme"
+import { C, readableAccent } from "../theme"
 
 export const LEVEL_COLORS = {
   High: C.indigoDk,
@@ -9,7 +9,7 @@ export const LEVEL_COLORS = {
 export const ACTION_COLORS = {
   Scale: C.accent,
   Industrialize: C.cyanDk,
-  Activate: C.amber,
+  Activate: C.amberDk,
   "Quick win": C.violet,
   Monitor: C.muted,
 }
@@ -25,5 +25,7 @@ export const ACTION_ORDER = {
 export const LEVEL_ORDER = { High: 0, Medium: 1, Low: 2 }
 
 export function deptColor(color) {
-  return color?.startsWith("#") ? color : `#${color}`
+  return readableAccent(color)
 }
+
+export { accentFill } from "../theme"

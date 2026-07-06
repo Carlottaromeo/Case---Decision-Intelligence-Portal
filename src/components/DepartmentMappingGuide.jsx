@@ -1,15 +1,12 @@
 import { DEPT, DATA_QUALITY } from "../data/data"
-import { C, LOCALE } from "../theme"
+import { deptColor, accentFill } from "../../data/processMapsMeta"
 import {
   DEPT_ALIASES_DOC,
   DEPT_SOURCE_FILES,
   departmentMappingNotes,
 } from "../data/dashboardCopy"
 import { Card, SH } from "./UI"
-
-function deptColor(d) {
-  return d.color.startsWith("#") ? d.color : `#${d.color}`
-}
+import { deptColor, accentFill } from "../data/processMapsMeta"
 
 const TH = {
   padding: "10px 12px",
@@ -79,13 +76,14 @@ export default function DepartmentMappingGuide() {
           </thead>
           <tbody>
             {businessDepts.map((d) => {
-              const col = deptColor(d)
+              const col = deptColor(d.color)
+              const fill = accentFill(d.color)
               const isUnderwriting = d.d === "Underwriting"
               return (
                 <tr key={d.d}>
                   <td style={TD}>
                     <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                      <span style={{ width: 8, height: 8, borderRadius: 2, background: col, flexShrink: 0 }} />
+                      <span style={{ width: 8, height: 8, borderRadius: 2, background: fill, flexShrink: 0 }} />
                       <span style={{ fontWeight: 600, color: C.text }}>{d.d}</span>
                     </div>
                   </td>
@@ -104,7 +102,7 @@ export default function DepartmentMappingGuide() {
               <tr id="anomaly-unknown-directory" style={{ background: C.rowAlt }}>
                 <td style={TD}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ width: 8, height: 8, borderRadius: 2, background: deptColor(unknownRow), flexShrink: 0 }} />
+                    <span style={{ width: 8, height: 8, borderRadius: 2, background: accentFill(unknownRow.color), flexShrink: 0 }} />
                     <span style={{ fontWeight: 600, color: C.text }}>Unknown</span>
                   </div>
                 </td>

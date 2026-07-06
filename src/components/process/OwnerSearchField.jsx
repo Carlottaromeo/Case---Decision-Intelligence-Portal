@@ -80,7 +80,7 @@ export default function OwnerSearchField({
   return (
     <div className="wf-owner-search" ref={wrapRef}>
       <label className="wf-field">
-        <span>Assegnazione</span>
+        <span>Assignment</span>
         <div className="wf-owner-search__input-wrap">
           {selected && !open && (
             <span className="wf-owner-search__avatar">{getEmployeeInitials(selected)}</span>
@@ -89,7 +89,7 @@ export default function OwnerSearchField({
             type="text"
             className="wf-owner-search__input"
             value={displayValue}
-            placeholder={department ? `Cerca per iniziali o nome (${department})…` : "Cerca per iniziali o nome…"}
+            placeholder={department ? `Search by initials or name (${department})…` : "Search by initials or name…"}
             onChange={(e) => {
               setQuery(e.target.value)
               setOpen(true)
@@ -111,7 +111,7 @@ export default function OwnerSearchField({
                 setQuery("")
                 setOpen(false)
               }}
-              aria-label="Rimuovi assegnazione"
+              aria-label="Clear assignment"
             >
               ×
             </button>
@@ -120,13 +120,13 @@ export default function OwnerSearchField({
       </label>
 
       <p className="wf-owner-search__hint">
-        Digita le iniziali (es. <kbd>HD</kbd>) o il nome per selezionare una persona.
+        Type initials (e.g. <kbd>HD</kbd>) or a name to select a person.
       </p>
 
       {open && query.trim() && (
         <ul className="wf-owner-search__results" role="listbox">
           {results.length === 0 ? (
-            <li className="wf-owner-search__empty">Nessuna persona trovata</li>
+            <li className="wf-owner-search__empty">No people found</li>
           ) : (
             results.map((emp, idx) => (
               <li key={emp.employee_id} role="presentation">

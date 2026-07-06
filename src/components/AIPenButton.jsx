@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { C } from "../theme"
 import { IconSparkle } from "./InsightIcons"
-import { insightBtnStyle, INSIGHT_ICON_COLOR } from "./cardActions"
+import { insightBtnStyle, INSIGHT_ICON_COLOR, ACTION_ICON_SIZE } from "./cardActions"
 
 const DEFAULT_TOOLTIP = "Analysis and interpretation"
 
@@ -21,7 +21,7 @@ export default function AIPenButton({ onClick, title = DEFAULT_TOOLTIP }) {
         aria-label={title}
         style={insightBtnStyle(active)}
       >
-        <IconSparkle size={19} color={active ? C.indigoDk : INSIGHT_ICON_COLOR} />
+        <IconSparkle size={ACTION_ICON_SIZE} color={active ? C.indigoDk : INSIGHT_ICON_COLOR} />
       </button>
 
       {hover && (

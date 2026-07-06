@@ -63,12 +63,12 @@ export const WORKFLOW_DATA_TIERS = {
   workflow_live: {
     label: "Workflow live",
     color: "#6229FF",
-    description: "Dati reali dal workflow builder (Contract Risk Assessment).",
+    description: "Real data from the workflow builder (Contract Risk Assessment).",
   },
   workflow_illustrative: {
-    label: "Workflow illustrativo",
+    label: "Illustrative workflow",
     color: "#64748B",
-    description: "Mappatura fittizia per workflow non ancora implementati nel prototipo.",
+    description: "Placeholder mapping for workflows not yet implemented in the prototype.",
   },
 }
 
@@ -76,7 +76,7 @@ export const WORKFLOW_DATA_TIERS = {
 export const AI_SUMMARY = {
   label: "AI summary",
   color: "#6229FF",
-  description: "Testo riassuntivo rule-based sul dashboard — non output LLM in tempo reale.",
+  description: "Rule-based summary text on the dashboard — not live LLM output.",
 }
 
 /** Technical tier detail — info panels only. */
@@ -84,8 +84,8 @@ export function tierGuideBullets() {
   return [
     `${DATA_TIERS.measured.label}: credits, sessions, departments, seniority, weekly usage.`,
     `${DATA_TIERS.simulated.label}: process maps, estimated opportunity, investment priority, recommendations, forecasts.`,
-    `${WORKFLOW_DATA_TIERS.workflow_live.label}: draft salvato e opportunità use case da Contract Risk Assessment.`,
-    `${WORKFLOW_DATA_TIERS.workflow_illustrative.label}: anteprima deterministica per workflow catalogo non ancora cliccabili.`,
+    `${WORKFLOW_DATA_TIERS.workflow_live.label}: saved draft and use case opportunities from Contract Risk Assessment.`,
+    `${WORKFLOW_DATA_TIERS.workflow_illustrative.label}: deterministic preview for catalog workflows not yet clickable.`,
     `${DATA_TIERS.future.label}: task-level tracking, productivity KPIs, ROI.`,
   ]
 }

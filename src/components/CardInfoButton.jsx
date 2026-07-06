@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 import { C } from "../theme"
-import { infoBtnStyle, INFO_ICON_COLOR } from "./cardActions"
+import { infoBtnStyle, INFO_ICON_COLOR, ACTION_ICON_SIZE } from "./cardActions"
 
-function IconInfo({ size = 17, color = "currentColor" }) {
+function IconInfo({ size = ACTION_ICON_SIZE, color = "currentColor" }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" style={{ display: "block" }}>
       <circle cx="12" cy="12" r="9" stroke={color} strokeWidth="2.2" />
@@ -40,7 +40,7 @@ export default function CardInfoButton({ items, title = "How to use this view", 
     <div
       ref={rootRef}
       style={overlay
-        ? { position: "absolute", top: 14, right: 14, zIndex: 6 }
+        ? { position: "absolute", top: 12, right: 12, zIndex: 6 }
         : { position: "relative", flexShrink: 0 }}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
@@ -52,7 +52,7 @@ export default function CardInfoButton({ items, title = "How to use this view", 
         aria-expanded={open}
         style={infoBtnStyle(active)}
       >
-        <IconInfo size={17} color={active ? C.cyanDk : INFO_ICON_COLOR} />
+        <IconInfo size={ACTION_ICON_SIZE} color={active ? C.cyanDk : INFO_ICON_COLOR} />
       </button>
 
       {hover && !open && (

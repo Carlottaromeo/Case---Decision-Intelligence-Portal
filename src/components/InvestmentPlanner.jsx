@@ -70,7 +70,7 @@ export default function InvestmentPlanner({ onNavigate }) {
           variant="investment"
           share={{
             title: "Investment Planner",
-            text: "Priorità investimenti AI per dipartimento",
+            text: "AI investment priorities by department",
           }}
           formats={[
             {
@@ -111,18 +111,18 @@ export default function InvestmentPlanner({ onNavigate }) {
       <div className="glass-panel investment-matrix-panel">
         <CardActionBar
           info={{
-            title: "Come leggere la matrice",
+            title: "How to read the matrix",
             items: [
               INVESTMENT_MATRIX_NOTE,
               ...tierGuideBullets().slice(0, 4),
-              "Usa Esporta (PDF o Excel) per la tabella riassuntiva completa (dipartimenti + workflow). I testi coach sono AI summary rule-based.",
+              "Use Export (PDF or Excel) for the full summary table (departments + workflows). Coach texts are rule-based AI summaries.",
             ],
           }}
         />
         <div style={{ paddingRight: ACTION_BAR_OFFSET, marginBottom: 16 }}>
           <SH
-            title="Matrice investimenti per priorità"
-            sub={`${portfolio.length} dipartimenti · lane per azione di management`}
+            title="Investment matrix by priority"
+            sub={`${portfolio.length} departments · lane per management action`}
           />
         </div>
 

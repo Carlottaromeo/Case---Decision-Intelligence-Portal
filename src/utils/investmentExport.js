@@ -4,32 +4,33 @@ import {
   DATA_TIERS,
   WORKFLOW_DATA_TIERS,
 } from "../data/dashboardCopy"
+import { LOCALE } from "../theme"
 
 const DEPT_HEADERS = [
   "Rank",
-  "Dipartimento",
-  "Processo",
+  "Department",
+  "Process",
   "Score",
-  "Priorità",
-  "Adozione %",
-  "Gap adozione",
-  "Potenziale AI",
-  "Investimento consigliato",
-  "Impatto stimato",
+  "Priority",
+  "Adoption %",
+  "Adoption gap",
+  "AI potential",
+  "Recommended investment",
+  "Estimated impact",
   "Workflow live boost",
-  "Perché (AI summary)",
-  "Cosa fare (AI summary)",
+  "Why (AI summary)",
+  "What to do (AI summary)",
 ]
 
 const WORKFLOW_HEADERS = [
-  "Dipartimento",
+  "Department",
   "Workflow",
-  "Tipo dati",
+  "Data type",
   "Readiness %",
-  "Opportunità",
-  "Opp. AI",
-  "Opp. manuali",
-  "Hint investimento",
+  "Opportunities",
+  "AI opp.",
+  "Manual opp.",
+  "Investment hint",
   "OODA",
 ]
 
@@ -38,7 +39,7 @@ function todayStamp() {
 }
 
 function todayLabel() {
-  return new Date().toLocaleDateString("it-IT", {
+  return new Date().toLocaleDateString(LOCALE, {
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -55,43 +56,43 @@ function formatFiltersMeta(filters) {
   if (!filters) return ""
   const parts = []
   if (filters.dateFrom || filters.dateTo) {
-    parts.push(`Periodo: ${filters.dateFrom ?? "—"} → ${filters.dateTo ?? "—"}`)
+    parts.push(`Period: ${filters.dateFrom ?? "—"} → ${filters.dateTo ?? "—"}`)
   }
   if (filters.department) parts.push(`BU: ${filters.department}`)
   if (filters.seniority) parts.push(`Seniority: ${filters.seniority}`)
-  if (filters.adoptionLevel) parts.push(`Adozione: ${filters.adoptionLevel}`)
-  if (filters.investmentPriority) parts.push(`Priorità: ${filters.investmentPriority}`)
+  if (filters.adoptionLevel) parts.push(`Adoption: ${filters.adoptionLevel}`)
+  if (filters.investmentPriority) parts.push(`Priority: ${filters.investmentPriority}`)
   return parts.join(" · ")
 }
 
 export function buildDepartmentExportRow(item, rank) {
   return {
     Rank: rank,
-    Dipartimento: item.department,
-    Processo: item.process_name,
+    Department: item.department,
+    Process: item.process_name,
     Score: item.combined_score ?? "",
-    Priorità: item.investment_priority,
-    "Adozione %": item.adoption_rate,
-    "Gap adozione": item.adoption_gap,
-    "Potenziale AI": item.ai_potential,
-    "Investimento consigliato": item.recommended_investment,
-    "Impatto stimato": item.estimated_impact,
+    Priority: item.investment_priority,
+    "Adoption %": item.adoption_rate,
+    "Adoption gap": item.adoption_gap,
+    "AI potential": item.ai_potential,
+    "Recommended investment": item.recommended_investment,
+    "Estimated impact": item.estimated_impact,
     "Workflow live boost": item.live_workflow_boost ?? 0,
-    "Perché (AI summary)": item.coach?.perche ?? "",
-    "Cosa fare (AI summary)": item.coach?.cosa_fare ?? "",
+    "Why (AI summary)": item.coach?.perche ?? "",
+    "What to do (AI summary)": item.coach?.cosa_fare ?? "",
   }
 }
 
 export function buildWorkflowExportRows(item) {
   return (item.workflows ?? []).map((wf) => ({
-    Dipartimento: item.department,
+    Department: item.department,
     Workflow: wf.title,
-    "Tipo dati": workflowDataType(wf),
+    "Data type": workflowDataType(wf),
     "Readiness %": wf.readiness_score,
-    Opportunità: wf.opportunityCount,
-    "Opp. AI": wf.aiOpportunities,
-    "Opp. manuali": wf.manualOpportunities,
-    "Hint investimento": wf.investment_hint,
+    Opportunities: wf.opportunityCount,
+    "AI opp.": wf.aiOpportunities,
+    "Manual opp.": wf.manualOpportunities,
+    "Investment hint": wf.investment_hint,
     OODA: wf.ooda,
   }))
 }
@@ -122,14 +123,14 @@ export function exportInvestmentExcel(rankedPortfolio, { filters } = {}) {
   const wb = XLSX.utils.book_new()
 
   const metaRows = [
-    { Campo: "Export", Valore: "Investment Matrix — riepilogo" },
-    { Campo: "Data", Valore: todayLabel() },
-    { Campo: "Filtri", Valore: formatFiltersMeta(filters) || "Nessun filtro attivo" },
-    { Campo: "Nota tier", Valore: `${DATA_TIERS.measured.label} / ${DATA_TIERS.simulated.label} / ${WORKFLOW_DATA_TIERS.workflow_live.label} / ${WORKFLOW_DATA_TIERS.workflow_illustrative.label}` },
+    { Field: "Export", Value: "Investment Matrix — summary" },
+    { Field: "Date", Value: todayLabel() },
+    { Field: "Filters", Value: formatFiltersMeta(filters) || "No active filters" },
+    { Field: "Tier note", Value: `${DATA_TIERS.measured.label} / ${DATA_TIERS.simulated.label} / ${WORKFLOW_DATA_TIERS.workflow_live.label} / ${WORKFLOW_DATA_TIERS.workflow_illustrative.label}` },
   ]
-  XLSX.utils.book_append_sheet(wb, sheetFromRows(metaRows, ["Campo", "Valore"]), "Info")
-  XLSX.utils.book_append_sheet(wb, sheetFromRows(departments, DEPT_HEADERS), "Dipartimenti")
-  XLSX.utils.book_append_sheet(wb, sheetFromRows(workflows, WORKFLOW_HEADERS), "Workflow")
+  XLSX.utils.book_append_sheet(wb, sheetFromRows(metaRows, ["Field", "Value"]), "Info")
+  XLSX.utils.book_append_sheet(wb, sheetFromRows(departments, DEPT_HEADERS), "Departments")
+  XLSX.utils.book_append_sheet(wb, sheetFromRows(workflows, WORKFLOW_HEADERS), "Workflows")
 
   const buffer = XLSX.write(wb, { type: "array", bookType: "xlsx" })
   const blob = new Blob([buffer], {
@@ -183,7 +184,7 @@ export function exportInvestmentPdf(rankedPortfolio, { filters } = {}) {
   doc.setFont("helvetica", "bold")
   doc.setFontSize(16)
   doc.setTextColor(98, 41, 255)
-  doc.text("Investment Matrix — riepilogo", margin, y)
+  doc.text("Investment Matrix — summary", margin, y)
   y += 8
 
   doc.setFontSize(9)
@@ -194,26 +195,26 @@ export function exportInvestmentPdf(rankedPortfolio, { filters } = {}) {
   doc.setFont("helvetica", "bold")
   doc.setFontSize(11)
   doc.setTextColor(31, 31, 31)
-  doc.text("Dipartimenti (per rank)", margin, y)
+  doc.text("Departments (by rank)", margin, y)
   y += 6
 
   const deptPdfHeaders = [
     "Rank",
-    "Dipartimento",
+    "Department",
     "Score",
-    "Priorità",
-    "Adozione %",
-    "Investimento consigliato",
-    "Perché (AI summary)",
+    "Priority",
+    "Adoption %",
+    "Recommended investment",
+    "Why (AI summary)",
   ]
   const deptPdfRows = departments.map((d) => ({
     Rank: d.Rank,
-    Dipartimento: d.Dipartimento,
+    Department: d.Department,
     Score: d.Score,
-    Priorità: d.Priorità,
-    "Adozione %": d["Adozione %"],
-    "Investimento consigliato": d["Investimento consigliato"],
-    "Perché (AI summary)": d["Perché (AI summary)"],
+    Priority: d.Priority,
+    "Adoption %": d["Adoption %"],
+    "Recommended investment": d["Recommended investment"],
+    "Why (AI summary)": d["Why (AI summary)"],
   }))
   const deptWidths = [10, 42, 14, 22, 18, 38, 130]
 
@@ -227,24 +228,24 @@ export function exportInvestmentPdf(rankedPortfolio, { filters } = {}) {
   doc.setFont("helvetica", "bold")
   doc.setFontSize(11)
   doc.setTextColor(31, 31, 31)
-  doc.text("Workflow per dipartimento", margin, y)
+  doc.text("Workflows by department", margin, y)
   y += 6
 
   const wfPdfHeaders = [
-    "Dipartimento",
+    "Department",
     "Workflow",
-    "Tipo dati",
+    "Data type",
     "Readiness %",
-    "Opportunità",
-    "Hint investimento",
+    "Opportunities",
+    "Investment hint",
   ]
   const wfPdfRows = workflows.map((w) => ({
-    Dipartimento: w.Dipartimento,
+    Department: w.Department,
     Workflow: w.Workflow,
-    "Tipo dati": w["Tipo dati"],
+    "Data type": w["Data type"],
     "Readiness %": w["Readiness %"],
-    Opportunità: w.Opportunità,
-    "Hint investimento": w["Hint investimento"],
+    Opportunities: w.Opportunities,
+    "Investment hint": w["Investment hint"],
   }))
   const wfWidths = [38, 70, 32, 18, 18, 38]
 
@@ -253,7 +254,7 @@ export function exportInvestmentPdf(rankedPortfolio, { filters } = {}) {
   doc.setFontSize(7)
   doc.setTextColor(156, 163, 175)
   doc.text(
-    `${DATA_TIERS.measured.label} = usage export · ${DATA_TIERS.simulated.label} = regole processo · ${WORKFLOW_DATA_TIERS.workflow_live.label} = Contract Risk Assessment · ${WORKFLOW_DATA_TIERS.workflow_illustrative.label} = catalogo prototipo`,
+    `${DATA_TIERS.measured.label} = usage export · ${DATA_TIERS.simulated.label} = process rules · ${WORKFLOW_DATA_TIERS.workflow_live.label} = Contract Risk Assessment · ${WORKFLOW_DATA_TIERS.workflow_illustrative.label} = prototype catalog`,
     margin,
     200
   )

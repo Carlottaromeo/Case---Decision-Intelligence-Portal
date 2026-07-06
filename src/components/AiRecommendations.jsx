@@ -9,7 +9,8 @@ import { computeProcessMetrics, listDepartmentOptions, listSeniorityOptions } fr
 import { useProcessFilters } from "../data/processFilters"
 import { generateProcessRecommendation } from "../data/generateProcessRecommendation"
 import { C } from "../theme"
-import { SH, Callout } from "./UI"
+import { SH } from "./UI"
+import NotificationBanner from "./NotificationBanner"
 import CardActionBar from "./CardActionBar"
 import { ACTION_BAR_OFFSET } from "./cardActions"
 import { tierSectionNote } from "../data/dashboardCopy"
@@ -37,12 +38,10 @@ export default function AiRecommendations() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-      <Callout color={C.cyan}>
-        <p style={{ margin: 0, fontSize: 13, lineHeight: 1.65 }}>
-          Simulated recommendations per representative process — derived from measured adoption and assumption-based process mapping.
-          Open a process in AI Opportunity Process Maps for step-level detail.
-        </p>
-      </Callout>
+      <NotificationBanner
+        type="info"
+        message="Simulated recommendations per representative process — derived from measured adoption and assumption-based process mapping. Open a process in AI Opportunity Process Maps for step-level detail."
+      />
 
       <ProcessFilters
         filters={filters}

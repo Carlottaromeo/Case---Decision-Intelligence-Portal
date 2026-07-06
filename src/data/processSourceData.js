@@ -4,25 +4,13 @@
  */
 import * as XLSX from "xlsx"
 import { normalizeDepartmentName, normalizeSeniority } from "./deptNormalize.js"
+import { DEPT_COLORS, CHART } from "../theme.js"
 import {
   adoptionLevel,
   classifyAiPotential,
   classifyAdoptionGap,
   classifyManagementAction,
 } from "../../scripts/process-logic.mjs"
-
-const DEPT_COLORS = {
-  Technology: "CCFF00",
-  "Data & Analytics": "00F0FF",
-  "Customer Support": "39FF14",
-  Pricing: "FFE600",
-  Finance: "FF6600",
-  "Sales & Part.": "FF00AA",
-  Underwriting: "0066FF",
-  "Risk & Compliance": "FF2244",
-  People: "FF1493",
-  Unknown: "64748B",
-}
 
 function parseCsvLine(line) {
   const parts = []
@@ -303,15 +291,15 @@ export function processSourceData({ directoryRows, csvText }) {
     })
 
   const TOOL_DATA = [
-    { tool: "Chat", credits: toolTotals.Chat, color: "#CCFF00" },
-    { tool: "Coding IDE", credits: toolTotals["Coding IDE"], color: "#00F0FF" },
-    { tool: "Excel", credits: toolTotals.Excel, color: "#FF00AA" },
+    { tool: "Chat", credits: toolTotals.Chat, color: CHART.tools.Chat },
+    { tool: "Coding IDE", credits: toolTotals["Coding IDE"], color: CHART.tools["Coding IDE"] },
+    { tool: "Excel", credits: toolTotals.Excel, color: CHART.tools.Excel },
   ]
 
   const LLM_DATA = [
-    { tier: "Instant", credits: tierTotals["LLM-instant"], color: "#CCFF00" },
-    { tier: "Thinking", credits: tierTotals["LLM-thinking"], color: "#B400FF" },
-    { tier: "Pro", credits: tierTotals["LLM-pro"], color: "#00F0FF" },
+    { tier: "Instant", credits: tierTotals["LLM-instant"], color: CHART.tiers.Instant },
+    { tier: "Thinking", credits: tierTotals["LLM-thinking"], color: CHART.tiers.Thinking },
+    { tier: "Pro", credits: tierTotals["LLM-pro"], color: CHART.tiers.Pro },
   ]
 
   const segments = { power: 0, regular: 0, occasional: 0, inactive: 0 }
@@ -325,9 +313,9 @@ export function processSourceData({ directoryRows, csvText }) {
   }
 
   const USER_SEGMENTS = [
-    { segment: "Power User", count: segments.power, desc: "Active ≥70% of weeks", color: "#CCFF00" },
-    { segment: "Regular", count: segments.regular, desc: "Active 30–70% of weeks", color: "#00F0FF" },
-    { segment: "Occasional", count: segments.occasional, desc: "Active <30% of weeks", color: "#FF6600" },
+    { segment: "Power User", count: segments.power, desc: "Active ≥70% of weeks", color: CHART.segments[0] },
+    { segment: "Regular", count: segments.regular, desc: "Active 30–70% of weeks", color: CHART.segments[1] },
+    { segment: "Occasional", count: segments.occasional, desc: "Active <30% of weeks", color: CHART.segments[2] },
     { segment: "Inactive", count: segments.inactive, desc: "Never used in period", color: "#5A5A6A" },
   ]
 

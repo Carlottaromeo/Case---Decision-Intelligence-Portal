@@ -13,13 +13,13 @@ export function buildDepartmentCoach(item, processMap) {
   const steps = rec.suggestedActions.slice(0, 2)
 
   const perche = [
-    `${item.department} registra un'adozione misurata del ${formatPct(item.adoption_rate)} (${item.adoption_level}) con potenziale AI simulato ${item.ai_potential}.`,
-    `La priorità di investimento simulata è ${item.investment_priority}: ${rec.message}`,
+    `${item.department} shows measured adoption of ${formatPct(item.adoption_rate)} (${item.adoption_level}) with simulated AI potential ${item.ai_potential}.`,
+    `Simulated investment priority is ${item.investment_priority}: ${rec.message}`,
   ].join(" ")
 
   const cosa_fare = [
-    `Azione primaria: ${primary}.`,
-    steps.length ? `Passi concreti: ${steps.join(" · ")}` : null,
+    `Primary action: ${primary}.`,
+    steps.length ? `Concrete steps: ${steps.join(" · ")}` : null,
   ]
     .filter(Boolean)
     .join(" ")
@@ -43,8 +43,8 @@ export function buildDepartmentCoach(item, processMap) {
 export function buildWorkflowCoach(workflow, deptItem) {
   if (workflow.illustrative) {
     return {
-      perche: `In un rollout completo, il workflow «${workflow.title}» potrebbe mostrare una readiness illustrativa del ${workflow.readiness_score}% e ${workflow.opportunityCount} opportunità di esempio, coerenti con l'adozione del dipartimento ${deptItem?.department ?? ""}.`,
-      cosa_fare: `Scenario prototipo: partire da ${workflow.investment_hint} quando il workflow sarà mappato come Contract Risk Assessment. Non è ancora disponibile nel builder.`,
+      perche: `In a full rollout, workflow «${workflow.title}» could show illustrative readiness of ${workflow.readiness_score}% and ${workflow.opportunityCount} sample opportunities, aligned with ${deptItem?.department ?? "department"} adoption.`,
+      cosa_fare: `Prototype scenario: start from ${workflow.investment_hint} when the workflow is mapped like Contract Risk Assessment. It is not yet available in the builder.`,
       dati: [
         { tier: "simulated", label: DATA_TIERS.simulated.label },
         { tier: "workflow_illustrative", label: WORKFLOW_DATA_TIERS.workflow_illustrative.label },
@@ -55,14 +55,14 @@ export function buildWorkflowCoach(workflow, deptItem) {
 
   const oppDetail =
     workflow.opportunityCount > 0
-      ? `Nel draft live sono documentate ${workflow.opportunityCount} opportunità use case (${workflow.aiOpportunities} consigliate dal tool, ${workflow.manualOpportunities} manuali).`
-      : "Il workflow live è disponibile ma non ha ancora opportunità use case documentate nel draft."
+      ? `The live draft documents ${workflow.opportunityCount} use case opportunities (${workflow.aiOpportunities} tool-recommended, ${workflow.manualOpportunities} manual).`
+      : "The live workflow is available but has no use case opportunities documented in the draft yet."
 
   return {
-    perche: `Contract Risk Assessment è l'unico workflow con dati reali dal builder. Readiness ${workflow.readiness_score}%: ${oppDetail}`,
+    perche: `Contract Risk Assessment is the only workflow with real builder data. Readiness ${workflow.readiness_score}%: ${oppDetail}`,
     cosa_fare: workflow.opportunityCount > 0
-      ? `Priorità: industrializzare le ${workflow.opportunityCount} opportunità tracciate, validare con Compliance e avviare un pilota su intake e scoring.`
-      : "Apri il workflow, documenta almeno 2–3 opportunità use case nelle attività OODA e salva il draft per aggiornare il segnale investment.",
+      ? `Priority: industrialize the ${workflow.opportunityCount} tracked opportunities, validate with Compliance, and launch a pilot on intake and scoring.`
+      : "Open the workflow, document at least 2–3 use case opportunities in OODA activities, and save the draft to refresh the investment signal.",
     dati: [
       { tier: "measured", label: DATA_TIERS.measured.label },
       { tier: "workflow_live", label: WORKFLOW_DATA_TIERS.workflow_live.label },

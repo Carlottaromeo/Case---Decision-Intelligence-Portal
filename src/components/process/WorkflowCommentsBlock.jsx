@@ -27,7 +27,7 @@ export default function WorkflowCommentsBlock({ card, onUpdate }) {
   return (
     <section className="wf-activity-modal__section wf-activity-modal__section--comments">
       <h3 className="wf-activity-modal__section-title">
-        Commenti
+        Comments
         <span className="wf-comments__count">{thread.length}</span>
       </h3>
 
@@ -50,19 +50,19 @@ export default function WorkflowCommentsBlock({ card, onUpdate }) {
           })}
         </ul>
       ) : (
-        <p className="wf-comments__empty">Nessun commento ancora.</p>
+        <p className="wf-comments__empty">No comments yet.</p>
       )}
 
       {user ? (
         <form className="wf-comments__form" onSubmit={addComment}>
           <div className="wf-comments__form-head">
             <span className="wf-comments__form-avatar">{user.initials}</span>
-            <span>Commenta come <strong>{user.name}</strong></span>
+            <span>Comment as <strong>{user.name}</strong></span>
           </div>
           <textarea
             value={commentDraft}
             rows={2}
-            placeholder="Aggiungi un commento o una nota di approvazione…"
+            placeholder="Add a comment or approval note…"
             onChange={(e) => setCommentDraft(e.target.value)}
           />
           <button
@@ -70,11 +70,11 @@ export default function WorkflowCommentsBlock({ card, onUpdate }) {
             className="wf-builder__btn wf-builder__btn--primary wf-comments__submit"
             disabled={!commentDraft.trim()}
           >
-            Pubblica commento
+            Post comment
           </button>
         </form>
       ) : (
-        <p className="wf-comments__login-hint">Accedi per lasciare un commento.</p>
+        <p className="wf-comments__login-hint">Log in to leave a comment.</p>
       )}
     </section>
   )

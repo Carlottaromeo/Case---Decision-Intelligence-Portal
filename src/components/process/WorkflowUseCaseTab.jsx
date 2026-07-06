@@ -74,8 +74,8 @@ export default function WorkflowUseCaseTab({ card, onUpdate }) {
     return (
       <div className="wf-uc-tab wf-uc-tab--empty">
         <IconTarget size={28} color="#9ca3af" />
-        <p>Questa attività è classificata come <strong>Human only</strong>.</p>
-        <p className="wf-uc-tab__hint">Le opportunità AI non sono applicabili a questo step.</p>
+        <p>This activity is classified as <strong>Human only</strong>.</p>
+        <p className="wf-uc-tab__hint">AI opportunities do not apply to this step.</p>
         {card.humanOnlyNote && <div className="wf-activity-modal__note">{card.humanOnlyNote}</div>}
       </div>
     )
@@ -85,8 +85,8 @@ export default function WorkflowUseCaseTab({ card, onUpdate }) {
     <div className="wf-uc-tab">
       <div className="wf-uc-tab__intro">
         <p>
-          Traccia una o più opportunità di use case per questa attività.
-          Ogni voce è classificata come <strong>consigliata dal tool</strong> o <strong>scritta manualmente</strong>.
+          Track one or more use case opportunities for this activity.
+          Each entry is classified as <strong>tool-recommended</strong> or <strong>written manually</strong>.
         </p>
       </div>
 
@@ -119,10 +119,10 @@ export default function WorkflowUseCaseTab({ card, onUpdate }) {
                     />
                     <div className="wf-uc-item__edit-actions">
                       <button type="button" className="wf-builder__btn wf-builder__btn--ghost" onClick={() => setEditingId(null)}>
-                        Annulla
+                        Cancel
                       </button>
                       <button type="button" className="wf-builder__btn wf-builder__btn--primary" onClick={() => saveEdit(opp.id)}>
-                        Salva
+                        Save
                       </button>
                     </div>
                   </div>
@@ -131,14 +131,14 @@ export default function WorkflowUseCaseTab({ card, onUpdate }) {
                 )}
 
                 {opp.authorName && opp.source === "manual" && (
-                  <span className="wf-uc-item__author">di {opp.authorName}</span>
+                  <span className="wf-uc-item__author">by {opp.authorName}</span>
                 )}
 
                 {!isEditing && (
                   <div className="wf-uc-item__actions">
-                    <button type="button" onClick={() => startEdit(opp)}>Modifica</button>
+                    <button type="button" onClick={() => startEdit(opp)}>Edit</button>
                     <button type="button" className="wf-uc-item__delete" onClick={() => removeOpportunity(opp.id)}>
-                      Elimina
+                      Delete
                     </button>
                   </div>
                 )}
@@ -147,16 +147,16 @@ export default function WorkflowUseCaseTab({ card, onUpdate }) {
           })}
         </ul>
       ) : (
-        <p className="wf-uc-tab__empty-list">Nessuna opportunità tracciata. Aggiungine una con l&apos;AI o manualmente.</p>
+        <p className="wf-uc-tab__empty-list">No opportunities tracked yet. Add one with AI or manually.</p>
       )}
 
       <section className="wf-uc-block">
         <h4 className="wf-uc-block__title">
           <IconSparkles size={14} color="#6229FF" />
-          Suggerimenti AI
+          AI suggestions
         </h4>
         <p className="wf-uc-block__desc">
-          Il tool analizza titolo e descrizione dell&apos;attività e propone use case pertinenti.
+          The tool analyzes the activity title and description and proposes relevant use cases.
         </p>
         <button
           type="button"
@@ -164,7 +164,7 @@ export default function WorkflowUseCaseTab({ card, onUpdate }) {
           onClick={runAiSuggest}
           disabled={aiLoading}
         >
-          {aiLoading ? "Generazione in corso…" : "Genera suggerimenti AI"}
+          {aiLoading ? "Generating…" : "Generate AI suggestions"}
         </button>
 
         {aiPreview.length > 0 && (
@@ -177,7 +177,7 @@ export default function WorkflowUseCaseTab({ card, onUpdate }) {
                   className="wf-builder__btn wf-builder__btn--ghost wf-uc-preview__add"
                   onClick={() => acceptSuggestion(text)}
                 >
-                  Aggiungi come consigliata
+                  Add as recommended
                 </button>
               </li>
             ))}
@@ -185,17 +185,17 @@ export default function WorkflowUseCaseTab({ card, onUpdate }) {
         )}
 
         {!aiLoading && aiPreview.length === 0 && opportunities.length > 0 && (
-          <p className="wf-uc-block__hint">Clicca per ottenere nuove idee non ancora presenti nella lista.</p>
+          <p className="wf-uc-block__hint">Click to get new ideas not yet in the list.</p>
         )}
       </section>
 
       <section className="wf-uc-block">
-        <h4 className="wf-uc-block__title">Aggiungi manualmente</h4>
+        <h4 className="wf-uc-block__title">Add manually</h4>
         <form className="wf-uc-manual-form" onSubmit={addManual}>
           <textarea
             value={manualDraft}
             rows={3}
-            placeholder="Descrivi l'opportunità di use case che vuoi tracciare…"
+            placeholder="Describe the use case opportunity you want to track…"
             onChange={(e) => setManualDraft(e.target.value)}
           />
           <button
@@ -203,7 +203,7 @@ export default function WorkflowUseCaseTab({ card, onUpdate }) {
             className="wf-builder__btn wf-builder__btn--primary"
             disabled={!manualDraft.trim()}
           >
-            Aggiungi opportunità manuale
+            Add manual opportunity
           </button>
         </form>
       </section>

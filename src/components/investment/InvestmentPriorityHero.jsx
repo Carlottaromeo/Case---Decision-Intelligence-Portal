@@ -11,8 +11,8 @@ export default function InvestmentPriorityHero({ topItems, onSelect, onNavigate 
   return (
     <section className="investment-hero">
       <div className="investment-hero__header">
-        <h2 className="investment-hero__title">Dove investire prima</h2>
-        <p className="investment-hero__sub">Top 3 dipartimenti per punteggio combinato (adozione misurata + priorità simulata + boost workflow live)</p>
+        <h2 className="investment-hero__title">Where to invest first</h2>
+        <p className="investment-hero__sub">Top 3 departments by combined score (measured adoption + simulated priority + live workflow boost)</p>
       </div>
       <div className="investment-hero__grid">
         {topItems.map((item, i) => (
@@ -45,7 +45,7 @@ export default function InvestmentPriorityHero({ topItems, onSelect, onNavigate 
                 className="investment-btn investment-btn--ghost"
                 onClick={() => onSelect?.(item)}
               >
-                Dettaglio coach
+                Coach detail
               </button>
               <button
                 type="button"
@@ -58,7 +58,7 @@ export default function InvestmentPriorityHero({ topItems, onSelect, onNavigate 
                   })
                 }
               >
-                Vedi workflow
+                View workflow
               </button>
             </div>
           </article>

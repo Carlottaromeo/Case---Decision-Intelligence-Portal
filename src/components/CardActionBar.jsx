@@ -12,7 +12,7 @@ export default function CardActionBar({ overlay = true, info, insights, insightT
     <div
       style={{
         ...(overlay
-          ? { position: "absolute", top: 14, right: 14, zIndex: 6 }
+          ? { position: "absolute", top: 12, right: 12, zIndex: 6 }
           : { position: "relative", flexShrink: 0 }),
         ...actionBarStyle,
       }}

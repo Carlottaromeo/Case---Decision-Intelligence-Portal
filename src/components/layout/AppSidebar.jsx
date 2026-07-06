@@ -189,7 +189,7 @@ export default function AppSidebar({
             type="button"
             className="app-sidebar__logout"
             onClick={onLogout}
-            title="Esci"
+            title="Log out"
           >
             <span className="app-sidebar__logout-icon" aria-hidden="true">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -202,7 +202,7 @@ export default function AppSidebar({
                 />
               </svg>
             </span>
-            {expanded && <span>Esci</span>}
+            {expanded && <span>Log out</span>}
           </button>
         </div>
       )}

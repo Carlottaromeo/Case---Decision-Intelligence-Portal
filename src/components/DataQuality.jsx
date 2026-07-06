@@ -1,5 +1,6 @@
 import { useState } from "react"
-import { PillToggle, SH } from "./UI"
+import { PillToggle } from "./UI"
+import NotificationBanner from "./NotificationBanner"
 import { useDashboardData } from "../context/DashboardDataContext"
 import DataQualityOverview from "./dataQuality/DataQualityOverview"
 import SourceDataWorkspace from "./dataQuality/SourceDataWorkspace"
@@ -15,16 +16,16 @@ export default function DataQuality() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 12 }}>
-        <SH
-          title="Data Quality"
-          sub="Measured data from employee directory + usage export — live processing, no static bundle"
-        />
+      <div style={{ display: "flex", justifyContent: "flex-end" }}>
         <PillToggle options={VIEWS} value={view} onChange={setView} />
       </div>
 
       {sourceData.error && (
-        <div className="dq-error">{sourceData.error}</div>
+        <NotificationBanner
+          type="error"
+          message={sourceData.error}
+          className="dq-error dq-error-banner"
+        />
       )}
 
       {view === "overview" ? (

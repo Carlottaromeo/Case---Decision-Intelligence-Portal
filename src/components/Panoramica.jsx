@@ -4,10 +4,11 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip,
 } from "recharts"
 import { useMeasuredData } from "../context/DashboardDataContext"
-import { C, CHART, LOCALE } from "../theme"
+import { C, CHART, LOCALE, accentFill } from "../theme"
 import { Card, SH, ChartTooltip, PillToggle, ExecutiveInsight } from "./UI"
 import CardActionBar from "./CardActionBar"
 import { ACTION_BAR_OFFSET } from "./cardActions"
+import { deptColor } from "../data/processMapsMeta"
 import { UnmappedProvisionedHint } from "./AttentionPoint"
 
 export default function Panoramica({ onOpenInsights, onNavigate }) {
@@ -24,7 +25,7 @@ export default function Panoramica({ onOpenInsights, onNavigate }) {
   const toolChartData = TOOL_DATA.map((t, i) => ({
     name: t.tool,
     value: t.credits,
-    fill: CHART.series[i % CHART.series.length],
+    fill: CHART.fills[i % CHART.fills.length],
   }))
   const weakestDept = sortedDept[0]
 
@@ -135,7 +136,8 @@ export default function Panoramica({ onOpenInsights, onNavigate }) {
       <Card>
         <SH title="Access gap by department" sub="Lowest provisioning rates first" />
         {sortedDept.map(d => {
-          const col = d.color.startsWith("#") ? d.color : `#${d.color}`
+          const col = deptColor(d.color)
+          const fill = accentFill(d.color)
           return (
             <div key={d.d} style={{ marginBottom: 14 }}>
               <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 6 }}>
@@ -143,7 +145,7 @@ export default function Panoramica({ onOpenInsights, onNavigate }) {
                 <span style={{ fontSize: 13, color: col, fontWeight: 700 }}>{d.prov_rate}%</span>
               </div>
               <div style={{ height: 8, borderRadius: 999, background: C.track, overflow: "hidden" }}>
-                <div style={{ width: `${d.prov_rate}%`, height: "100%", background: col, borderRadius: 999 }} />
+                <div style={{ width: `${d.prov_rate}%`, height: "100%", background: fill, borderRadius: 999 }} />
               </div>
             </div>
           )

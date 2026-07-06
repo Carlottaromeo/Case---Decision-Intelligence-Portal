@@ -1,0 +1,16 @@
+node_modules/
+dist/
+.env
+.env.*
+.DS_Store
+Thumbs.db
+*.log
+.cursor/
+.vscode/
+*.local
+
+# temp / tooling artifacts
+.pptx-extract/
+.pptx-update-temp/
+.pptx-verify/
+.pptx-verify2/

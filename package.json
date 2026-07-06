@@ -1,0 +1,26 @@
+{
+  "name": "northstar-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "data": "node scripts/process-data.mjs",
+    "verify-sources": "node scripts/verify-source-files.mjs"
+  },
+  "dependencies": {
+    "jspdf": "^4.2.1",
+    "pptxgenjs": "^4.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "recharts": "^2.12.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.2.0",
+    "playwright": "^1.49.1",
+    "vite": "^5.0.0"
+  }
+}

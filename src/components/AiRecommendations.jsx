@@ -5,6 +5,7 @@ import {
   PROCESS_WEEKS,
   DEPT_COLORS,
 } from "../data/data"
+import { useMeasuredData } from "../context/DashboardDataContext"
 import { computeProcessMetrics, listDepartmentOptions, listSeniorityOptions } from "../data/computeProcessMetrics"
 import { useProcessFilters } from "../data/processFilters"
 import { generateProcessRecommendation } from "../data/generateProcessRecommendation"
@@ -18,14 +19,20 @@ import ProcessFilters from "./process/ProcessFilters"
 import ProcessAiRecommendations from "./process/ProcessAiRecommendations"
 
 export default function AiRecommendations() {
-  const [filters, setFilters] = useProcessFilters(PROCESS_WEEKS)
+  const measured = useMeasuredData()
+  const roster = measured.EMPLOYEE_ROSTER ?? EMPLOYEE_ROSTER
+  const usage = measured.USAGE_RECORDS ?? USAGE_RECORDS
+  const weeks = measured.PROCESS_WEEKS ?? PROCESS_WEEKS
+  const colors = measured.DEPT_COLORS ?? DEPT_COLORS
 
-  const seniorities = useMemo(() => listSeniorityOptions(EMPLOYEE_ROSTER), [])
-  const departments = useMemo(() => listDepartmentOptions(EMPLOYEE_ROSTER), [])
+  const [filters, setFilters] = useProcessFilters(weeks)
+
+  const seniorities = useMemo(() => listSeniorityOptions(roster), [roster])
+  const departments = useMemo(() => listDepartmentOptions(roster), [roster])
 
   const processMaps = useMemo(
-    () => computeProcessMetrics(EMPLOYEE_ROSTER, USAGE_RECORDS, PROCESS_WEEKS, DEPT_COLORS, filters),
-    [filters]
+    () => computeProcessMetrics(roster, usage, weeks, colors, filters),
+    [roster, usage, weeks, colors, filters]
   )
 
   const items = useMemo(
@@ -46,35 +53,34 @@ export default function AiRecommendations() {
       <ProcessFilters
         filters={filters}
         onChange={setFilters}
-        processWeeks={PROCESS_WEEKS}
+        processWeeks={weeks}
         departments={departments}
         seniorities={seniorities}
         variant="compact"
       />
 
-      <div className="glass-panel" style={{ position: "relative", borderRadius: 20, padding: "20px 24px" }}>
+      <div className="glass-panel" style={{ borderRadius: 20, padding: "20px 24px", position: "relative" }}>
         <CardActionBar
           info={{
-            title: "How to read AI recommendations",
+            title: "How to read recommendations",
             items: [
-              tierSectionNote("simulated"),
-              "One recommendation set per representative process, ranked by investment priority.",
+              tierSectionNote(),
               "Measured signals include adoption rate, credits trend, and department size.",
-              "Filters are shared with AI Opportunity Process Maps, Investment Planner, and Action Plan Tracker.",
+              "Investment priority and expected impact are simulated from the adoption × AI potential matrix.",
             ],
           }}
         />
         <div style={{ paddingRight: ACTION_BAR_OFFSET, marginBottom: 16 }}>
           <SH
-            title="Portfolio recommendations"
-            sub={`${items.length} representative processes · simulated priorities`}
+            title="AI Recommendations"
+            sub={`${items.length} representative processes · ranked by simulated priority`}
           />
         </div>
 
         {items.length === 0 ? (
           <p style={{ color: C.muted, fontSize: 13, margin: 0 }}>No recommendations match the current filters.</p>
         ) : (
-          <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
             {items.map(({ map, recommendation }) => (
               <div key={map.department}>
                 <div style={{ fontSize: 14, fontWeight: 700, color: C.text, marginBottom: 4 }}>

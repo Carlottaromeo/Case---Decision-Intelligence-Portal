@@ -1,7 +1,7 @@
 import { useMemo } from "react"
 import { useMeasuredData } from "../context/DashboardDataContext"
 import { CONTRACT_RISK_WORKFLOW } from "../data/contractRiskWorkflow"
-import ProcessBuPicker from "./process/ProcessBuPicker"
+import ProcessPortfolio from "./process/ProcessPortfolio"
 import ProcessBuDetail from "./process/ProcessBuDetail"
 import WorkflowCanvas from "./process/WorkflowCanvas"
 
@@ -49,9 +49,8 @@ export default function ProcessMaps({ nav, onNavChange }) {
   }
 
   return (
-    <ProcessBuPicker
-      departments={DEPT ?? []}
-      onSelect={(dept) => onNavChange({ view: "bu", dept, workflowId: null })}
+    <ProcessPortfolio
+      onSelectDept={(dept) => onNavChange({ view: "bu", dept, workflowId: null })}
     />
   )
 }

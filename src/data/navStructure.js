@@ -9,7 +9,7 @@ export const APP_SECTIONS = [
     pages: [
       {
         id: "overview-trends",
-        label: "Overview, Usage & trends",
+        label: "Overview",
         question: "How is AI adoption progressing overall?",
       },
       {
@@ -18,9 +18,9 @@ export const APP_SECTIONS = [
         question: "Where is adoption strong or weak?",
       },
       {
-        id: "data-quality",
-        label: "Data Quality",
-        question: "How reliable is the data — and can I keep source files under control?",
+        id: "investment-planner",
+        label: "Investment Planner",
+        question: "Where should management invest first?",
       },
     ],
   },
@@ -34,15 +34,6 @@ export const APP_SECTIONS = [
     ],
   },
   {
-    id: "investment",
-    label: "Investment Planner",
-    iconKey: "investment",
-    question: "Where should management invest first?",
-    pages: [
-      { id: "planner", label: "Investment Planner" },
-    ],
-  },
-  {
     id: "forecasting",
     label: "Forecasting",
     iconKey: "forecasting",
@@ -50,6 +41,15 @@ export const APP_SECTIONS = [
     pages: [
       { id: "outlook", label: "8-week outlook" },
       { id: "scenarios", label: "Scenario comparison" },
+    ],
+  },
+  {
+    id: "data-quality",
+    label: "Data Quality",
+    iconKey: "tooltier",
+    question: "How reliable is the data — and can I keep source files under control?",
+    pages: [
+      { id: "overview", label: "Data Quality" },
     ],
   },
 ]

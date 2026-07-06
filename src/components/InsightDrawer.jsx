@@ -1,6 +1,8 @@
 import { useEffect, useMemo } from "react"
 import { C } from "../theme"
 import { getInsightById } from "../data/insights"
+import { enrichInsightsWithMeasured } from "../data/buildLiveInsightEvidence"
+import { useMeasuredData } from "../context/DashboardDataContext"
 import InsightFlowCard from "./InsightFlowCard"
 
 const PRIORITY_ORDER = { high: 0, medium: 1, low: 2 }
@@ -15,15 +17,15 @@ function sortInsights(insights) {
 }
 
 export default function InsightDrawer({ panel, onClose }) {
+  const measured = useMeasuredData()
   const open = Boolean(panel?.insightIds?.length || panel?.context)
 
   const insights = useMemo(() => {
     if (!open) return []
     const ids = panel.insightIds || []
-    return sortInsights(
-      ids.map((id) => getInsightById(id)).filter(Boolean)
-    )
-  }, [open, panel?.insightIds])
+    const base = ids.map((id) => getInsightById(id)).filter(Boolean)
+    return sortInsights(enrichInsightsWithMeasured(base, measured))
+  }, [open, panel?.insightIds, measured])
 
   useEffect(() => {
     if (!open) return

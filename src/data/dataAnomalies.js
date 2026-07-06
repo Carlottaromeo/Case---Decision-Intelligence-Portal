@@ -1,9 +1,9 @@
 /** Anomalies derived from live DATA_QUALITY — not static data.js */
 export const NAV_TARGETS = {
-  dataQuality: { sectionId: "cockpit", pageId: "data-quality" },
+  dataQuality: { sectionId: "data-quality", pageId: "overview" },
   dataQualityUnmapped: {
-    sectionId: "cockpit",
-    pageId: "data-quality",
+    sectionId: "data-quality",
+    pageId: "overview",
     anchor: "anomaly-unmapped-provisioned",
   },
 }

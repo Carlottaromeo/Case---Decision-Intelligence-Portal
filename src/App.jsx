@@ -36,8 +36,8 @@ function PageContent({ sectionId, pageId, processNav, onProcessNavChange, onOpen
       if (pageId === "adoption-analytics") {
         return <AdoptionAnalytics onOpenInsights={onOpenInsights} />
       }
-      if (pageId === "data-quality") {
-        return <DataQuality />
+      if (pageId === "investment-planner") {
+        return <InvestmentPlanner />
       }
       return <Panoramica onOpenInsights={onOpenInsights} onNavigate={onNavigate} />
     case "process":
@@ -47,10 +47,10 @@ function PageContent({ sectionId, pageId, processNav, onProcessNavChange, onOpen
           onNavChange={onProcessNavChange}
         />
       )
-    case "investment":
-      return <InvestmentPlanner onNavigate={onNavigate} />
     case "forecasting":
       return <Forecasting view={pageId} />
+    case "data-quality":
+      return <DataQuality />
     default:
       return null
   }

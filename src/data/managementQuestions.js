@@ -16,16 +16,6 @@ import {
 import { generateProcessRecommendation } from "./generateProcessRecommendation"
 import { DATA_TIERS } from "./dashboardCopy"
 import { loadStoredProcessFilters } from "./processFilters"
-import {
-  DEPT,
-  KPIs,
-  DATA_QUALITY,
-  WEEKLY,
-  USAGE_RECORDS,
-  PROCESS_WEEKS,
-  DEPT_COLORS,
-  EMPLOYEE_ROSTER,
-} from "./data"
 
 const M = DATA_TIERS.measured.label
 const S = DATA_TIERS.simulated.label
@@ -42,7 +32,18 @@ export const MANAGEMENT_QUESTIONS = [
   { id: "open-actions", title: "Which management actions are currently open?", hint: "Simulated tracker" },
 ]
 
-export function loadManagementContext() {
+export function loadManagementContext(measured) {
+  const {
+    EMPLOYEE_ROSTER,
+    USAGE_RECORDS,
+    PROCESS_WEEKS,
+    DEPT_COLORS,
+    DEPT,
+    KPIs,
+    WEEKLY,
+    DATA_QUALITY,
+  } = measured
+
   const filters = loadStoredProcessFilters(PROCESS_WEEKS)
   const processMaps = computeProcessMetrics(
     EMPLOYEE_ROSTER,
@@ -58,7 +59,16 @@ export function loadManagementContext() {
   const actionPlans = sortActionPlans(
     mergeActionStatuses(buildActionPlans(processMaps), loadActionStatuses())
   )
-  return { dept: DEPT, processMaps, ranked, forecast, weeklySeries, actionPlans, kpis: KPIs }
+  return {
+    dept: DEPT,
+    processMaps,
+    ranked,
+    forecast,
+    weeklySeries,
+    actionPlans,
+    kpis: KPIs,
+    dataQuality: DATA_QUALITY,
+  }
 }
 
 function processRow(map, extra = {}) {
@@ -181,8 +191,8 @@ function answerFutureUsage(ctx) {
   }
 }
 
-function answerDataQuality() {
-  const dq = DATA_QUALITY
+function answerDataQuality(ctx) {
+  const dq = ctx.dataQuality
   return {
     headline: "Measured reconciliation issues between the usage export and employee directory.",
     measured: [
@@ -240,7 +250,7 @@ const ANSWERERS = {
   "invest-first": answerInvestFirst,
   "scale-adoption": answerScale,
   "future-usage": answerFutureUsage,
-  "data-quality": () => answerDataQuality(),
+  "data-quality": answerDataQuality,
   "open-actions": answerOpenActions,
 }
 

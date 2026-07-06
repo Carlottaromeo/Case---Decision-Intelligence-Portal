@@ -70,7 +70,7 @@ export function AiSummaryBadge({ title }) {
       label={AI_SUMMARY.label}
       color={AI_SUMMARY.color}
       title={title ?? AI_SUMMARY.description}
-      icon="star"
+      icon="sparkle"
     />
   )
 }
@@ -125,6 +125,12 @@ export function Badge({ label, color, title, icon }) {
             strokeWidth="1.8"
             strokeLinejoin="round"
           />
+        </svg>
+      )}
+      {icon === "sparkle" && (
+        <svg width={11} height={11} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 2l1.5 5.5L19 9l-5.5 1.5L12 16l-1.5-5.5L5 9l5.5-1.5L12 2z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+          <path d="M19 14l.8 2.8L22.5 18l-2.7.7L19 21.5l-.8-2.8L15.5 18l2.7-.7L19 14z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
         </svg>
       )}
       {label}

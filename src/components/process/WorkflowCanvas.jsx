@@ -18,19 +18,20 @@ import {
   migrateCardComments,
 } from "../../utils/workflowComments"
 import { migrateCardUseCases } from "../../utils/workflowUseCases"
+import { migrateWorkflowAiTools } from "../../utils/workflowAiTools"
 import { loadWorkflowDraft, saveWorkflowDraft } from "../../utils/workflowStorage"
 
 function prepareWorkflowDraft(workflow, employeeRoster, department) {
   const saved = loadWorkflowDraft(workflow.id)
   if (saved?.workflow) {
     return {
-      draft: saved.workflow,
+      draft: migrateWorkflowAiTools(saved.workflow),
       params: saved.params?.length ? saved.params : [...DEFAULT_PARAMS],
       dirty: false,
     }
   }
 
-  const draft = cloneWorkflow(workflow)
+  const draft = migrateWorkflowAiTools(cloneWorkflow(workflow))
   for (const phase of draft.phases) {
     phase.cards = phase.cards.map((card) => {
       const normalized = migrateCardUseCases(migrateCardComments({

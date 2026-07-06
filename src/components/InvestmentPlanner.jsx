@@ -11,11 +11,12 @@ import { useProcessFilters } from "../data/processFilters"
 import { tierGuideBullets } from "../data/dashboardCopy"
 import { exportInvestmentExcel, exportInvestmentPdf } from "../utils/investmentExport"
 import ExportShareBar from "./ExportShareBar"
-import { SH } from "./UI"
+import { SH, PillToggle } from "./UI"
 import CardActionBar from "./CardActionBar"
 import { ACTION_BAR_OFFSET } from "./cardActions"
 import InvestmentPriorityHero from "./investment/InvestmentPriorityHero"
 import InvestmentLanes from "./investment/InvestmentLanes"
+import InvestmentScatter from "./investment/InvestmentScatter"
 import InvestmentCoachPanel from "./investment/InvestmentCoachPanel"
 import InvestmentWorkflowDetail from "./investment/InvestmentWorkflowDetail"
 import { WorkflowCoachPanel } from "./investment/InvestmentCoachPanel"
@@ -26,6 +27,12 @@ export default function InvestmentPlanner({ onNavigate }) {
   const [filters, setFilters] = useProcessFilters(PROCESS_WEEKS)
   const [selectedDept, setSelectedDept] = useState(null)
   const [selectedWorkflowId, setSelectedWorkflowId] = useState(null)
+  const [matrixView, setMatrixView] = useState("lanes")
+
+  const MATRIX_VIEWS = [
+    ["lanes", "Priority lanes"],
+    ["scatter", "Scatter plot"],
+  ]
 
   const seniorities = useMemo(() => listSeniorityOptions(EMPLOYEE_ROSTER), [EMPLOYEE_ROSTER])
   const departments = useMemo(() => listDepartmentOptions(EMPLOYEE_ROSTER), [EMPLOYEE_ROSTER])
@@ -119,18 +126,33 @@ export default function InvestmentPlanner({ onNavigate }) {
             ],
           }}
         />
-        <div style={{ paddingRight: ACTION_BAR_OFFSET, marginBottom: 16 }}>
-          <SH
-            title="Investment matrix by priority"
-            sub={`${portfolio.length} departments · lane per management action`}
-          />
+        <div className="investment-matrix-panel__head">
+          <div style={{ paddingRight: ACTION_BAR_OFFSET, flex: 1, minWidth: 0 }}>
+            <SH
+              title="Investment matrix by priority"
+              sub={
+                matrixView === "lanes"
+                  ? `${portfolio.length} departments · lane per management action`
+                  : `${portfolio.length} departments · adoption rate vs AI potential`
+              }
+            />
+          </div>
+          <PillToggle options={MATRIX_VIEWS} value={matrixView} onChange={setMatrixView} />
         </div>
 
-        <InvestmentLanes
-          items={portfolio}
-          selectedId={activeDept?.id}
-          onSelect={handleSelectDept}
-        />
+        {matrixView === "lanes" ? (
+          <InvestmentLanes
+            items={portfolio}
+            selectedId={activeDept?.id}
+            onSelect={handleSelectDept}
+          />
+        ) : (
+          <InvestmentScatter
+            items={portfolio}
+            selectedId={activeDept?.id}
+            onSelect={handleSelectDept}
+          />
+        )}
       </div>
 
       {activeDept && (

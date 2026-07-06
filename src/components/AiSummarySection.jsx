@@ -1,17 +1,14 @@
 import { useState } from "react"
 import { AI_SUMMARY } from "../data/dashboardCopy"
 import { Badge } from "./UI"
+import { IconSparkle } from "./InsightIcons"
+import { ACTION_ICON_SIZE } from "./cardActions"
 
-function AiStarIcon({ size = 14 }) {
+function AiSummaryIcon() {
   return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" aria-hidden="true" className="ai-summary-section__star">
-      <path
-        d="M12 3l1.8 5.5H19l-4.6 3.3 1.8 5.5L12 14l-4.2 3.3 1.8-5.5L5 8.5h5.2L12 3z"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
-    </svg>
+    <span className="ai-summary-section__icon" aria-hidden="true">
+      <IconSparkle size={ACTION_ICON_SIZE} color="#4f46e5" />
+    </span>
   )
 }
 
@@ -49,7 +46,7 @@ export default function AiSummarySection({
         aria-expanded={open}
       >
         <span className="ai-summary-section__leading">
-          <AiStarIcon />
+          <AiSummaryIcon />
           <span className="ai-summary-section__title">{title}</span>
         </span>
         <span className="ai-summary-section__trailing">
@@ -62,4 +59,4 @@ export default function AiSummarySection({
   )
 }
 
-export { AiStarIcon }
+export { AiSummaryIcon }

@@ -58,7 +58,7 @@ export default function InvestmentPriorityHero({ topItems, onSelect, onNavigate 
                   })
                 }
               >
-                View workflow
+                View active workflows
               </button>
             </div>
           </article>

@@ -19,6 +19,7 @@ export function createActivityCard(overrides = {}) {
     timeToBe: "4h",
     aiToday: "None",
     aiStatus: "opportunity",
+    aiTools: [],
     useCaseOpportunities: [],
     commentThread: [],
     ownerEmployeeId: null,

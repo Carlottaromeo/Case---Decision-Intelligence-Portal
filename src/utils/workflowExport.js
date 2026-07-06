@@ -95,6 +95,11 @@ export function exportWorkflowPdf({ workflow, params, department }) {
 
       y = addPdfBody(doc, `Owner: ${resolveOwnerDisplay(card)}`, y, margin)
       y = addPdfBody(doc, `Status: ${STATUS_LABEL[card.aiStatus] ?? card.aiStatus}`, y, margin)
+      if (card.aiTools?.length) {
+        y = addPdfBody(doc, `AI tools: ${card.aiTools.join(", ")}`, y, margin)
+      } else if (card.aiToday && card.aiToday !== "None") {
+        y = addPdfBody(doc, `AI today: ${card.aiToday}`, y, margin)
+      }
       y = addPdfBody(doc, `Duration: ${card.timeAsIs}${card.aiStatus === "opportunity" ? ` → ${card.timeToBe}` : ""}`, y, margin)
       y = addPdfBody(doc, card.summary, y, margin)
 

@@ -5,6 +5,7 @@ import { formatEmployeeOwner } from "../../utils/workflowOwnerOptions"
 import { employeeDisplayName } from "../../utils/workflowOwnerSearch"
 import OwnerSearchField from "./OwnerSearchField"
 import WorkflowUseCaseTab from "./WorkflowUseCaseTab"
+import WorkflowAiToolsSection from "./WorkflowAiToolsSection"
 
 const TABS = [
   { id: "activity", label: "Edit activity" },
@@ -186,6 +187,10 @@ export default function WorkflowActivityPanel({
                 onSelect={selectEmployee}
                 onClear={clearOwner}
               />
+
+              {card.aiStatus !== "human" && !card.humanOnlyNote && (
+                <WorkflowAiToolsSection card={card} onUpdate={onUpdate} />
+              )}
             </section>
           ) : (
             <WorkflowUseCaseTab card={card} onUpdate={onUpdate} />

@@ -19,7 +19,7 @@ export const MVP_GLOBAL_NOTE =
   "This MVP combines measured AI usage data with simulated process and investment logic to show how management could monitor adoption, identify opportunities and prioritize actions."
 
 export const NAV_ITEMS = [
-  { id: "panoramica", label: "Executive View" },
+  { id: "panoramica", label: "Executive view" },
   { id: "dipartimenti", label: "Adoption analytics" },
   { id: "investment", label: "Strategic allocation" },
   { id: "forecasting", label: "Forecasting" },

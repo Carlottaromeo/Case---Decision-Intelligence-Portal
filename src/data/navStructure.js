@@ -3,7 +3,7 @@ import { PRODUCT_NAME } from "./dashboardCopy"
 export const APP_SECTIONS = [
   {
     id: "cockpit",
-    label: "Executive View",
+    label: "Executive view",
     iconKey: "panoramica",
     question: "How is AI adoption progressing overall?",
     pages: [

@@ -8,7 +8,8 @@ import { C, CHART, LOCALE } from "../theme"
 import { Card, SH, ChartTooltip, PillToggle, ExecutiveInsight } from "./UI"
 import CardActionBar from "./CardActionBar"
 import { ACTION_BAR_OFFSET } from "./cardActions"
-import { UnmappedProvisionedHint } from "./AttentionPoint"
+import { AttentionLink } from "./AttentionPoint"
+import { NAV_TARGETS } from "../data/dataAnomalies"
 import GeminiEstimatedCosts from "./GeminiEstimatedCosts"
 
 export default function Panoramica({ onOpenInsights, onNavigate }) {
@@ -28,6 +29,9 @@ export default function Panoramica({ onOpenInsights, onNavigate }) {
     fill: CHART.fills[i % CHART.fills.length],
   }))
   const weakestDept = sortedDept[0]
+  const unknownDept = DEPT.find((d) => d.d === "Unknown")
+  const outsideNoDept = unknownDept?.gap ?? 0
+  const provisionedNoDept = unknownDept?.provisioned ?? 0
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
@@ -60,6 +64,26 @@ export default function Panoramica({ onOpenInsights, onNavigate }) {
               {KPIs.outside_rollout.toLocaleString(LOCALE)}
             </div>
             <div style={{ fontSize: 12, color: C.muted, marginTop: 4 }}>{outsidePct}% of workforce</div>
+            {outsideNoDept > 0 && (
+              <div className="kpi-context-hint" role="note">
+                <span className="kpi-context-hint__dot" aria-hidden="true" />
+                <span className="kpi-context-hint__text">
+                  {outsideNoDept} without department
+                  {onNavigate && (
+                    <>
+                      {" · "}
+                      <AttentionLink
+                        onNavigate={onNavigate}
+                        target={NAV_TARGETS.dataQualityMissingDepartment}
+                        className="kpi-context-hint__link"
+                      >
+                        Data Quality
+                      </AttentionLink>
+                    </>
+                  )}
+                </span>
+              </div>
+            )}
           </div>
           <div style={{ borderLeft: `1px solid ${C.glassBorder}`, paddingLeft: 24 }}>
             <div style={{ fontSize: 10, color: C.subtle, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 6 }}>Provisioned users</div>
@@ -67,7 +91,26 @@ export default function Panoramica({ onOpenInsights, onNavigate }) {
               {KPIs.provisioned.toLocaleString(LOCALE)}
             </div>
             <div style={{ fontSize: 12, color: C.muted, marginTop: 4 }}>{KPIs.provisioning_rate}% with AI access</div>
-            <UnmappedProvisionedHint onNavigate={onNavigate} />
+            {provisionedNoDept > 0 && (
+              <div className="kpi-context-hint" role="note">
+                <span className="kpi-context-hint__dot" aria-hidden="true" />
+                <span className="kpi-context-hint__text">
+                  {provisionedNoDept} without department
+                  {onNavigate && (
+                    <>
+                      {" · "}
+                      <AttentionLink
+                        onNavigate={onNavigate}
+                        target={NAV_TARGETS.dataQualityMissingDepartment}
+                        className="kpi-context-hint__link"
+                      >
+                        Data Quality
+                      </AttentionLink>
+                    </>
+                  )}
+                </span>
+              </div>
+            )}
           </div>
           <div style={{ borderLeft: `1px solid ${C.glassBorder}`, paddingLeft: 24 }}>
             <div style={{ fontSize: 10, color: C.subtle, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 6 }}>Credits consumed</div>

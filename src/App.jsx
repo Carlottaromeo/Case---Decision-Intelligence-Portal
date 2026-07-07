@@ -1,6 +1,6 @@
-import { useState, useCallback, useEffect, useMemo } from "react"
-import { LOCALE } from "./theme"
-import { DATA_TIERS, PRODUCT_PERIOD } from "./data/dashboardCopy"
+import { useState, useCallback, useEffect, useMemo, useRef } from "react"
+import { C, LOCALE } from "./theme"
+import { PRODUCT_PERIOD } from "./data/dashboardCopy"
 import { useMeasuredData } from "./context/DashboardDataContext"
 import AttentionNotifications from "./components/AttentionPoint"
 import NotificationBanner from "./components/NotificationBanner"
@@ -92,6 +92,7 @@ export default function App() {
   const [insightPanel, setInsightPanel] = useState(null)
   const [pendingAnchor, setPendingAnchor] = useState(null)
   const [headerNotice, setHeaderNotice] = useState(null)
+  const contentScrollRef = useRef(null)
 
   const activeSectionId = getSection(sectionId) ? sectionId : DEFAULT_SECTION
   const rawPageId = pages[activeSectionId] ?? DEFAULT_PAGES[activeSectionId]
@@ -127,7 +128,8 @@ export default function App() {
     { label: "Weeks", value: KPIs.weeks },
     { label: "Employees", value: KPIs.total_employees.toLocaleString(LOCALE) },
     { label: "Credits used", value: KPIs.total_credits.toLocaleString(LOCALE) },
-  ], [KPIs.weeks, KPIs.total_employees, KPIs.total_credits])
+    { label: "Active users", value: KPIs.active_users.toLocaleString(LOCALE), color: C.green },
+  ], [KPIs.weeks, KPIs.total_employees, KPIs.total_credits, KPIs.active_users])
 
   const showCockpitStats = activeSectionId === "cockpit"
   const showHeaderActions = true
@@ -172,6 +174,13 @@ export default function App() {
     }
     if (anchor) setPendingAnchor(anchor)
   }, [])
+
+  useEffect(() => {
+    if (pendingAnchor) return
+    const viewport = contentScrollRef.current
+    if (!viewport) return
+    viewport.scrollTo({ top: 0, left: 0, behavior: "auto" })
+  }, [activeSectionId, pageId, processNav.view, processNav.dept, processNav.workflowId, pendingAnchor])
 
   useEffect(() => {
     if (!pendingAnchor) return
@@ -225,7 +234,7 @@ export default function App() {
           }
         />
 
-        <div className="app-content-scroll">
+        <div className="app-content-scroll" ref={contentScrollRef}>
           {headerNotice && (
             <NotificationBanner
               type="success"
@@ -259,7 +268,7 @@ export default function App() {
           </main>
 
           <footer className="app-footer">
-            {DATA_TIERS.measured.label} = usage data · {DATA_TIERS.simulated.label} = simulated views · {PRODUCT_PERIOD}
+            {PRODUCT_PERIOD}
           </footer>
         </div>
       </div>

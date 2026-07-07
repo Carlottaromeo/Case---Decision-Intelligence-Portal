@@ -609,10 +609,10 @@ export const KPIs = {
 
 export const DATA_QUALITY = {
   "provisioned_total": 450,
-  "provisioned_mapped_to_dept": 450,
-  "unmapped_provisioned": 0,
+  "provisioned_mapped_to_dept": 449,
+  "unmapped_provisioned": 1,
   "unmapped_not_in_directory": 0,
-  "unmapped_missing_dept_field": 0,
+  "unmapped_missing_dept_field": 1,
   "unmapped_credits": 0,
   "unmapped_credits_pct": 0,
   "excel_undefined_dept_rows": 30,

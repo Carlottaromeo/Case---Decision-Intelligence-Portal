@@ -1,7 +1,6 @@
 import { C } from "../../theme"
 import { Badge } from "../UI"
 import { deptColor, LEVEL_COLORS, ACTION_COLORS } from "../../data/processMapsMeta"
-import { DATA_TIERS } from "../../data/dashboardCopy"
 
 export default function ProcessHeader({ map, scenario }) {
   const col = deptColor(map.color)
@@ -19,16 +18,12 @@ export default function ProcessHeader({ map, scenario }) {
       </h2>
       <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 14 }}>
         <Badge label={map.mapping_status} color={C.muted} />
-        <Badge label={`Dept. adoption: ${map.adoption_level} (measured)`} color={LEVEL_COLORS[map.adoption_level]} />
-        <Badge label={`AI potential: ${aiPotential} (simulated)`} color={LEVEL_COLORS[aiPotential]} />
+        <Badge label={`Dept. adoption: ${map.adoption_level}`} color={LEVEL_COLORS[map.adoption_level]} />
+        <Badge label={`AI potential: ${aiPotential}`} color={LEVEL_COLORS[aiPotential]} />
         <Badge
-          label={`Investment priority: ${investmentPriority}${customized ? " (scenario)" : ""} (simulated)`}
+          label={`Investment priority: ${investmentPriority}${customized ? " (scenario)" : ""}`}
           color={ACTION_COLORS[investmentPriority]}
         />
-      </div>
-      <div style={{ fontSize: 12, color: C.muted, lineHeight: 1.55 }}>
-        <span style={{ color: C.subtle }}>{DATA_TIERS.measured.label}: </span>
-        AI usage export + employee directory · {DATA_TIERS.simulated.label} process mapping
       </div>
     </div>
   )

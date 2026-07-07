@@ -1,6 +1,4 @@
 import { LOCALE, DEPT_COLOR, ACID } from "../../theme"
-import { DATA_TIERS } from "../../data/dashboardCopy"
-import { Badge } from "../UI"
 import { getBusinessDepartments } from "../../utils/deptUsageStats"
 import { IconUsers } from "./ProcessIcons"
 import BusinessUnitIllustration from "./BusinessUnitIllustration"
@@ -31,10 +29,6 @@ export default function ProcessBuPicker({ departments, onSelect }) {
 
   return (
     <div className="process-guided">
-      <div className="process-guided__badge-row">
-        <Badge label={DATA_TIERS.simulated.label} color={DATA_TIERS.simulated.color} />
-      </div>
-
       <div className="process-bu-grid">
         {list.map((d) => {
           const col = deptAccent(d)

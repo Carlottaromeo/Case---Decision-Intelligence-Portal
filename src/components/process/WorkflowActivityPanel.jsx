@@ -6,10 +6,12 @@ import { employeeDisplayName } from "../../utils/workflowOwnerSearch"
 import OwnerSearchField from "./OwnerSearchField"
 import WorkflowUseCaseTab from "./WorkflowUseCaseTab"
 import WorkflowAiToolsSection from "./WorkflowAiToolsSection"
+import WorkflowCommentsBlock from "./WorkflowCommentsBlock"
 
 const TABS = [
   { id: "activity", label: "Edit activity" },
   { id: "opportunities", label: "Opportunities" },
+  { id: "notes", label: "Notes" },
 ]
 
 function NavArrow({ direction }) {
@@ -67,6 +69,7 @@ export default function WorkflowActivityPanel({
   if (!card) return null
 
   const ucCount = card.useCaseOpportunities?.length ?? 0
+  const commentCount = card.commentThread?.length ?? 0
   const hasPrev = navIndex > 0
   const hasNext = navIndex < navTotal - 1
 
@@ -143,12 +146,15 @@ export default function WorkflowActivityPanel({
               {tab.id === "opportunities" && ucCount > 0 && (
                 <span className="wf-activity-modal__tab-badge">{ucCount}</span>
               )}
+              {tab.id === "notes" && commentCount > 0 && (
+                <span className="wf-activity-modal__tab-badge">{commentCount}</span>
+              )}
             </button>
           ))}
         </div>
 
         <div className="wf-activity-modal__body">
-          {activeTab === "activity" ? (
+          {activeTab === "activity" && (
             <section className="wf-activity-edit">
               <label className="wf-field">
                 <span>Details</span>
@@ -192,8 +198,12 @@ export default function WorkflowActivityPanel({
                 <WorkflowAiToolsSection card={card} onUpdate={onUpdate} />
               )}
             </section>
-          ) : (
+          )}
+          {activeTab === "opportunities" && (
             <WorkflowUseCaseTab card={card} onUpdate={onUpdate} />
+          )}
+          {activeTab === "notes" && (
+            <WorkflowCommentsBlock card={card} onUpdate={onUpdate} />
           )}
         </div>
 

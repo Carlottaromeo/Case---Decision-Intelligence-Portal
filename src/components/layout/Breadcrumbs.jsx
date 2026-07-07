@@ -43,7 +43,7 @@ export function PageHeader({ breadcrumbs, title, subtitle, stats, actions, onBre
               {stats.map((s) => (
                 <div key={s.label} className="page-header__stat glass-panel">
                   <div className="page-header__stat-label">{s.label}</div>
-                  <div className="page-header__stat-value" style={{ color: C.text }}>{s.value}</div>
+                  <div className="page-header__stat-value" style={{ color: s.color ?? C.text }}>{s.value}</div>
                 </div>
               ))}
             </div>

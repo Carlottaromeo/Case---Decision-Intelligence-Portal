@@ -1,6 +1,6 @@
 import { C, CHART, LOCALE } from "../../theme"
-import { Card, SH, KpiCard, ExecutiveInsight } from "../UI"
-import { DATA_TIERS, dataQualityBucketSummary } from "../../data/dashboardCopy"
+import { Card, SH, KpiCard, ExecutiveInsight, Callout } from "../UI"
+import { dataQualityBucketSummary } from "../../data/dashboardCopy"
 import { useMeasuredData } from "../../context/DashboardDataContext"
 import { deptColor, accentFill } from "../../data/processMapsMeta"
 
@@ -10,35 +10,84 @@ export default function DataQualityOverview({ onGoToFiles }) {
   const sortedDept = [...DEPT].sort((a, b) => b.total - a.total)
   const unknownRow = DEPT.find((d) => d.d === "Unknown")
   const bucketNotes = dataQualityBucketSummary(DATA_QUALITY)
+  const unknownProvisioned = DATA_QUALITY.unmapped_missing_dept_field ?? 0
+  const mappedProvisionedSub = unknownProvisioned > 0
+    ? `Linked to a business unit (${unknownProvisioned} in Unknown)`
+    : "Linked to a business unit"
+  const sourceSubStyle = {
+    display: "block",
+    width: "100%",
+    textAlign: "left",
+    padding: 0,
+    border: "none",
+    background: "transparent",
+    color: C.subtle,
+    fontSize: 12,
+    lineHeight: 1.35,
+    textDecoration: "underline",
+    textUnderlineOffset: 2,
+    cursor: "pointer",
+  }
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       <ExecutiveInsight
-        badge={DATA_TIERS.measured.label}
-        badgeColor={DATA_TIERS.measured.color}
         see={`${mappingPct}% of provisioned users mapped to a business unit. ${DATA_QUALITY.excel_undefined_dept_rows} directory rows still lack a department and are grouped into Unknown.`}
         matter="Unknown now represents only directory-linked users with missing department values."
         action="Edit source files to fix mapping gaps; charts recalculate automatically."
       />
 
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 14 }}>
-        <KpiCard label="Directory rows" value={KPIs.total_employees.toLocaleString(LOCALE)} color={CHART.primary} />
-        <KpiCard label="Usage rows" value={(usageRows?.length ?? 0).toLocaleString(LOCALE)} color={CHART.secondary} />
-        <KpiCard label="Mapped provisioned users" value={`${DATA_QUALITY.provisioned_mapped_to_dept}/${DATA_QUALITY.provisioned_total}`} sub="Linked to a business unit" color={C.green} highlight />
+        <KpiCard
+          label="Directory rows"
+          value={KPIs.total_employees.toLocaleString(LOCALE)}
+          sub={
+            onGoToFiles ? (
+              <button type="button" style={sourceSubStyle} onClick={onGoToFiles}>
+                Source: employee directory (.xlsx)
+              </button>
+            ) : (
+              "Source: employee directory (.xlsx)"
+            )
+          }
+          color={CHART.primary}
+        />
+        <KpiCard
+          label="Usage rows"
+          value={(usageRows?.length ?? 0).toLocaleString(LOCALE)}
+          sub={
+            onGoToFiles ? (
+              <button type="button" style={sourceSubStyle} onClick={onGoToFiles}>
+                Source: AI usage export (.csv)
+              </button>
+            ) : (
+              "Source: AI usage export (.csv)"
+            )
+          }
+          color={CHART.secondary}
+        />
+        <KpiCard
+          label="Mapped provisioned users"
+          value={`${DATA_QUALITY.provisioned_mapped_to_dept}/${DATA_QUALITY.provisioned_total}`}
+          sub={mappedProvisionedSub}
+          color={C.green}
+        />
         <div id="anomaly-missing-department">
           <KpiCard
             label="Missing dept. in directory"
             value={DATA_QUALITY.excel_undefined_dept_rows}
             sub="Invalid / empty Department field"
             color={C.amber}
-            highlight
           />
         </div>
       </div>
 
-      <Card>
-        <SH title="How the counts relate" sub="Unknown is now directory-only" />
-        <ul className="dq-bucket-notes">
+      <Callout variant="alert" title="How the counts relate">
+        <p className="dq-warning-lead">
+          Mapped BU coverage is {DATA_QUALITY.provisioned_mapped_to_dept}/{DATA_QUALITY.provisioned_total}:{" "}
+          {unknownProvisioned} provisioned user{unknownProvisioned === 1 ? "" : "s"} remain in Unknown because Department is missing in directory.
+        </p>
+        <ul className="dq-bucket-notes dq-bucket-notes--warning">
           {bucketNotes.map((note) => (
             <li key={note}>{note}</li>
           ))}
@@ -53,7 +102,7 @@ export default function DataQualityOverview({ onGoToFiles }) {
             {DATA_QUALITY.excluded_usage_ids} usage IDs are excluded because they are not present in the employee directory ({DATA_QUALITY.excluded_usage_credits_pct ?? 0}% of credits).
           </p>
         )}
-      </Card>
+      </Callout>
 
       <Card>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 12, marginBottom: 16 }}>

@@ -372,8 +372,8 @@ export function processSourceData({ directoryRows, csvText }) {
   const thinkingProPct = pct(tierTotals["LLM-thinking"] + tierTotals["LLM-pro"], totalCredits)
 
   const unmappedNotInDirectory = 0
-  const unmappedMissingDeptField = 0
-  const unmappedProvisioned = 0
+  const unmappedMissingDeptField = DEPT.find((d) => d.d === "Unknown")?.provisioned ?? 0
+  const unmappedProvisioned = unmappedMissingDeptField
   const unmappedCredits = 0
 
   const DATA_QUALITY = {

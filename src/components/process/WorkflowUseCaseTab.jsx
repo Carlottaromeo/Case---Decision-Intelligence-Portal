@@ -7,6 +7,7 @@ import {
   generateAiUseCaseSuggestions,
   USE_CASE_SOURCE_META,
 } from "../../utils/workflowUseCases"
+import WorkflowSessionAuthor from "./WorkflowSessionAuthor"
 
 export default function WorkflowUseCaseTab({ card, onUpdate }) {
   const { user } = useSession()
@@ -166,6 +167,7 @@ export default function WorkflowUseCaseTab({ card, onUpdate }) {
       {mode === "manual" && (
         <section className="wf-uc-block">
           <h4 className="wf-uc-block__title">Manual entry</h4>
+          <WorkflowSessionAuthor prefix="Opportunity by" />
           <form className="wf-uc-manual-form" onSubmit={addManual}>
             <textarea
               value={manualDraft}

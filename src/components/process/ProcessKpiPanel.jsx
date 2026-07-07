@@ -1,6 +1,5 @@
 import { C, LOCALE } from "../../theme"
 import { deptColor } from "../../data/processMapsMeta"
-import { DATA_TIERS } from "../../data/dashboardCopy"
 import ProcessMetric from "./ProcessMetric"
 
 export default function ProcessKpiPanel({ map }) {
@@ -12,7 +11,7 @@ export default function ProcessKpiPanel({ map }) {
         KPI panel
       </div>
       <div style={{ fontSize: 11, fontWeight: 700, color: C.subtle, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>
-        {DATA_TIERS.measured.label} — department usage
+        Department usage
       </div>
       <div className="glass-panel" style={{ borderRadius: 16, padding: "16px 18px", marginBottom: 12 }}>
         <div style={{
@@ -31,7 +30,7 @@ export default function ProcessKpiPanel({ map }) {
         </div>
       </div>
       <div style={{ fontSize: 11, fontWeight: 700, color: C.subtle, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 8 }}>
-        {DATA_TIERS.simulated.label} — process opportunity
+        Process opportunity
       </div>
       <div className="glass-panel" style={{ borderRadius: 16, padding: "16px 18px" }}>
         <div style={{

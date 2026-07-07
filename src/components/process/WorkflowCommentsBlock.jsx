@@ -5,6 +5,7 @@ import {
   formatCommentDate,
   personInitials,
 } from "../../utils/workflowComments"
+import WorkflowSessionAuthor from "./WorkflowSessionAuthor"
 
 export default function WorkflowCommentsBlock({ card, onUpdate, compact = false }) {
   const { user } = useSession()
@@ -55,10 +56,7 @@ export default function WorkflowCommentsBlock({ card, onUpdate, compact = false 
 
       {user ? (
         <form className="wf-comments__form" onSubmit={addComment}>
-          <div className="wf-comments__form-head">
-            <span className="wf-comments__form-avatar">{user.initials}</span>
-            <span>Comment as <strong>{user.name}</strong></span>
-          </div>
+          <WorkflowSessionAuthor prefix="Comment as" />
           <textarea
             value={commentDraft}
             rows={2}

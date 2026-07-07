@@ -7,6 +7,7 @@ import CardActionBar from "./CardActionBar"
 import { ACTION_BAR_OFFSET } from "./cardActions"
 
 const SORT_OPTIONS = [
+  { key: "prov_rate", label: "Adoption %" },
   { key: "provisioned", label: "Provisioned users" },
   { key: "cr_week", label: "Cr/week avg" },
   { key: "cr_user", label: "Cr/user (13w)" },
@@ -16,6 +17,7 @@ const SORT_OPTIONS = [
 const COLUMNS = [
   { key: "department", label: "Department" },
   { key: "provisioned", label: "Provisioned users" },
+  { key: "adoption", label: "Adoption %" },
   { key: "gap", label: "Outside rollout" },
   { key: "cr_user", label: "Cr/user (13w)" },
   { key: "cr_week", label: "Cr/week avg" },
@@ -24,7 +26,7 @@ const COLUMNS = [
 
 export default function Dipartimenti({ onOpenInsights }) {
   const { DEPT, KPIs, DATA_QUALITY } = useMeasuredData()
-  const [sortBy, setSortBy] = useState("cr_week")
+  const [sortBy, setSortBy] = useState("prov_rate")
 
   const sorted = [...DEPT].sort((a, b) => b[sortBy] - a[sortBy])
   const byAdoption = [...DEPT].sort((a, b) => b.prov_rate - a.prov_rate)
@@ -45,6 +47,9 @@ export default function Dipartimenti({ onOpenInsights }) {
     totals.provisioned > 0
       ? Math.round((totals.total_credits / totals.provisioned / weeks) * 10) / 10
       : 0
+  totals.adoption = totals.provisioned + totals.gap > 0
+    ? Math.round((totals.provisioned / (totals.provisioned + totals.gap)) * 1000) / 10
+    : 0
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
@@ -75,25 +80,40 @@ export default function Dipartimenti({ onOpenInsights }) {
         />
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12, flexWrap: "wrap", gap: 12, paddingRight: ACTION_BAR_OFFSET }}>
           <SH title="Department comparison" />
-          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-            {SORT_OPTIONS.map((o) => (
-              <button
-                key={o.key}
-                type="button"
-                onClick={() => setSortBy(o.key)}
-                style={{
-                  padding: "4px 10px",
-                  borderRadius: 20,
-                  fontSize: 11,
-                  fontWeight: 600,
-                  border: sortBy === o.key ? `1px solid ${C.accent}` : `1px solid ${C.glassBorder}`,
-                  background: sortBy === o.key ? C.accentDim : C.pillBg,
-                  color: sortBy === o.key ? C.accent : C.muted,
-                }}
-              >
-                {o.label}
-              </button>
-            ))}
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "4px 10px",
+              borderRadius: 999,
+              border: `1px solid ${C.glassBorder}`,
+              background: C.pillBg,
+            }}
+          >
+            <span style={{ color: C.muted, fontSize: 13 }} title="Reorder">
+              ⇅
+            </span>
+            <select
+              aria-label="Reorder departments"
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              style={{
+                border: "none",
+                background: "transparent",
+                color: C.text,
+                fontSize: 12,
+                fontWeight: 600,
+                outline: "none",
+                cursor: "pointer",
+              }}
+            >
+              {SORT_OPTIONS.map((o) => (
+                <option key={o.key} value={o.key}>
+                  {o.label}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
         <p style={{ fontSize: 12, color: C.muted, margin: "0 0 16px", paddingRight: ACTION_BAR_OFFSET }}>
@@ -145,6 +165,9 @@ export default function Dipartimenti({ onOpenInsights }) {
                     <td style={{ padding: "12px 14px", textAlign: "right", color: C.textSub }}>
                       {d.provisioned.toLocaleString(LOCALE)}
                     </td>
+                    <td style={{ padding: "12px 14px", textAlign: "right", fontWeight: 700, color: C.text }}>
+                      {d.prov_rate}%
+                    </td>
                     <td
                       style={{
                         padding: "12px 14px",
@@ -179,6 +202,9 @@ export default function Dipartimenti({ onOpenInsights }) {
                 <td style={{ padding: "12px 14px", fontWeight: 800, color: C.text }}>Total</td>
                 <td style={{ padding: "12px 14px", textAlign: "right", fontWeight: 800, color: C.text }}>
                   {totals.provisioned.toLocaleString(LOCALE)}
+                </td>
+                <td style={{ padding: "12px 14px", textAlign: "right", fontWeight: 800, color: C.text }}>
+                  {totals.adoption}%
                 </td>
                 <td style={{ padding: "12px 14px", textAlign: "right", fontWeight: 800, color: C.text }}>
                   {totals.gap.toLocaleString(LOCALE)}

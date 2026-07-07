@@ -14,7 +14,7 @@ export const APP_SECTIONS = [
       },
       {
         id: "adoption-analytics",
-        label: "Adoption Analytics",
+        label: "Adoption analytics",
         question: "Where is adoption strong or weak?",
       },
       {

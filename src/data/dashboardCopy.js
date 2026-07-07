@@ -20,7 +20,7 @@ export const MVP_GLOBAL_NOTE =
 
 export const NAV_ITEMS = [
   { id: "panoramica", label: "Executive View" },
-  { id: "dipartimenti", label: "Adoption Analytics" },
+  { id: "dipartimenti", label: "Adoption analytics" },
   { id: "investment", label: "Strategic allocation" },
   { id: "forecasting", label: "Forecasting" },
   { id: "processmaps", label: "Process mapping" },

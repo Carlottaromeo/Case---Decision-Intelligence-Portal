@@ -165,7 +165,7 @@ export default function Panoramica({ onOpenInsights, onNavigate }) {
             items: [
               "Horizontal bars show total credits consumed per tool over the period.",
               "Compare share of Chat vs Excel vs Coding IDE at company level.",
-              "Department-level tool mix may differ — see Adoption Analytics.",
+              "Department-level tool mix may differ — see Adoption analytics.",
             ],
           }}
           insights={onOpenInsights ? () => onOpenInsights({

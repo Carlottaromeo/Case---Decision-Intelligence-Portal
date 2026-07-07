@@ -139,7 +139,9 @@ export function processSourceData({ directoryRows, csvText }) {
   })
   const deptAgg = {}
   const seniorityAgg = {}
-  const unmappedCreditsByUser = new Map()
+  const excludedUsageIds = new Set()
+  let excludedUsageCredits = 0
+  let excludedUsageSessions = 0
   const USAGE_RECORDS = []
   const PROCESS_WEEKS_MAP = new Map()
 
@@ -149,6 +151,13 @@ export function processSourceData({ directoryRows, csvText }) {
 
     const sessions = Number(sessionsStr)
     const credits = parseCredits(creditsRaw)
+    if (!excelAllIds.has(empId)) {
+      excludedUsageIds.add(empId)
+      excludedUsageCredits += credits.total_credits
+      excludedUsageSessions += sessions
+      continue
+    }
+
     const dept = empMap[empId] ?? "Unknown"
     const seniority = seniorityMap[empId] ?? "Unknown"
 
@@ -200,9 +209,6 @@ export function processSourceData({ directoryRows, csvText }) {
       }
     }
 
-    if (dept === "Unknown" && !excelAllIds.has(empId)) {
-      unmappedCreditsByUser.set(empId, (unmappedCreditsByUser.get(empId) || 0) + credits.total_credits)
-    }
     if (!deptAgg[dept]) {
       deptAgg[dept] = {
         users: new Set(),
@@ -365,14 +371,10 @@ export function processSourceData({ directoryRows, csvText }) {
 
   const thinkingProPct = pct(tierTotals["LLM-thinking"] + tierTotals["LLM-pro"], totalCredits)
 
-  let unmappedNotInDirectory = 0
-  let unmappedMissingDeptField = 0
-  for (const id of provisionedUsers) {
-    if (!excelAllIds.has(id)) unmappedNotInDirectory++
-    else if (!empMap[id]) unmappedMissingDeptField++
-  }
-  const unmappedProvisioned = unmappedNotInDirectory + unmappedMissingDeptField
-  const unmappedCredits = [...unmappedCreditsByUser.values()].reduce((s, v) => s + v, 0)
+  const unmappedNotInDirectory = 0
+  const unmappedMissingDeptField = 0
+  const unmappedProvisioned = 0
+  const unmappedCredits = 0
 
   const DATA_QUALITY = {
     provisioned_total: provisioned,
@@ -383,6 +385,10 @@ export function processSourceData({ directoryRows, csvText }) {
     unmapped_credits: unmappedCredits,
     unmapped_credits_pct: pct(unmappedCredits, totalCredits),
     excel_undefined_dept_rows: excelUndefinedDeptRows,
+    excluded_usage_ids: excludedUsageIds.size,
+    excluded_usage_credits: excludedUsageCredits,
+    excluded_usage_credits_pct: pct(excludedUsageCredits, totalCredits + excludedUsageCredits),
+    excluded_usage_sessions: excludedUsageSessions,
   }
 
   const PROCESS_DEFINITIONS = [

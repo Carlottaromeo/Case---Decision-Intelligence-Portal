@@ -57,6 +57,21 @@ export function hasUseCaseOpportunities(card) {
   return Array.isArray(card.useCaseOpportunities) && card.useCaseOpportunities.length > 0
 }
 
+/** Summary for activity card footer — count, sources, authors. */
+export function summarizeOpportunities(card) {
+  const opps = card.useCaseOpportunities ?? []
+  if (!opps.length) return null
+  const manual = opps.filter((o) => o.source === "manual")
+  const ai = opps.filter((o) => o.source === "ai")
+  const authors = [...new Set(manual.map((o) => o.authorName).filter(Boolean))]
+  return {
+    count: opps.length,
+    manualCount: manual.length,
+    aiCount: ai.length,
+    authors,
+  }
+}
+
 export function generateAiUseCaseSuggestions(card) {
   const title = (card.title ?? "this activity").trim()
   const summary = (card.summary ?? "").trim()

@@ -6,7 +6,7 @@ import {
   personInitials,
 } from "../../utils/workflowComments"
 
-export default function WorkflowCommentsBlock({ card, onUpdate }) {
+export default function WorkflowCommentsBlock({ card, onUpdate, compact = false }) {
   const { user } = useSession()
   const [commentDraft, setCommentDraft] = useState("")
   const thread = Array.isArray(card.commentThread) ? card.commentThread : []
@@ -25,7 +25,7 @@ export default function WorkflowCommentsBlock({ card, onUpdate }) {
   }
 
   return (
-    <section className="wf-activity-modal__section wf-activity-modal__section--comments">
+    <section className={`wf-activity-modal__section wf-activity-modal__section--comments${compact ? " wf-comments--inline" : ""}`}>
       <h3 className="wf-activity-modal__section-title">
         Comments
         <span className="wf-comments__count">{thread.length}</span>

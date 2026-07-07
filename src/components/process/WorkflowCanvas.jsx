@@ -60,6 +60,7 @@ function PhaseBlock({
   onDelete,
   onDuplicate,
   onAddCard,
+  onUpdateCard,
 }) {
   const isRow = phase.cards.length > 1
 
@@ -71,6 +72,7 @@ function PhaseBlock({
       onSelect={() => onSelect(phase.id, card.id)}
       onDelete={() => onDelete(phase.id, card.id)}
       onDuplicate={() => onDuplicate(phase.id, card.id)}
+      onUpdate={(patch) => onUpdateCard(phase.id, card.id, patch)}
     />
   )
 
@@ -337,6 +339,7 @@ export default function WorkflowCanvas({
                           onDelete={handleDeleteCard}
                           onDuplicate={handleDuplicateCard}
                           onAddCard={handleAddCard}
+                          onUpdateCard={handleUpdateCard}
                         />
                         {phaseIndex < draft.phases.length - 1 && (
                           <WorkflowConnector

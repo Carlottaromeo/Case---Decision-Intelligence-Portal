@@ -122,10 +122,20 @@ export function departmentMappingNotes() {
     `Usage export (CSV): weekly AI credits and sessions only — department is joined via employee_id.`,
     "Underwriting is a standard business department (148 employees in directory), not the same as Unknown.",
     "Unknown in the directory table: employees with a missing or invalid Department field (empty, undefined, or Sconosciuto).",
-    "Unmapped provisioned users: appear in the usage CSV but cannot be assigned to a business unit (test accounts or missing directory link).",
+    "Usage IDs not found in the employee directory are excluded from dashboard metrics (they are not counted as provisioned users).",
   ]
 }
 
 export function departmentUnknownNote() {
-  return "Unknown in department charts means missing department in the employee directory — not a business unit. See Data Quality for mapping detail."
+  return "Unknown is a data-quality bucket — not a business unit. It only includes directory-linked users whose Department is missing/invalid. Usage IDs not found in directory are excluded from dashboard metrics."
+}
+
+/** Short explainer for Data Quality KPI cards — three distinct counts. */
+export function dataQualityBucketSummary(dq) {
+  const missingDept = dq?.excel_undefined_dept_rows ?? 0
+  return [
+    `${missingDept} employee directory row${missingDept === 1 ? "" : "s"} have no valid Department field and are grouped into Unknown.`,
+    "Unknown now reflects only directory-linked users with missing Department values.",
+    "Usage IDs that do not exist in the directory are excluded from all dashboard metrics.",
+  ]
 }

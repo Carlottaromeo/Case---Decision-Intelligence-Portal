@@ -83,11 +83,6 @@ export default function InsightFlowCard({
               ))}
             </ul>
           )}
-          {aiRec && (
-            <p className="insight-flow__ai-note">
-              Proposed from historical interventions and measured usage patterns.
-            </p>
-          )}
         </AiSummarySection>
       </FlowStep>
     </article>

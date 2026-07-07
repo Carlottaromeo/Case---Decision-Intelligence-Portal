@@ -3,75 +3,75 @@
 export const WEEKLY = [
   {
     "week": "Dec 29",
-    "credits": 19676,
-    "sessions": 2682,
-    "active_users": 377
+    "credits": 19573,
+    "sessions": 2669,
+    "active_users": 373
   },
   {
     "week": "Jan 5",
-    "credits": 25051,
-    "sessions": 3183,
-    "active_users": 379
+    "credits": 24880,
+    "sessions": 3165,
+    "active_users": 375
   },
   {
     "week": "Jan 12",
-    "credits": 29596,
-    "sessions": 3686,
-    "active_users": 399
-  },
-  {
-    "week": "Jan 19",
-    "credits": 33138,
-    "sessions": 3936,
-    "active_users": 392
-  },
-  {
-    "week": "Jan 26",
-    "credits": 35662,
-    "sessions": 4221,
-    "active_users": 387
-  },
-  {
-    "week": "Feb 2",
-    "credits": 39472,
-    "sessions": 4235,
-    "active_users": 386
-  },
-  {
-    "week": "Feb 9",
-    "credits": 46011,
-    "sessions": 4545,
-    "active_users": 391
-  },
-  {
-    "week": "Feb 16",
-    "credits": 48615,
-    "sessions": 4945,
-    "active_users": 392
-  },
-  {
-    "week": "Feb 23",
-    "credits": 50322,
-    "sessions": 4940,
-    "active_users": 397
-  },
-  {
-    "week": "Mar 2",
-    "credits": 54705,
-    "sessions": 5285,
-    "active_users": 384
-  },
-  {
-    "week": "Mar 9",
-    "credits": 61164,
-    "sessions": 5857,
+    "credits": 29381,
+    "sessions": 3660,
     "active_users": 394
   },
   {
+    "week": "Jan 19",
+    "credits": 32927,
+    "sessions": 3913,
+    "active_users": 388
+  },
+  {
+    "week": "Jan 26",
+    "credits": 35535,
+    "sessions": 4199,
+    "active_users": 384
+  },
+  {
+    "week": "Feb 2",
+    "credits": 39397,
+    "sessions": 4224,
+    "active_users": 384
+  },
+  {
+    "week": "Feb 9",
+    "credits": 45762,
+    "sessions": 4516,
+    "active_users": 388
+  },
+  {
+    "week": "Feb 16",
+    "credits": 48586,
+    "sessions": 4941,
+    "active_users": 391
+  },
+  {
+    "week": "Feb 23",
+    "credits": 50243,
+    "sessions": 4933,
+    "active_users": 396
+  },
+  {
+    "week": "Mar 2",
+    "credits": 54646,
+    "sessions": 5278,
+    "active_users": 383
+  },
+  {
+    "week": "Mar 9",
+    "credits": 61102,
+    "sessions": 5847,
+    "active_users": 393
+  },
+  {
     "week": "Mar 16",
-    "credits": 64055,
-    "sessions": 6062,
-    "active_users": 395
+    "credits": 63917,
+    "sessions": 6044,
+    "active_users": 394
   },
   {
     "week": "Mar 23",
@@ -259,17 +259,17 @@ export const DEPT = [
     "provisioned": 1,
     "gap": 29,
     "prov_rate": 3.3,
-    "total_credits": 1581,
-    "total_sessions": 208,
-    "active_users": 12,
-    "cr_user": 1581,
-    "cr_week": 121.6,
-    "chat": 71.2,
-    "excel": 17.4,
-    "coding": 11.4,
-    "instant": 60.2,
-    "thinking": 26.4,
-    "pro": 13.4,
+    "total_credits": 63,
+    "total_sessions": 20,
+    "active_users": 1,
+    "cr_user": 63,
+    "cr_week": 4.8,
+    "chat": 87.3,
+    "excel": 12.7,
+    "coding": 0,
+    "instant": 69.8,
+    "thinking": 25.4,
+    "pro": 4.8,
     "color": "64748B"
   }
 ];
@@ -277,36 +277,36 @@ export const DEPT = [
 export const TOOL_DATA = [
   {
     "tool": "Chat",
-    "credits": 312721,
+    "credits": 311651,
     "color": "#0A8F3E"
   },
   {
     "tool": "Coding IDE",
-    "credits": 143511,
+    "credits": 143330,
     "color": "#007FA3"
   },
   {
     "tool": "Excel",
-    "credits": 122377,
+    "credits": 122110,
     "color": "#B8009E"
   }
 ];
 
 export const TOOL_TIER_CREDITS = {
   "Chat": {
-    "instant": 232890,
-    "thinking": 64265,
-    "pro": 15566
+    "instant": 232077,
+    "thinking": 64057,
+    "pro": 15517
   },
   "Excel": {
-    "instant": 35557,
-    "thinking": 55648,
-    "pro": 31172
+    "instant": 35480,
+    "thinking": 55535,
+    "pro": 31095
   },
   "Coding IDE": {
-    "instant": 16768,
-    "thinking": 57946,
-    "pro": 68797
+    "instant": 16750,
+    "thinking": 57866,
+    "pro": 68714
   }
 };
 
@@ -398,19 +398,19 @@ export const DEPT_TOOL_TIER_CREDITS = {
   },
   "Unknown": {
     "Chat": {
-      "instant": 854,
-      "thinking": 219,
-      "pro": 52
+      "instant": 41,
+      "thinking": 11,
+      "pro": 3
     },
     "Excel": {
-      "instant": 80,
-      "thinking": 118,
-      "pro": 77
+      "instant": 3,
+      "thinking": 5,
+      "pro": 0
     },
     "Coding IDE": {
-      "instant": 18,
-      "thinking": 80,
-      "pro": 83
+      "instant": 0,
+      "thinking": 0,
+      "pro": 0
     }
   },
   "Sales & Part.": {
@@ -486,17 +486,17 @@ export const DEPT_TOOL_TIER_CREDITS = {
 export const LLM_DATA = [
   {
     "tier": "Instant",
-    "credits": 285215,
+    "credits": 284307,
     "color": "#6B9A00"
   },
   {
     "tier": "Thinking",
-    "credits": 177859,
+    "credits": 177458,
     "color": "#6229FF"
   },
   {
     "tier": "Pro",
-    "credits": 115535,
+    "credits": 115326,
     "color": "#007FA3"
   }
 ];
@@ -510,13 +510,13 @@ export const USER_SEGMENTS = [
   },
   {
     "segment": "Regular",
-    "count": 88,
+    "count": 86,
     "desc": "Active 30–70% of weeks",
     "color": "#007FA3"
   },
   {
     "segment": "Occasional",
-    "count": 11,
+    "count": 2,
     "desc": "Active <30% of weeks",
     "color": "#D95600"
   },
@@ -593,29 +593,33 @@ export const SENIORITY = [
 
 export const KPIs = {
   "total_employees": 1233,
-  "provisioned": 461,
-  "outside_rollout": 772,
-  "provisioning_rate": 37.4,
-  "total_credits": 578609,
-  "total_sessions": 60230,
+  "provisioned": 450,
+  "outside_rollout": 783,
+  "provisioning_rate": 36.5,
+  "total_credits": 577091,
+  "total_sessions": 60042,
   "high_consumption_users": 47,
   "weeks": 13,
-  "growth_pct": 261.6,
-  "avg_credits_per_user": 1255,
-  "avg_sessions_per_user": 131,
-  "active_users": 461,
+  "growth_pct": 263.5,
+  "avg_credits_per_user": 1282,
+  "avg_sessions_per_user": 133,
+  "active_users": 450,
   "thinking_pro_pct": 50.7
 };
 
 export const DATA_QUALITY = {
-  "provisioned_total": 461,
+  "provisioned_total": 450,
   "provisioned_mapped_to_dept": 450,
-  "unmapped_provisioned": 11,
-  "unmapped_not_in_directory": 11,
+  "unmapped_provisioned": 0,
+  "unmapped_not_in_directory": 0,
   "unmapped_missing_dept_field": 0,
-  "unmapped_credits": 1518,
-  "unmapped_credits_pct": 0.3,
-  "excel_undefined_dept_rows": 30
+  "unmapped_credits": 0,
+  "unmapped_credits_pct": 0,
+  "excel_undefined_dept_rows": 30,
+  "excluded_usage_ids": 11,
+  "excluded_usage_credits": 1518,
+  "excluded_usage_credits_pct": 0.3,
+  "excluded_usage_sessions": 188
 };
 
 export const PROCESS_MAPS = [
@@ -16466,46 +16470,6 @@ export const USAGE_RECORDS = [
     "sessions": 2
   },
   {
-    "employee_id": "NSF900002",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "29-12-2025",
-    "week_end": "04-01-2026",
-    "week_label": "Dec 29",
-    "credits": 19,
-    "sessions": 4
-  },
-  {
-    "employee_id": "NSF900003",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "29-12-2025",
-    "week_end": "04-01-2026",
-    "week_label": "Dec 29",
-    "credits": 14,
-    "sessions": 2
-  },
-  {
-    "employee_id": "NSF900005",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "29-12-2025",
-    "week_end": "04-01-2026",
-    "week_label": "Dec 29",
-    "credits": 31,
-    "sessions": 1
-  },
-  {
-    "employee_id": "NSF900008",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "29-12-2025",
-    "week_end": "04-01-2026",
-    "week_label": "Dec 29",
-    "credits": 39,
-    "sessions": 6
-  },
-  {
     "employee_id": "NSF100009",
     "department": "Customer Support",
     "seniority": "L4",
@@ -21004,46 +20968,6 @@ export const USAGE_RECORDS = [
     "week_label": "Jan 5",
     "credits": 20,
     "sessions": 3
-  },
-  {
-    "employee_id": "NSF900003",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "05-01-2026",
-    "week_end": "11-01-2026",
-    "week_label": "Jan 5",
-    "credits": 24,
-    "sessions": 1
-  },
-  {
-    "employee_id": "NSF900004",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "05-01-2026",
-    "week_end": "11-01-2026",
-    "week_label": "Jan 5",
-    "credits": 23,
-    "sessions": 1
-  },
-  {
-    "employee_id": "NSF900010",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "05-01-2026",
-    "week_end": "11-01-2026",
-    "week_label": "Jan 5",
-    "credits": 82,
-    "sessions": 7
-  },
-  {
-    "employee_id": "NSF900012",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "05-01-2026",
-    "week_end": "11-01-2026",
-    "week_label": "Jan 5",
-    "credits": 42,
-    "sessions": 9
   },
   {
     "employee_id": "NSF100009",
@@ -25546,56 +25470,6 @@ export const USAGE_RECORDS = [
     "sessions": 1
   },
   {
-    "employee_id": "NSF900001",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "12-01-2026",
-    "week_end": "18-01-2026",
-    "week_label": "Jan 12",
-    "credits": 58,
-    "sessions": 8
-  },
-  {
-    "employee_id": "NSF900003",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "12-01-2026",
-    "week_end": "18-01-2026",
-    "week_label": "Jan 12",
-    "credits": 23,
-    "sessions": 3
-  },
-  {
-    "employee_id": "NSF900004",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "12-01-2026",
-    "week_end": "18-01-2026",
-    "week_label": "Jan 12",
-    "credits": 75,
-    "sessions": 4
-  },
-  {
-    "employee_id": "NSF900005",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "12-01-2026",
-    "week_end": "18-01-2026",
-    "week_label": "Jan 12",
-    "credits": 22,
-    "sessions": 3
-  },
-  {
-    "employee_id": "NSF900010",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "12-01-2026",
-    "week_end": "18-01-2026",
-    "week_label": "Jan 12",
-    "credits": 37,
-    "sessions": 8
-  },
-  {
     "employee_id": "NSF100009",
     "department": "Customer Support",
     "seniority": "L4",
@@ -30094,46 +29968,6 @@ export const USAGE_RECORDS = [
     "week_label": "Jan 19",
     "credits": 19,
     "sessions": 2
-  },
-  {
-    "employee_id": "NSF900002",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "19-01-2026",
-    "week_end": "25-01-2026",
-    "week_label": "Jan 19",
-    "credits": 15,
-    "sessions": 1
-  },
-  {
-    "employee_id": "NSF900007",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "19-01-2026",
-    "week_end": "25-01-2026",
-    "week_label": "Jan 19",
-    "credits": 78,
-    "sessions": 10
-  },
-  {
-    "employee_id": "NSF900008",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "19-01-2026",
-    "week_end": "25-01-2026",
-    "week_label": "Jan 19",
-    "credits": 63,
-    "sessions": 9
-  },
-  {
-    "employee_id": "NSF900012",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "19-01-2026",
-    "week_end": "25-01-2026",
-    "week_label": "Jan 19",
-    "credits": 55,
-    "sessions": 3
   },
   {
     "employee_id": "NSF100009",
@@ -34636,36 +34470,6 @@ export const USAGE_RECORDS = [
     "sessions": 2
   },
   {
-    "employee_id": "NSF900002",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "26-01-2026",
-    "week_end": "01-02-2026",
-    "week_label": "Jan 26",
-    "credits": 42,
-    "sessions": 8
-  },
-  {
-    "employee_id": "NSF900003",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "26-01-2026",
-    "week_end": "01-02-2026",
-    "week_label": "Jan 26",
-    "credits": 36,
-    "sessions": 5
-  },
-  {
-    "employee_id": "NSF900012",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "26-01-2026",
-    "week_end": "01-02-2026",
-    "week_label": "Jan 26",
-    "credits": 49,
-    "sessions": 9
-  },
-  {
     "employee_id": "NSF100009",
     "department": "Customer Support",
     "seniority": "L4",
@@ -39164,26 +38968,6 @@ export const USAGE_RECORDS = [
     "week_label": "Feb 2",
     "credits": 0,
     "sessions": 0
-  },
-  {
-    "employee_id": "NSF900011",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "02-02-2026",
-    "week_end": "08-02-2026",
-    "week_label": "Feb 2",
-    "credits": 32,
-    "sessions": 1
-  },
-  {
-    "employee_id": "NSF900012",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "02-02-2026",
-    "week_end": "08-02-2026",
-    "week_label": "Feb 2",
-    "credits": 43,
-    "sessions": 10
   },
   {
     "employee_id": "NSF100009",
@@ -43686,36 +43470,6 @@ export const USAGE_RECORDS = [
     "sessions": 2
   },
   {
-    "employee_id": "NSF900001",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "09-02-2026",
-    "week_end": "15-02-2026",
-    "week_label": "Feb 9",
-    "credits": 122,
-    "sessions": 18
-  },
-  {
-    "employee_id": "NSF900007",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "09-02-2026",
-    "week_end": "15-02-2026",
-    "week_label": "Feb 9",
-    "credits": 68,
-    "sessions": 7
-  },
-  {
-    "employee_id": "NSF900008",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "09-02-2026",
-    "week_end": "15-02-2026",
-    "week_label": "Feb 9",
-    "credits": 59,
-    "sessions": 4
-  },
-  {
     "employee_id": "NSF100009",
     "department": "Customer Support",
     "seniority": "L4",
@@ -48214,16 +47968,6 @@ export const USAGE_RECORDS = [
     "week_label": "Feb 16",
     "credits": 34,
     "sessions": 2
-  },
-  {
-    "employee_id": "NSF900001",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "16-02-2026",
-    "week_end": "22-02-2026",
-    "week_label": "Feb 16",
-    "credits": 29,
-    "sessions": 4
   },
   {
     "employee_id": "NSF100009",
@@ -52726,16 +52470,6 @@ export const USAGE_RECORDS = [
     "sessions": 1
   },
   {
-    "employee_id": "NSF900007",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "23-02-2026",
-    "week_end": "01-03-2026",
-    "week_label": "Feb 23",
-    "credits": 79,
-    "sessions": 7
-  },
-  {
     "employee_id": "NSF100009",
     "department": "Customer Support",
     "seniority": "L4",
@@ -57234,16 +56968,6 @@ export const USAGE_RECORDS = [
     "week_label": "Mar 2",
     "credits": 45,
     "sessions": 5
-  },
-  {
-    "employee_id": "NSF900011",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "02-03-2026",
-    "week_end": "08-03-2026",
-    "week_label": "Mar 2",
-    "credits": 59,
-    "sessions": 7
   },
   {
     "employee_id": "NSF100009",
@@ -61746,16 +61470,6 @@ export const USAGE_RECORDS = [
     "sessions": 9
   },
   {
-    "employee_id": "NSF900011",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "09-03-2026",
-    "week_end": "15-03-2026",
-    "week_label": "Mar 9",
-    "credits": 62,
-    "sessions": 10
-  },
-  {
     "employee_id": "NSF100009",
     "department": "Customer Support",
     "seniority": "L4",
@@ -66254,16 +65968,6 @@ export const USAGE_RECORDS = [
     "week_label": "Mar 16",
     "credits": 45,
     "sessions": 7
-  },
-  {
-    "employee_id": "NSF900009",
-    "department": "Unknown",
-    "seniority": "Unknown",
-    "week_start": "16-03-2026",
-    "week_end": "22-03-2026",
-    "week_label": "Mar 16",
-    "credits": 138,
-    "sessions": 18
   },
   {
     "employee_id": "NSF100009",

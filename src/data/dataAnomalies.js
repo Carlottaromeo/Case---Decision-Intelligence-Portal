@@ -1,24 +1,24 @@
 /** Anomalies derived from live DATA_QUALITY — not static data.js */
 export const NAV_TARGETS = {
   dataQuality: { sectionId: "data-quality", pageId: "overview" },
-  dataQualityUnmapped: {
+  dataQualityMissingDepartment: {
     sectionId: "data-quality",
     pageId: "overview",
-    anchor: "anomaly-unmapped-provisioned",
+    anchor: "anomaly-missing-department",
   },
 }
 
 export function buildDataAnomalies(dataQuality) {
   const dq = dataQuality
-  if (!dq || dq.unmapped_provisioned <= 0) return []
+  if (!dq || (dq.excel_undefined_dept_rows ?? 0) <= 0) return []
 
   return [{
-    id: "unmapped-provisioned",
+    id: "missing-department-directory",
     severity: "warning",
-    title: "Unmapped provisioned users",
-    message: `${dq.unmapped_provisioned} of ${dq.provisioned_total} provisioned users have no business unit assigned.`,
-    detail: `${dq.unmapped_not_in_directory} not in employee directory · ${dq.unmapped_credits_pct}% of credits · excluded from department charts.`,
-    target: NAV_TARGETS.dataQualityUnmapped,
+    title: "Directory users without department",
+    message: `${dq.excel_undefined_dept_rows} users in the employee directory have a missing or invalid Department value.`,
+    detail: "These users are grouped into the Unknown bucket until Department is assigned in the directory file.",
+    target: NAV_TARGETS.dataQualityMissingDepartment,
     targetLabel: "Data Quality → mapping detail",
   }]
 }

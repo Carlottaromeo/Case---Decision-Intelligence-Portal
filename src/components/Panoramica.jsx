@@ -43,7 +43,7 @@ export default function Panoramica({ onOpenInsights, onNavigate }) {
             title: "Metric definitions",
             items: [
               "Outside rollout: employees with no AI usage recorded.",
-              "Provisioned: employees with AI access.",
+              "Provisioned users: employees with AI access.",
               "Credits consumed: total over 13 weeks.",
             ],
           }}
@@ -62,7 +62,7 @@ export default function Panoramica({ onOpenInsights, onNavigate }) {
             <div style={{ fontSize: 12, color: C.muted, marginTop: 4 }}>{outsidePct}% of workforce</div>
           </div>
           <div style={{ borderLeft: `1px solid ${C.glassBorder}`, paddingLeft: 24 }}>
-            <div style={{ fontSize: 10, color: C.subtle, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 6 }}>Provisioned</div>
+            <div style={{ fontSize: 10, color: C.subtle, textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: 6 }}>Provisioned users</div>
             <div style={{ fontSize: 32, fontWeight: 800, color: C.accent, letterSpacing: "-0.02em" }}>
               {KPIs.provisioned.toLocaleString(LOCALE)}
             </div>

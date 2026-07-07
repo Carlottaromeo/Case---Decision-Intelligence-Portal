@@ -17,6 +17,7 @@ import {
 import AppSidebar from "./components/layout/AppSidebar"
 import LoginGate from "./components/layout/LoginGate"
 import { PageHeader } from "./components/layout/Breadcrumbs"
+import PageHeaderActions from "./components/PageHeaderActions"
 import { useSession } from "./context/SessionContext"
 import Panoramica from "./components/Panoramica"
 import AdoptionAnalytics from "./components/AdoptionAnalytics"
@@ -71,8 +72,8 @@ function getProcessHeader(processNav) {
     }
   }
   return {
-    title: "Business units",
-    subtitle: "Select a department to explore adoption and workflows",
+    title: "Process mapping",
+    subtitle: "Select the department for which to create or edit processes",
   }
 }
 
@@ -90,6 +91,7 @@ export default function App() {
   const [processNav, setProcessNav] = useState(PROCESS_RESET)
   const [insightPanel, setInsightPanel] = useState(null)
   const [pendingAnchor, setPendingAnchor] = useState(null)
+  const [headerNotice, setHeaderNotice] = useState(null)
 
   const activeSectionId = getSection(sectionId) ? sectionId : DEFAULT_SECTION
   const rawPageId = pages[activeSectionId] ?? DEFAULT_PAGES[activeSectionId]
@@ -120,6 +122,15 @@ export default function App() {
   const headerSubtitle = activeSectionId === "process"
     ? getProcessHeader(processNav).subtitle
     : (singlePageSection ? section?.question : (page?.question ?? section?.question))
+
+  const cockpitStats = useMemo(() => [
+    { label: "Weeks", value: KPIs.weeks },
+    { label: "Employees", value: KPIs.total_employees.toLocaleString(LOCALE) },
+    { label: "Credits used", value: KPIs.total_credits.toLocaleString(LOCALE) },
+  ], [KPIs.weeks, KPIs.total_employees, KPIs.total_credits])
+
+  const showCockpitStats = activeSectionId === "cockpit"
+  const showHeaderActions = true
 
   const openInsights = useCallback((panel) => setInsightPanel(panel), [])
   const closeInsights = useCallback(() => setInsightPanel(null), [])
@@ -198,14 +209,31 @@ export default function App() {
           title={headerTitle}
           subtitle={headerSubtitle}
           onBreadcrumbNavigate={handleBreadcrumbNavigate}
-          stats={activeSectionId === "cockpit" && pageId === "overview-trends" ? [
-            { label: "Weeks", value: KPIs.weeks },
-            { label: "Employees", value: KPIs.total_employees.toLocaleString(LOCALE) },
-            { label: "Credits used", value: KPIs.total_credits.toLocaleString(LOCALE) },
-          ] : undefined}
+          stats={showCockpitStats ? cockpitStats : undefined}
+          actions={
+            showHeaderActions ? (
+              <PageHeaderActions
+                title={headerTitle}
+                subtitle={headerSubtitle}
+                kpis={cockpitStats}
+                onNotify={(msg) => {
+                  setHeaderNotice(msg)
+                  setTimeout(() => setHeaderNotice(null), 2400)
+                }}
+              />
+            ) : null
+          }
         />
 
         <div className="app-content-scroll">
+          {headerNotice && (
+            <NotificationBanner
+              type="success"
+              message={headerNotice}
+              onDismiss={() => setHeaderNotice(null)}
+              className="app-data-refresh-banner"
+            />
+          )}
           {dataRefreshMessage && (
             <NotificationBanner
               type="success"

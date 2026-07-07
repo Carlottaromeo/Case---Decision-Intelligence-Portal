@@ -7,18 +7,18 @@ import CardActionBar from "./CardActionBar"
 import { ACTION_BAR_OFFSET } from "./cardActions"
 
 const SORT_OPTIONS = [
-  { key: "provisioned", label: "Active users" },
-  { key: "cr_week", label: "Cr/week" },
-  { key: "cr_user", label: "Cr/user" },
+  { key: "provisioned", label: "Provisioned users" },
+  { key: "cr_week", label: "Cr/week avg" },
+  { key: "cr_user", label: "Cr/user (13w)" },
   { key: "total_credits", label: "Total credits" },
 ]
 
 const COLUMNS = [
   { key: "department", label: "Department" },
-  { key: "provisioned", label: "Active users" },
+  { key: "provisioned", label: "Provisioned users" },
   { key: "gap", label: "Outside rollout" },
-  { key: "cr_user", label: "Cr/user" },
-  { key: "cr_week", label: "Cr/week" },
+  { key: "cr_user", label: "Cr/user (13w)" },
+  { key: "cr_week", label: "Cr/week avg" },
   { key: "total_credits", label: "Total credits" },
 ]
 
@@ -49,7 +49,7 @@ export default function Dipartimenti({ onOpenInsights }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       <ExecutiveInsight
-        see={`${strongest?.d ?? "—"} leads on access (${strongest?.prov_rate ?? "—"}%); ${weakest?.d ?? "—"} lags (${weakest?.prov_rate ?? "—"}%). ${KPIs.provisioned} employees provisioned.`}
+        see={`${strongest?.d ?? "—"} leads on access (${strongest?.prov_rate ?? "—"}%); ${weakest?.d ?? "—"} lags (${weakest?.prov_rate ?? "—"}%). ${KPIs.provisioned} provisioned users.`}
         matter="Adoption quality varies sharply by department — high usage in some areas coexists with low access elsewhere."
         action={`Close the gap in ${weakest?.d ?? "lagging departments"} while sustaining momentum in ${strongest?.d ?? "leading departments"}.`}
       />
@@ -59,16 +59,18 @@ export default function Dipartimenti({ onOpenInsights }) {
           info={{
             title: "How to use this table",
             items: [
-              "Active users = provisioned employees with AI access in the department.",
+              "Provisioned users = employees with AI access in the department.",
               "Outside rollout = employees in the department without AI access.",
-              "Use the sort pills to reorder by active users, Cr/week, Cr/user, or total credits.",
+              `Cr/user (13w) = total credits in period divided by provisioned users in period (${weeks} weeks).`,
+              `Cr/week avg = average credits per provisioned user per week over the same ${weeks}-week period.`,
+              "Use the sort pills to reorder by provisioned users, Cr/week, Cr/user, or total credits.",
               `Department totals cover ${DATA_QUALITY.provisioned_mapped_to_dept} of ${DATA_QUALITY.provisioned_total} provisioned users.`,
             ],
           }}
           insights={onOpenInsights ? () => onOpenInsights({
             insightIds: ["high-intensity-incomplete-rollout", "low-adoption-unknown-cause"],
             title: "Department usage intensity",
-            subtitle: "Active users and credits per week",
+            subtitle: "Provisioned users and credits per week",
           }) : null}
         />
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12, flexWrap: "wrap", gap: 12, paddingRight: ACTION_BAR_OFFSET }}>

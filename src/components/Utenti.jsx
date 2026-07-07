@@ -18,7 +18,26 @@ export default function Utenti({ onOpenInsights }) {
   const segmentTotal = USER_SEGMENTS.reduce((s, x) => s + x.count, 0)
   const seniorityHeadcount = SENIORITY.reduce((s, x) => s + x.total_in_company, 0)
   const seniorityActive = SENIORITY.reduce((s, x) => s + x.active_users, 0)
+  const seniorityCredits = SENIORITY.reduce((s, x) => s + x.credits, 0)
   const companyTotal = KPIs.total_employees
+  const provisionedTotal = KPIs.provisioned
+
+  const noSeniorityRow = {
+    level: "No seniority detected",
+    total_in_company: Math.max(companyTotal - seniorityHeadcount, 0),
+    active_users: Math.max(provisionedTotal - seniorityActive, 0),
+    credits: Math.max(KPIs.total_credits - seniorityCredits, 0),
+  }
+  noSeniorityRow.ai_adoption_pct = noSeniorityRow.total_in_company > 0
+    ? Math.round((noSeniorityRow.active_users / noSeniorityRow.total_in_company) * 1000) / 10
+    : 0
+  noSeniorityRow.cr_user = noSeniorityRow.active_users > 0
+    ? Math.round(noSeniorityRow.credits / noSeniorityRow.active_users)
+    : 0
+
+  const seniorityRows = noSeniorityRow.total_in_company > 0
+    ? [...SENIORITY, noSeniorityRow]
+    : SENIORITY
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
@@ -102,14 +121,14 @@ export default function Utenti({ onOpenInsights }) {
             <SH title="Credits used by seniority level" sub="Average consumption among active users" />
           </div>
           <ResponsiveContainer width="100%" height={280}>
-            <BarChart data={SENIORITY} margin={{ left: 0, right: 10, top: 5, bottom: 5 }}>
+            <BarChart data={seniorityRows} margin={{ left: 0, right: 10, top: 5, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={CHART.grid} vertical={false} />
               <XAxis dataKey="level" tick={{ fill: C.subtle, fontSize: 12 }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fill: C.subtle, fontSize: 11 }} axisLine={false} tickLine={false} width={45}
                 tickFormatter={v => v >= 1000 ? `${(v / 1000).toFixed(1)}k` : v} />
               <Tooltip content={<ChartTooltip />} />
               <Bar dataKey="cr_user" name="Credits used/user" radius={[6, 6, 0, 0]}>
-                {SENIORITY.map((_, i) => (
+                {seniorityRows.map((_, i) => (
                   <Cell key={i} fill={CHART.fills[i % CHART.fills.length]} />
                 ))}
               </Bar>
@@ -123,35 +142,35 @@ export default function Utenti({ onOpenInsights }) {
           info={{
             title: "How to read this table",
             items: [
-              "In company: employees at each level in the directory (L1–L6 vs total headcount).",
-              "AI active: provisioned users with recorded usage in the period.",
+              "In directory: employees at each level in the directory (L1–L6 vs total headcount).",
+              "Active users: provisioned users with recorded usage in the period.",
               "Intensity bar compares credits/user relative to the highest level.",
             ],
           }}
           insights={onOpenInsights ? () => onOpenInsights({
             insightIds: ["seniority-intensity-gradient", "gap-is-access-not-motivation"],
             title: "Seniority detail",
-            subtitle: "Headcount vs AI-active users by level",
+            subtitle: "Headcount vs active users by level",
           }) : null}
         />
         <div style={{ paddingRight: ACTION_BAR_OFFSET }}>
           <SH
             title="Seniority detail"
-            sub={`${seniorityHeadcount.toLocaleString(LOCALE)} L1–L6 in company (${pctLabel(seniorityHeadcount, companyTotal)} of ${companyTotal.toLocaleString(LOCALE)}) · ${seniorityActive.toLocaleString(LOCALE)} AI-active in period`}
+            sub={`${seniorityHeadcount.toLocaleString(LOCALE)} L1–L6 in directory (${pctLabel(seniorityHeadcount, companyTotal)} of ${companyTotal.toLocaleString(LOCALE)}) · ${seniorityActive.toLocaleString(LOCALE)} active users in period`}
           />
         </div>
         <div style={{ overflowX: "auto" }}>
           <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13 }}>
             <thead>
               <tr style={{ borderBottom: `2px solid ${C.glassBorder}` }}>
-                {["Level", "In company", "AI active", "Credits used", "Credits used/user", "Intensity"].map(h => (
+                {["Level", "In directory", "Active users", "Credits used", "Credits used/user", "Intensity"].map(h => (
                   <th key={h} style={{ padding: "10px 14px", textAlign: "left", color: C.muted, fontWeight: 600, fontSize: 11, textTransform: "uppercase" }}>{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
-              {SENIORITY.map((s, i) => {
-                const maxCr = Math.max(...SENIORITY.map(x => x.cr_user))
+              {seniorityRows.map((s, i) => {
+                const maxCr = Math.max(...seniorityRows.map(x => x.cr_user))
                 const col = CHART.series[i % CHART.series.length]
                 const fill = CHART.fills[i % CHART.fills.length]
                 return (
@@ -176,18 +195,22 @@ export default function Utenti({ onOpenInsights }) {
                 )
               })}
               <tr style={{ borderTop: `2px solid ${C.glassBorder}`, background: C.rowAlt, fontWeight: 700 }}>
-                <td style={{ padding: "12px 14px", color: C.text }}>Total L1–L6</td>
+                <td style={{ padding: "12px 14px", color: C.text }}>Total (incl. no seniority detected)</td>
                 <td style={{ padding: "12px 14px", color: C.text }}>
-                  {seniorityHeadcount.toLocaleString(LOCALE)}
-                  <div style={{ fontSize: 11, fontWeight: 500, color: C.subtle }}>{pctLabel(seniorityHeadcount, companyTotal)} of company</div>
-                </td>
-                <td style={{ padding: "12px 14px", color: C.text }}>
-                  {seniorityActive.toLocaleString(LOCALE)}
+                  {seniorityRows.reduce((s, x) => s + x.total_in_company, 0).toLocaleString(LOCALE)}
                   <div style={{ fontSize: 11, fontWeight: 500, color: C.subtle }}>
-                    {seniorityHeadcount > 0 ? `${Math.round((seniorityActive / seniorityHeadcount) * 1000) / 10}% of level` : "—"}
+                    {pctLabel(seniorityRows.reduce((s, x) => s + x.total_in_company, 0), companyTotal)} of company
                   </div>
                 </td>
-                <td style={{ padding: "12px 14px", color: C.muted }}>{SENIORITY.reduce((s, x) => s + x.credits, 0).toLocaleString(LOCALE)}</td>
+                <td style={{ padding: "12px 14px", color: C.text }}>
+                  {seniorityRows.reduce((s, x) => s + x.active_users, 0).toLocaleString(LOCALE)}
+                  <div style={{ fontSize: 11, fontWeight: 500, color: C.subtle }}>
+                    {seniorityRows.reduce((s, x) => s + x.total_in_company, 0) > 0
+                      ? `${Math.round((seniorityRows.reduce((s, x) => s + x.active_users, 0) / seniorityRows.reduce((s, x) => s + x.total_in_company, 0)) * 1000) / 10}% of level`
+                      : "—"}
+                  </div>
+                </td>
+                <td style={{ padding: "12px 14px", color: C.muted }}>{seniorityRows.reduce((s, x) => s + x.credits, 0).toLocaleString(LOCALE)}</td>
                 <td style={{ padding: "12px 14px", color: C.text }}>—</td>
                 <td style={{ padding: "12px 14px" }} />
               </tr>

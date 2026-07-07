@@ -64,17 +64,17 @@ function AttentionNotification({ anomaly, onNavigate, onDismiss }) {
 /** Compact hint next to the Provisioned KPI — links to Data Quality. */
 export function UnmappedProvisionedHint({ onNavigate }) {
   const { DATA_QUALITY } = useMeasuredData()
-  if (DATA_QUALITY.unmapped_provisioned <= 0) return null
+  if ((DATA_QUALITY.excel_undefined_dept_rows ?? 0) <= 0) return null
 
   const anomalies = buildDataAnomalies(DATA_QUALITY)
   const anomaly = anomalies[0]
-  const target = anomaly?.target ?? NAV_TARGETS.dataQualityUnmapped
+  const target = anomaly?.target ?? NAV_TARGETS.dataQualityMissingDepartment
 
   return (
     <div className="kpi-context-hint" role="note">
       <span className="kpi-context-hint__dot" aria-hidden="true" />
       <span className="kpi-context-hint__text">
-        {DATA_QUALITY.unmapped_provisioned} without department
+        {DATA_QUALITY.excel_undefined_dept_rows} directory users without department
         {onNavigate && (
           <>
             {" · "}

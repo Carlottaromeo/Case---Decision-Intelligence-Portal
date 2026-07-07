@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { APP_SECTIONS } from "../../data/navStructure"
 import { NAV_ICONS } from "../NavIcons"
-import { PRODUCT_NAME } from "../../data/dashboardCopy"
+import { LOGIN_BRAND_NAME, PRODUCT_NAME } from "../../data/dashboardCopy"
 import AccountMenu from "./AccountMenu"
 
 const STORAGE_KEY = "northstar-sidebar-expanded"
@@ -120,6 +120,7 @@ export default function AppSidebar({
         </button>
         {expanded && (
           <div className="app-sidebar__brand">
+            <span className="app-sidebar__brand-company">{LOGIN_BRAND_NAME}</span>
             <span className="app-sidebar__brand-name">{PRODUCT_NAME}</span>
           </div>
         )}

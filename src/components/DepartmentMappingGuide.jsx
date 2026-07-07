@@ -70,7 +70,7 @@ export default function DepartmentMappingGuide() {
         <table style={{ width: "100%", borderCollapse: "collapse", minWidth: 640 }}>
           <thead>
             <tr>
-              {["Department", "In directory", "Provisioned", "Access rate", "Notes"].map((h) => (
+              {["Department", "In directory", "Provisioned users", "Access rate", "Notes"].map((h) => (
                 <th key={h} style={TH}>{h}</th>
               ))}
             </tr>
@@ -119,29 +119,28 @@ export default function DepartmentMappingGuide() {
         </table>
       </div>
 
-      <div
-        id="anomaly-unmapped-provisioned"
-        style={{
-        borderRadius: 12,
-        padding: "14px 16px",
-        border: `1px solid ${C.amber}44`,
-        background: `${C.amber}10`,
-        marginBottom: 16,
-      }}>
-        <div style={{ fontSize: 11, fontWeight: 700, color: C.amberDk, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }}>
-          Unmapped provisioned users
+      {(DATA_QUALITY.excluded_usage_ids ?? 0) > 0 && (
+        <div
+          style={{
+            borderRadius: 12,
+            padding: "14px 16px",
+            border: `1px solid ${C.amber}44`,
+            background: `${C.amber}10`,
+            marginBottom: 16,
+          }}
+        >
+          <div style={{ fontSize: 11, fontWeight: 700, color: C.amberDk, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }}>
+            Excluded usage IDs
+          </div>
+          <p style={{ margin: "0 0 10px", fontSize: 13, color: C.textSub, lineHeight: 1.6 }}>
+            {DATA_QUALITY.excluded_usage_ids} usage IDs are not present in the employee directory and are excluded from dashboard metrics.
+            Excluded volume: {DATA_QUALITY.excluded_usage_credits.toLocaleString(LOCALE)} credits ({DATA_QUALITY.excluded_usage_credits_pct}% of total).
+          </p>
+          <p style={{ margin: 0, fontSize: 12, color: C.muted, lineHeight: 1.55 }}>
+            Separately, {DATA_QUALITY.excel_undefined_dept_rows} directory rows have no valid department and appear under Unknown above.
+          </p>
         </div>
-        <p style={{ margin: "0 0 10px", fontSize: 13, color: C.textSub, lineHeight: 1.6 }}>
-          {DATA_QUALITY.unmapped_provisioned} of {DATA_QUALITY.provisioned_total} provisioned users cannot be
-          assigned to a business department: {DATA_QUALITY.unmapped_not_in_directory} not in the employee directory
-          (typically test accounts) and {DATA_QUALITY.unmapped_missing_dept_field} with a missing department field.
-          Their usage ({DATA_QUALITY.unmapped_credits.toLocaleString(LOCALE)} credits, {DATA_QUALITY.unmapped_credits_pct}% of total)
-          is excluded from department charts but included in org-wide KPIs.
-        </p>
-        <p style={{ margin: 0, fontSize: 12, color: C.muted, lineHeight: 1.55 }}>
-          Separately, {DATA_QUALITY.excel_undefined_dept_rows} directory rows have no valid department and appear under Unknown above.
-        </p>
-      </div>
+      )}
 
       <div>
         <div style={{ fontSize: 10, fontWeight: 700, color: C.subtle, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 8 }}>

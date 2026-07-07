@@ -9,7 +9,7 @@ import WorkflowAiToolsSection from "./WorkflowAiToolsSection"
 
 const TABS = [
   { id: "activity", label: "Edit activity" },
-  { id: "opportunities", label: "Add opportunities" },
+  { id: "opportunities", label: "Opportunities" },
 ]
 
 function NavArrow({ direction }) {

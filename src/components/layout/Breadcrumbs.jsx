@@ -28,7 +28,7 @@ export default function Breadcrumbs({ items, onNavigate }) {
   )
 }
 
-export function PageHeader({ breadcrumbs, title, subtitle, stats, onBreadcrumbNavigate }) {
+export function PageHeader({ breadcrumbs, title, subtitle, stats, actions, onBreadcrumbNavigate }) {
   return (
     <header className="page-header">
       <Breadcrumbs items={breadcrumbs} onNavigate={onBreadcrumbNavigate} />
@@ -37,16 +37,19 @@ export function PageHeader({ breadcrumbs, title, subtitle, stats, onBreadcrumbNa
           <h1 className="page-header__title">{title}</h1>
           {subtitle && <p className="page-header__subtitle">{subtitle}</p>}
         </div>
-        {stats?.length > 0 && (
-          <div className="page-header__stats">
-            {stats.map((s) => (
-              <div key={s.label} className="page-header__stat glass-panel">
-                <div className="page-header__stat-label">{s.label}</div>
-                <div className="page-header__stat-value" style={{ color: C.text }}>{s.value}</div>
-              </div>
-            ))}
-          </div>
-        )}
+        <div className="page-header__aside">
+          {stats?.length > 0 && (
+            <div className="page-header__stats">
+              {stats.map((s) => (
+                <div key={s.label} className="page-header__stat glass-panel">
+                  <div className="page-header__stat-label">{s.label}</div>
+                  <div className="page-header__stat-value" style={{ color: C.text }}>{s.value}</div>
+                </div>
+              ))}
+            </div>
+          )}
+          {actions && <div className="page-header__actions">{actions}</div>}
+        </div>
       </div>
     </header>
   )

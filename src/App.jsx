@@ -41,6 +41,9 @@ function PageContent({ sectionId, pageId, processNav, onProcessNavChange, onOpen
       if (pageId === "investment-planner") {
         return <InvestmentPlanner onOpenInsights={onOpenInsights} />
       }
+      if (pageId === "forecasting") {
+        return <Forecasting onOpenInsights={onOpenInsights} />
+      }
       return <Panoramica onOpenInsights={onOpenInsights} onNavigate={onNavigate} />
     case "process":
       return (
@@ -49,8 +52,6 @@ function PageContent({ sectionId, pageId, processNav, onProcessNavChange, onOpen
           onNavChange={onProcessNavChange}
         />
       )
-    case "forecasting":
-      return <Forecasting onOpenInsights={onOpenInsights} />
     case "data-quality":
       return <DataQuality />
     default:
@@ -116,7 +117,7 @@ export default function App() {
 
   const headerTitle = activeSectionId === "process"
     ? getProcessHeader(processNav).title
-    : activeSectionId === "forecasting" || singlePageSection
+    : singlePageSection
       ? section?.label
       : (page?.label ?? section?.label)
 

@@ -2,16 +2,34 @@ import { migrateWorkflowComments } from "./workflowComments"
 import { migrateCardUseCases } from "./workflowUseCases"
 
 const PREFIX = "northstar-workflow-draft:"
+const CONTRACT_RISK_WORKFLOW_ID = "contract-risk-assessment"
+
+function stripLegacyContractRiskOpportunities(workflow) {
+  if (workflow?.id !== CONTRACT_RISK_WORKFLOW_ID) return workflow
+  return {
+    ...workflow,
+    phases: (workflow.phases ?? []).map((phase) => ({
+      ...phase,
+      cards: (phase.cards ?? []).map((card) => ({
+        ...card,
+        useCaseOpportunities: (card.useCaseOpportunities ?? []).filter(
+          (o) => o.authorName !== "Imported"
+        ),
+      })),
+    })),
+  }
+}
 
 function migrateWorkflow(workflow) {
   const withComments = migrateWorkflowComments(workflow)
-  return {
+  const withUseCases = {
     ...withComments,
     phases: withComments.phases.map((phase) => ({
       ...phase,
       cards: phase.cards.map(migrateCardUseCases),
     })),
   }
+  return stripLegacyContractRiskOpportunities(withUseCases)
 }
 
 export function loadWorkflowDraft(workflowId) {

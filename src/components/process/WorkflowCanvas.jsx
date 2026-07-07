@@ -17,8 +17,8 @@ import {
   buildSeedCommentsForCard,
   migrateCardComments,
 } from "../../utils/workflowComments"
-import { migrateCardUseCases } from "../../utils/workflowUseCases"
-import { migrateWorkflowAiTools } from "../../utils/workflowAiTools"
+import { hasUseCaseOpportunities, migrateCardUseCases } from "../../utils/workflowUseCases"
+import { inferAiToolsFromCard, isHumanOnlyCard, migrateWorkflowAiTools } from "../../utils/workflowAiTools"
 import { loadWorkflowDraft, saveWorkflowDraft } from "../../utils/workflowStorage"
 
 function prepareWorkflowDraft(workflow, employeeRoster, department) {
@@ -175,9 +175,9 @@ export default function WorkflowCanvas({
     let human = 0
     for (const phase of draft.phases) {
       for (const card of phase.cards) {
-        if (card.aiStatus === "active") active++
-        else if (card.aiStatus === "opportunity") opportunity++
-        else if (card.aiStatus === "human") human++
+        if (isHumanOnlyCard(card)) human++
+        else if (inferAiToolsFromCard(card).length > 0) active++
+        else if (hasUseCaseOpportunities(card)) opportunity++
       }
     }
     return { active, opportunity, human }

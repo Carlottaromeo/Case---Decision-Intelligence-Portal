@@ -2613,6 +2613,10 @@ button {
 .wf-node--opportunity .wf-node__title-row { color: #e5484d; }
 .wf-node--human .wf-node__title-row { color: #9ca3af; }
 
+.wf-node:not(.wf-node--active):not(.wf-node--opportunity):not(.wf-node--human) .wf-node__title-row {
+  color: #6b7280;
+}
+
 .wf-node__title {
   margin: 0;
   font-size: 13px;
@@ -2722,6 +2726,11 @@ button {
   justify-content: space-between;
   gap: 8px;
   flex-wrap: wrap;
+}
+
+.wf-node__footer-spacer {
+  flex: 1;
+  min-width: 0;
 }
 
 .wf-node__tag {
@@ -3999,6 +4008,12 @@ button {
   color: #e5484d;
   background: #fef2f2;
   border: 1px solid #fecaca;
+}
+
+.wf-ai-tools__status--neutral {
+  color: #6b7280;
+  background: #f3f4f6;
+  border: 1px solid #e5e7eb;
 }
 
 .wf-ai-tools__desc {
@@ -5428,7 +5443,7 @@ button {
   }
 }
 
-/* ─── Adoption × Intensity matrix (Investment Planner) ─── */
+/* ─── Adoption × Intensity matrix (Strategic allocation) ─── */
 .adopt-matrix__chart-wrap {
   position: relative;
   width: 100%;

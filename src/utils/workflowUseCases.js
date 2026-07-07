@@ -1,6 +1,7 @@
 /** Use case opportunity tracking for workflow activities. */
 
 import { LOCALE } from "../theme"
+import { inferAiToolsFromCard, isHumanOnlyCard } from "./workflowAiTools"
 
 export const USE_CASE_SOURCE_META = {
   ai: { label: "Tool-recommended", shortLabel: "AI" },
@@ -55,6 +56,46 @@ export function formatUseCaseDate(iso) {
 
 export function hasUseCaseOpportunities(card) {
   return Array.isArray(card.useCaseOpportunities) && card.useCaseOpportunities.length > 0
+}
+
+/** Card chrome tone — opportunity styling only after tracked use cases exist. */
+export function getCardVisualTone(card) {
+  if (isHumanOnlyCard(card)) return "human"
+  if (inferAiToolsFromCard(card).length > 0) return "active"
+  if (hasUseCaseOpportunities(card)) return "opportunity"
+  return "neutral"
+}
+
+/** Footer badge on activity cards; null when nothing to signal yet. */
+export function getCardStatusLabel(card) {
+  const tone = getCardVisualTone(card)
+  const tools = inferAiToolsFromCard(card)
+  const oppSummary = summarizeOpportunities(card)
+
+  if (tone === "active") {
+    return {
+      label: tools.length
+        ? `${tools.length} AI tool${tools.length === 1 ? "" : "s"} in use`
+        : "AI in use",
+      tone: "active",
+    }
+  }
+
+  if (tone === "opportunity" && oppSummary) {
+    const authorPart = oppSummary.authors.length
+      ? ` · ${oppSummary.authors.slice(0, 2).join(", ")}${oppSummary.authors.length > 2 ? "…" : ""}`
+      : ""
+    return {
+      label: `${oppSummary.count} opportunit${oppSummary.count === 1 ? "y" : "ies"} tracked${authorPart}`,
+      tone: "opportunity",
+    }
+  }
+
+  if (tone === "human") {
+    return { label: "Human only", tone: "human" }
+  }
+
+  return null
 }
 
 /** Summary for activity card footer — count, sources, authors. */

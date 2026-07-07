@@ -1,40 +1,19 @@
 import { useState, useRef, useEffect } from "react"
-import { IconSparkles, IconTarget, IconShield, IconClock } from "./ProcessIcons"
+import { IconSparkles, IconTarget, IconShield, IconClock, IconWorkflow } from "./ProcessIcons"
 import { ownerInitials } from "../../utils/workflowBuilderUtils"
 import { hasComments } from "../../utils/workflowComments"
-import { hasUseCaseOpportunities, summarizeOpportunities } from "../../utils/workflowUseCases"
+import {
+  getCardStatusLabel,
+  getCardVisualTone,
+  hasUseCaseOpportunities,
+} from "../../utils/workflowUseCases"
 import WorkflowCommentsBlock from "./WorkflowCommentsBlock"
 
-const STATUS = {
-  active: { label: "AI in use", Icon: IconSparkles, tone: "active" },
-  opportunity: { label: "Opportunity", Icon: IconTarget, tone: "opportunity" },
-  human: { label: "Human only", Icon: IconShield, tone: "human" },
-}
-
-function activityStatusLabel(card) {
-  const tools = card.aiTools ?? []
-  const oppSummary = summarizeOpportunities(card)
-
-  if (tools.length > 0) {
-    const names = tools.map((t) => t.name || t.tool).filter(Boolean)
-    return {
-      label: names.length ? `${names.length} AI tool${names.length === 1 ? "" : "s"} in use` : "AI in use",
-      tone: "active",
-    }
-  }
-
-  if (oppSummary) {
-    const authorPart = oppSummary.authors.length
-      ? ` · ${oppSummary.authors.slice(0, 2).join(", ")}${oppSummary.authors.length > 2 ? "…" : ""}`
-      : ""
-    return {
-      label: `${oppSummary.count} opportunit${oppSummary.count === 1 ? "y" : "ies"} tracked${authorPart}`,
-      tone: "opportunity",
-    }
-  }
-
-  const status = STATUS[card.aiStatus] ?? STATUS.opportunity
-  return { label: status.label, tone: status.tone }
+const STATUS_ICONS = {
+  active: IconSparkles,
+  opportunity: IconTarget,
+  human: IconShield,
+  neutral: IconWorkflow,
 }
 
 export default function WorkflowActivityCard({
@@ -48,12 +27,12 @@ export default function WorkflowActivityCard({
   const [menuOpen, setMenuOpen] = useState(false)
   const [commentsOpen, setCommentsOpen] = useState(false)
   const menuRef = useRef(null)
-  const isOpportunity = card.aiStatus === "opportunity"
-  const status = STATUS[card.aiStatus] ?? STATUS.opportunity
-  const StatusIcon = status.Icon
+  const visualTone = getCardVisualTone(card)
+  const StatusIcon = STATUS_ICONS[visualTone] ?? IconWorkflow
   const hasCommentThread = hasComments(card)
   const hasUseCases = hasUseCaseOpportunities(card)
-  const statusLabel = activityStatusLabel(card)
+  const statusLabel = getCardStatusLabel(card)
+  const showTimeTarget = hasUseCases && card.timeToBe
   const commentCount = card.commentThread?.length ?? 0
 
   useEffect(() => {
@@ -67,7 +46,7 @@ export default function WorkflowActivityCard({
 
   return (
     <article
-      className={`wf-node wf-node--${card.aiStatus}${selected ? " wf-node--selected" : ""}${commentsOpen ? " wf-node--comments-open" : ""}`}
+      className={`wf-node${visualTone !== "neutral" ? ` wf-node--${visualTone}` : ""}${selected ? " wf-node--selected" : ""}${commentsOpen ? " wf-node--comments-open" : ""}`}
     >
       <div className="wf-node__card">
         <div className="wf-node__top">
@@ -128,11 +107,15 @@ export default function WorkflowActivityCard({
             <span className="wf-node__owner">{card.owner}</span>
           </div>
           <div className="wf-node__footer">
-            <span className={`wf-node__tag wf-node__tag--${statusLabel.tone}`}>{statusLabel.label}</span>
+            {statusLabel ? (
+              <span className={`wf-node__tag wf-node__tag--${statusLabel.tone}`}>{statusLabel.label}</span>
+            ) : (
+              <span className="wf-node__footer-spacer" aria-hidden="true" />
+            )}
             <span className="wf-node__duration">
               <IconClock size={12} color="#9ca3af" />
               {card.timeAsIs}
-              {isOpportunity && <span className="wf-node__duration-target"> → {card.timeToBe}</span>}
+              {showTimeTarget && <span className="wf-node__duration-target"> → {card.timeToBe}</span>}
             </span>
           </div>
         </button>

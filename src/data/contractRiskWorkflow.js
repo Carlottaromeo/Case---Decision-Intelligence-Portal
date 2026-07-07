@@ -21,8 +21,6 @@ export const CONTRACT_RISK_WORKFLOW = {
           timeToBe: "30min",
           aiToday: "None",
           aiStatus: "opportunity",
-          useCase:
-            "AI agent classifies incoming documents by type (contract, NDA, SLA, annex), flags missing documents and generates a triage sheet with initial risk indicators",
         },
       ],
     },
@@ -41,8 +39,6 @@ export const CONTRACT_RISK_WORKFLOW = {
           timeToBe: "4h",
           aiToday: "Occasional unstructured Chat LLM usage",
           aiStatus: "active",
-          useCase:
-            "RAG agent trained on internal contract templates. Extracts risk clauses, compares them against company standards, produces a structured report with traffic-light scoring (OK / Warning / Critical)",
         },
         {
           id: "regulatory-check",
@@ -53,8 +49,6 @@ export const CONTRACT_RISK_WORKFLOW = {
           timeToBe: "2h",
           aiToday: "Excel AI for tracking, no structured usage",
           aiStatus: "opportunity",
-          useCase:
-            "LLM with updated regulatory knowledge base. Given the contract, automatically verifies compliance against a predefined regulatory checklist and produces a gap analysis with specific regulatory references",
         },
       ],
     },
@@ -73,8 +67,6 @@ export const CONTRACT_RISK_WORKFLOW = {
           timeToBe: "1h",
           aiToday: "Excel AI for calculations only",
           aiStatus: "active",
-          useCase:
-            "Semi-automatic scoring model. AI aggregates findings from previous phases and proposes a risk score per dimension (legal, operational, reputational, financial) with rationale. Analyst validates and adjusts. Human in the loop explicit.",
         },
         {
           id: "report-production",
@@ -85,8 +77,6 @@ export const CONTRACT_RISK_WORKFLOW = {
           timeToBe: "2h",
           aiToday: "Some analysts use Chat LLM informally, not standardised",
           aiStatus: "opportunity",
-          useCase:
-            "LLM receives all structured outputs from previous phases and auto-generates the first draft in the company report template. Analyst reviews and finalises.",
         },
       ],
     },
@@ -105,7 +95,6 @@ export const CONTRACT_RISK_WORKFLOW = {
           timeToBe: "1 day",
           aiToday: "None",
           aiStatus: "human",
-          useCase: null,
           humanOnlyNote:
             "This step remains fully human by design. Final decision accountability cannot be delegated to AI.",
         },

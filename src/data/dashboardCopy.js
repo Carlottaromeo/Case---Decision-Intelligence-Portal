@@ -21,9 +21,9 @@ export const MVP_GLOBAL_NOTE =
 export const NAV_ITEMS = [
   { id: "panoramica", label: "Executive View" },
   { id: "dipartimenti", label: "Adoption Analytics" },
-  { id: "processmaps", label: "Process mapping" },
-  { id: "investment", label: "Investment Planner" },
+  { id: "investment", label: "Strategic allocation" },
   { id: "forecasting", label: "Forecasting" },
+  { id: "processmaps", label: "Process mapping" },
   { id: "tooltier", label: "Data repository" },
 ]
 
@@ -35,7 +35,7 @@ export const PAGE_QUESTIONS = {
   panoramica: "How is AI adoption progressing overall?",
   dipartimenti: "Where is adoption strong or weak?",
   processmaps: "Where could AI create value in representative business processes?",
-  investment: "Where should management invest first?",
+  investment: "How should AI investment be allocated strategically?",
   forecasting: "How could future AI usage evolve?",
   tooltier: "How reliable is the current analysis?",
 }

@@ -1,7 +1,7 @@
 import { useMeasuredData } from "../context/DashboardDataContext"
 import AdoptionIntensityMatrix from "./investment/AdoptionIntensityMatrix"
 
-/** Investment Planner — title and subtitle are rendered in PageHeader via navStructure. */
+/** Strategic allocation — title and subtitle are rendered in PageHeader via navStructure. */
 export default function InvestmentPlanner({ onOpenInsights }) {
   const { DEPT, KPIs } = useMeasuredData()
 

@@ -19,8 +19,13 @@ export const APP_SECTIONS = [
       },
       {
         id: "investment-planner",
-        label: "Investment Planner",
-        question: "Where should management invest first?",
+        label: "Strategic allocation",
+        question: "How should AI investment be allocated strategically?",
+      },
+      {
+        id: "forecasting",
+        label: "Forecasting",
+        question: "How could future AI usage evolve?",
       },
     ],
   },
@@ -31,15 +36,6 @@ export const APP_SECTIONS = [
     question: "Where could AI create value in representative business processes?",
     pages: [
       { id: "portfolio", label: "Process portfolio" },
-    ],
-  },
-  {
-    id: "forecasting",
-    label: "Forecasting",
-    iconKey: "forecasting",
-    question: "How could future AI usage evolve?",
-    pages: [
-      { id: "outlook", label: "Cost simulator" },
     ],
   },
   {

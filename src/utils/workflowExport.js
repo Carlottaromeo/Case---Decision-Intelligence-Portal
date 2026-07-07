@@ -2,12 +2,22 @@ import { jsPDF } from "jspdf"
 import PptxGenJS from "pptxgenjs"
 import { resolveOwnerDisplay } from "./workflowOwnerOptions"
 import { formatCommentsForExport } from "./workflowComments"
-import { formatUseCasesForExport } from "./workflowUseCases"
+import { formatUseCasesForExport, getCardVisualTone, hasUseCaseOpportunities } from "./workflowUseCases"
+import { inferAiToolsFromCard } from "./workflowAiTools"
 
 const STATUS_LABEL = {
   active: "AI in use today",
   opportunity: "AI opportunity",
   human: "Human only",
+  neutral: "Not classified",
+}
+
+function exportStatusLabel(card) {
+  const tone = getCardVisualTone(card)
+  if (tone === "active") return STATUS_LABEL.active
+  if (tone === "opportunity") return STATUS_LABEL.opportunity
+  if (tone === "human") return STATUS_LABEL.human
+  return STATUS_LABEL.neutral
 }
 
 function todayLabel() {
@@ -94,13 +104,22 @@ export function exportWorkflowPdf({ workflow, params, department }) {
       y += 6
 
       y = addPdfBody(doc, `Owner: ${resolveOwnerDisplay(card)}`, y, margin)
-      y = addPdfBody(doc, `Status: ${STATUS_LABEL[card.aiStatus] ?? card.aiStatus}`, y, margin)
+      y = addPdfBody(doc, `Status: ${exportStatusLabel(card)}`, y, margin)
       if (card.aiTools?.length) {
         y = addPdfBody(doc, `AI tools: ${card.aiTools.join(", ")}`, y, margin)
       } else if (card.aiToday && card.aiToday !== "None") {
         y = addPdfBody(doc, `AI today: ${card.aiToday}`, y, margin)
       }
-      y = addPdfBody(doc, `Duration: ${card.timeAsIs}${card.aiStatus === "opportunity" ? ` → ${card.timeToBe}` : ""}`, y, margin)
+      const tools = inferAiToolsFromCard(card)
+      if (tools.length && !card.aiTools?.length) {
+        y = addPdfBody(doc, `AI tools: ${tools.join(", ")}`, y, margin)
+      }
+      y = addPdfBody(
+        doc,
+        `Duration: ${card.timeAsIs}${hasUseCaseOpportunities(card) && card.timeToBe ? ` → ${card.timeToBe}` : ""}`,
+        y,
+        margin
+      )
       y = addPdfBody(doc, card.summary, y, margin)
 
       if (card.aiToday) y = addPdfBody(doc, `AI today: ${card.aiToday}`, y, margin)
@@ -185,7 +204,7 @@ export function exportWorkflowPptx({ workflow, params, department }) {
     const bullets = phase.cards.map((card) => {
       const commentText = formatCommentsForExport(card.commentThread)
       const comment = commentText ? ` · Comments: ${commentText.replace(/\n/g, " | ")}` : ""
-      return `${card.title} — ${resolveOwnerDisplay(card)} (${STATUS_LABEL[card.aiStatus]})${comment}`
+      return `${card.title} — ${resolveOwnerDisplay(card)} (${exportStatusLabel(card)})${comment}`
     })
 
     phaseSlide.addText(bullets.join("\n"), {
@@ -212,8 +231,8 @@ export function exportWorkflowPptx({ workflow, params, department }) {
       const blocks = [
         `Phase: ${phase.label}`,
         `Owner: ${resolveOwnerDisplay(card)}`,
-        `Status: ${STATUS_LABEL[card.aiStatus] ?? card.aiStatus}`,
-        `Duration: ${card.timeAsIs}${card.aiStatus === "opportunity" ? ` → ${card.timeToBe}` : ""}`,
+        `Status: ${exportStatusLabel(card)}`,
+        `Duration: ${card.timeAsIs}${hasUseCaseOpportunities(card) && card.timeToBe ? ` → ${card.timeToBe}` : ""}`,
         "",
         card.summary,
       ]

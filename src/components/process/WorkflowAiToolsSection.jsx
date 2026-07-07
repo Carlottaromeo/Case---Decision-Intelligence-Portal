@@ -55,8 +55,8 @@ export default function WorkflowAiToolsSection({ card, onUpdate }) {
           <IconSparkles size={14} color="#30a46c" />
           Add AI tool
         </h3>
-        <span className={`wf-ai-tools__status wf-ai-tools__status--${isActive ? "active" : "opportunity"}`}>
-          {isActive ? "AI in use" : "Opportunity"}
+        <span className={`wf-ai-tools__status wf-ai-tools__status--${isActive ? "active" : "neutral"}`}>
+          {isActive ? "AI in use" : "No AI tools"}
         </span>
       </div>
 
@@ -64,7 +64,7 @@ export default function WorkflowAiToolsSection({ card, onUpdate }) {
         Select tools already in use on this step, or add a custom one.
         {isActive
           ? " The activity card is shown in green."
-          : " With no tools selected, the card stays in the opportunity lane."}
+          : " Add tools here when AI is already in use on this step."}
       </p>
 
       <div className="wf-ai-tools__presets">
